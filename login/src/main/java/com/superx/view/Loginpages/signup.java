@@ -1,4 +1,4 @@
-package com.superx.Loginpages;
+package com.superx.view.Loginpages;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

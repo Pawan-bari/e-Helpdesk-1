@@ -2,7 +2,7 @@ package com.superx;
 
 
 
-import com.superx.Loginpages.login;
+import com.superx.view.Loginpages.login;
 
 import javafx.application.Application;
 
