@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Profile",
+            "request": "launch",
+            "mainClass": "com.superx.view.Profile.Profile",
+            "projectName": "login"
+        },
+        {
+            "type": "java",
+            "name": "dashboard",
+            "request": "launch",
+            "mainClass": "com.superx.view.Dashboard.dashboard",
+            "projectName": "login"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -17,7 +31,6 @@
             "mainClass": "com.superx.Main",
             "projectName": "login",
             "vmArgs": "--module-path \"C:/Javafx SDK/javafx-sdk-21.0.7/lib\" --add-modules javafx.controls,javafx.fxml"
-
         }
     ]
 }

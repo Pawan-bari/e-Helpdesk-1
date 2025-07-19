@@ -2,6 +2,8 @@ package com.superx.view.Loginpages;
 
 import javafx.scene.paint.Color;
 
+import com.superx.view.Document.documents;
+
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -39,7 +41,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class login extends Application {
-    Scene loginscene, signupScene, forgotScene;
+    Scene loginscene, signupScene, forgotScene,docScene;
     Stage primaryStage;
 
     @Override
@@ -152,6 +154,8 @@ public class login extends Application {
         signInButton.setAlignment(Pos.CENTER);
         signInButton.setMaxWidth(750);
         signInButton.setOnAction(event -> {
+            initializedoc();
+            primaryStage.setScene(docScene);
 
         });
 
@@ -248,5 +252,13 @@ public class login extends Application {
     private void handle2() {
         transition1(loginscene);
     }
+
+    private void initializedoc(){
+         documents page = new documents();
+        page.setDocStage(primaryStage);
+        docScene = new Scene(page.docScenBox(this::handle), 1920, 1080);
+        page.setDocScene(docScene);
+    }
+
 
 }
