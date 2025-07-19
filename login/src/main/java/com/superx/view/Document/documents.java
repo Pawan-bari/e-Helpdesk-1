@@ -2,11 +2,13 @@ package com.superx.view.Document;
 
 import java.io.File;
 
+import com.superx.Controller.ViewController;
 import com.superx.view.Profile.ProfilePage;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,8 +27,16 @@ public class documents{
 
      Stage docStage,profStage;
      Scene docScene,profScene;
+     public void setDocStage(Stage docStage) {
+    this.docStage = docStage;
+   }
 
-   public BorderPane docScenBox (Runnable bRunnable){
+   public void setDocScene(Scene docScene) {
+    this.docScene = docScene;
+   }
+
+   public BorderPane docScenBox (Runnable showProfileScreen ,Runnable showLoginScreen){
+    
        
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -52,8 +62,7 @@ public class documents{
         pBox.setOnMouseEntered(event -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
         pBox.setOnMouseExited(event -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         pBox.setOnMouseClicked(event ->{
-            initializeprofile();
-            docStage.setScene(profScene);
+               showProfileScreen.run();
         });
 
 
@@ -181,7 +190,8 @@ public class documents{
         logoutButton.setOnMouseEntered(event -> logoutButton.setStyle("-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnMouseExited(event -> logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnAction(event-> {
-            bRunnable.run();
+            showLoginScreen.run();
+            
         });
         HBox loginButtons = new HBox(10, notificationButton, logoutButton);
         loginButtons.setAlignment(Pos.CENTER);
@@ -306,22 +316,7 @@ public class documents{
         
     }
 
-   public void setDocStage(Stage docStage) {
-    this.docStage = docStage;
-   }
+   
 
-   public void setDocScene(Scene docScene) {
-    this.docScene = docScene;
-   }
-   private void initializeprofile(){
-        ProfilePage page1 = new ProfilePage();
-        page1.setProfScene(profScene);
-        profScene = new Scene(page1.profilebox(this::handleprof), 1920, 1080);
-        
-        page1.setProfStage(docStage);
-   }
-
-   private void handleprof(){
-    docStage.setScene(docScene);
-   }
+   
 }

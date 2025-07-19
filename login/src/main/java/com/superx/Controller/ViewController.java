@@ -1,0 +1,99 @@
+package com.superx.Controller;
+
+import com.superx.view.Document.documents;
+import com.superx.view.Loginpages.forgot;
+import com.superx.view.Loginpages.login;
+import com.superx.view.Loginpages.signup;
+import com.superx.view.Loginpages.terms;
+import com.superx.view.Profile.AccountSetting;
+import com.superx.view.Profile.ProfilePage;
+import com.superx.view.Profile.SecurityPage;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+
+public class ViewController {
+
+    private Stage mainStage;
+
+    
+    private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene, accScene, securityScene;
+
+    public ViewController(Stage stage) {
+        this.mainStage = stage;
+        showLoginScreen();  
+    }
+
+    
+    
+    
+
+    public void showLoginScreen() {
+        login loginPage = new login();
+        loginScene = new Scene(loginPage.getLoginBox(this), 1920, 1080);
+        mainStage.setScene(loginScene);
+    }
+
+    public void showSignupScreen() {
+        signup signupPage = new signup();
+        signupScene = new Scene(signupPage.signupBox(this), 1920, 1080);
+        mainStage.setScene(signupScene);
+    }
+
+    public void showForgotScreen() {
+        forgot forgotPage = new forgot();
+        forgotScene = new Scene(forgotPage.forgotBox(this::showLoginScreen), 1920, 1080);
+        forgotPage.setForgotStage(mainStage);
+        forgotPage.setForgotScene(forgotScene);
+        mainStage.setScene(forgotScene);
+    }
+
+    public void showTermsScene() {
+        terms termsPage = new terms();
+        termsScene = new Scene(termsPage.termsBox(this::showSignupScreen), 1200, 800);
+        termsPage.setTermsStage(mainStage);
+        termsPage.setTermsScene(termsScene);
+        mainStage.setScene(termsScene);
+    }
+
+
+
+
+
+
+    public void showDocScene() {
+        documents docPage = new documents();
+        docScene = new Scene(docPage.docScenBox(this::showProfileScreen, this::showLoginScreen), 1920, 1080);  
+        docPage.setDocStage(mainStage);
+        docPage.setDocScene(docScene);
+        mainStage.setScene(docScene);
+    }
+
+
+
+
+
+    public void showProfileScreen() {
+        ProfilePage profile = new ProfilePage();
+        profileScene = new Scene(profile.profilebox(this::showAccountScreen, this::showSecurityScreen, this::showDocScene), 1920, 1080);
+        profile.setProfStage(mainStage);
+        profile.setProfScene(profileScene);
+        mainStage.setScene(profileScene);
+    }
+
+    public void showAccountScreen() {
+        AccountSetting accPage = new AccountSetting();
+        accScene = new Scene(accPage.accountSettingsBox(this::showProfileScreen, this::showSecurityScreen, this::showDocScene), 1920, 1080);
+        accPage.setAccStage(mainStage);
+        accPage.setAccScene(accScene);
+        mainStage.setScene(accScene);
+    }
+
+    public void showSecurityScreen() {
+        SecurityPage secPage = new SecurityPage();
+        securityScene = new Scene(secPage.securityPageBox(this::showProfileScreen, this::showAccountScreen), 1920, 1080);
+        secPage.setSecStage(mainStage);
+        secPage.setSecscene(securityScene);
+        mainStage.setScene(securityScene);
+    }
+}

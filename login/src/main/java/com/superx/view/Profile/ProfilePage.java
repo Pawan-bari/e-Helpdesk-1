@@ -1,9 +1,11 @@
 package com.superx.view.Profile;
 
 
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,10 +32,10 @@ public class ProfilePage {
         this.profScene = profScene;
     }
 
-    Stage profStage;
-    Scene profScene;
+    Stage profStage,accStage,SecStage;
+    Scene profScene,accScene,Secscene;
 
-    public BorderPane profilebox(Runnable backtodash) {
+    public BorderPane profilebox(Runnable showAccountScreen,Runnable showSecurityScreen, Runnable showDocScene) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -78,14 +80,14 @@ public class ProfilePage {
             if (item[0].equals("👤")) {
                 icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);");
                 icon.setOnMouseClicked(event->{
-                    backtodash.run();
+                    
                 });
             } else { 
                 icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #4b5563;");
                 icon.setOnMouseEntered(e -> icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);"));
                 icon.setOnMouseExited(e -> icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #4b5563;"));
                 icon.setOnMouseClicked(event->{
-                    backtodash.run();
+                   showDocScene.run();
                 });
             }
 
@@ -106,7 +108,7 @@ public class ProfilePage {
         VBox navButtons = new VBox(8);
         String[][] navItems = {
             {"👤", "Profile"},
-            {"⚙️", "Account"},
+            {"⚙️", "Account Setting"},
             {"🛡️", "Security"},
             {"🔔", "Notifications"},
             {"🏬", "Storage"}
@@ -129,7 +131,19 @@ public class ProfilePage {
                 navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
                 navButton.setOnMouseEntered(e -> navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
                 navButton.setOnMouseExited(e -> navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+                
             }
+
+            if (item[1].equals("Account Setting")) {
+                   navButton.setOnMouseClicked(event ->{
+                    showAccountScreen.run();
+                   });
+                } else if (item[1].equals("Security")) {
+                    navButton.setOnMouseClicked(event->{
+                        showSecurityScreen.run();
+                    });
+                   
+                }
             navButtons.getChildren().add(navButton);
         }
 
@@ -263,11 +277,16 @@ public class ProfilePage {
         mainbox.setLeft(leftSidebarContainer);
         mainbox.setCenter(scrollPane);
         mainbox.setTop(welboxBar);
+       
 
         
         return mainbox;
        
     }
+   
+
+
+     
 
     
 }

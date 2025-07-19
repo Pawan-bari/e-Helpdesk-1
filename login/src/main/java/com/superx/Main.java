@@ -4,13 +4,22 @@ package com.superx;
 
 
 
-import com.superx.view.Loginpages.login;
-
+import com.superx.Controller.ViewController;
 import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        
+        ViewController controller = new ViewController(primaryStage);
+        primaryStage.setTitle("E-Help Desk");
+        primaryStage.setFullScreen(true); 
+        primaryStage.show(); 
+    }
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        Application.launch(login.class,args);
+        launch(args);
     }
 }
