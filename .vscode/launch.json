@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Storage",
+            "request": "launch",
+            "mainClass": "com.superx.view.Profile.Storage",
+            "projectName": "login"
+        },
+        {
+            "type": "java",
             "name": "Profile",
             "request": "launch",
             "mainClass": "com.superx.view.Profile.Profile",

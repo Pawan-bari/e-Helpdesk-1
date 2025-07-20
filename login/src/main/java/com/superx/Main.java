@@ -5,8 +5,12 @@ package com.superx;
 
 
 import com.superx.Controller.ViewController;
+import com.superx.view.Profile.Storage;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+
 
 public class Main extends Application {
 

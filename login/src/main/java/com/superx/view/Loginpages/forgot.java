@@ -24,6 +24,7 @@ public class forgot {
 
     private Scene forgotScene;
     private Stage forgotStage;
+    public com.superx.Controller.ViewController mainController;
 
     public void setForgotScene(Scene forgotScene) {
         this.forgotScene = forgotScene;
@@ -32,8 +33,10 @@ public class forgot {
     public void setForgotStage(Stage forgotStage) {
         this.forgotStage = forgotStage;
     }
+    
 
-    public HBox forgotBox(Runnable backRunnable) {
+    public HBox forgotBox(Runnable showlogin,com.superx.Controller.ViewController controller) {
+        this.mainController = controller;
         
         BackgroundImage bg = new BackgroundImage(
                 new Image("images/green.png", 1920, 1080, false, true),
@@ -85,6 +88,9 @@ public class forgot {
         submitButton.setOnMouseEntered(e -> submitButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-background-radius: 10;"));
         submitButton.setOnMouseExited(e -> submitButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;"));
         submitButton.setMaxWidth(200);
+        submitButton.setOnAction(event->{
+             controller.getForgotPasswordController().handlePasswordReset(emailField);
+        });
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 20));
@@ -92,7 +98,7 @@ public class forgot {
         cancelButton.setOnMouseEntered(e -> cancelButton.setStyle("-fx-background-color: #cccccc; -fx-text-fill: black; -fx-background-radius: 10;"));
         cancelButton.setOnMouseExited(e -> cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10;"));
         cancelButton.setMaxWidth(200);
-        cancelButton.setOnAction(event -> backRunnable.run());
+        // cancelButton.setOnAction();
 
         HBox buttonRow = new HBox(50, submitButton, cancelButton);
         buttonRow.setAlignment(Pos.CENTER_LEFT);

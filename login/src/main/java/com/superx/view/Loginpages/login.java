@@ -77,7 +77,7 @@ public class login {
         Hyperlink forgotPassword = new Hyperlink("Forgot Password ?");
         forgotPassword.setTextFill(Color.BLUE);
         forgotPassword.setAlignment(Pos.CENTER_RIGHT);
-        forgotPassword.setOnAction(e -> controller.showForgotScreen());
+        forgotPassword.setOnAction(e -> controller.getLoginController().navigateToForgotPassword());
         VBox vbpass = new VBox(10, passwordLabel, passwordField, forgotPassword);
 
         
@@ -106,7 +106,7 @@ public class login {
         signInButton.setMaxWidth(750);
         signInButton.setOnMouseEntered(e -> signInButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-background-radius: 10;"));
         signInButton.setOnMouseExited(e -> signInButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;"));
-        signInButton.setOnAction(event -> controller.showDocScene());
+        signInButton.setOnAction(event -> controller.getLoginController().handleLogin(emailField, passwordField));
 
         
         Text questionText = new Text("Not a member yet?");
@@ -114,7 +114,7 @@ public class login {
         questionText.setFill(Color.GREY);
         Hyperlink signupLink = new Hyperlink("Sign Up");
         signupLink.setTextFill(Color.BLUE);
-        signupLink.setOnAction(event -> controller.showSignupScreen());
+        signupLink.setOnAction(event ->controller.getLoginController().navigateToSignup());
         HBox signinFooter = new HBox(10, questionText, signupLink);
         signinFooter.setAlignment(Pos.CENTER);
 

@@ -108,7 +108,12 @@ public class signup {
         signupBtn.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;");
         signupBtn.setAlignment(Pos.CENTER);
         signupBtn.setMaxWidth(750);
-        signupBtn.setOnAction(event -> controller.showDocScene()); 
+        signupBtn.setOnAction(event -> controller.getSignupController().handleSignup(
+                emailField, 
+                passwordField, 
+                repeatPasswordField, 
+                termsBox
+            )); 
 
         
         Text loginQuestion = new Text("Already have an account?");
