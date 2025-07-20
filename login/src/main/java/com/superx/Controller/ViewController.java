@@ -141,7 +141,7 @@ public class ViewController {
 
     public void showLandRecordsScreen() {
     landRecords landRecordsPage = new landRecords();
-    landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen), 1920, 1080);
+    landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen,this::showDocScene), 1920, 1080);
     landRecordsPage.setLandStage(mainStage);
     landRecordsPage.setLandScene(landRecordsScene);
     mainStage.setScene(landRecordsScene);

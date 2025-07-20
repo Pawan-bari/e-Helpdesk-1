@@ -29,16 +29,16 @@ public class landRecords {
         this.landScene = landScene;
     }
 
-    public BorderPane landRecordsBox(Runnable showProfileScreen, Runnable showLoginScreen) {
+    public BorderPane landRecordsBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
         // SIDEBAR SECTION
-        VBox sidebar = createSidebar();
+        VBox sidebar = createSidebar(showdoc);
 
         // MAIN CONTENT SECTION
-        VBox mainContent = createMainContent(showProfileScreen, showLoginScreen);
+        VBox mainContent = createMainContent(showProfileScreen, showLoginScreen, showdoc);
 
         mainbox.setLeft(sidebar);
         mainbox.setCenter(mainContent);
@@ -46,7 +46,7 @@ public class landRecords {
         return mainbox;
     }
 
-    private VBox createSidebar() {
+    private VBox createSidebar(Runnable showdoc) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20, 15, 20, 15));
         sidebar.setStyle("-fx-background-color: #f5f9ff; -fx-pref-width: 280px;");
@@ -72,7 +72,7 @@ public class landRecords {
         pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
 
         // Navigation Buttons
-        VBox navButtons = createNavigationButtons();
+        VBox navButtons = createNavigationButtons(showdoc);
 
         Region sidebarSpacer = new Region();
         VBox.setVgrow(sidebarSpacer, Priority.ALWAYS);
@@ -93,11 +93,17 @@ public class landRecords {
         return sidebar;
     }
 
-    private VBox createNavigationButtons() {
+    private VBox createNavigationButtons(Runnable showdoc) {
         VBox navButtons = new VBox(10);
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", false);
         HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
+        
+        // Add navigation functionality to Document & Certificate button
+        navBtn2.setOnMouseClicked(evt -> {
+            showdoc.run(); // Navigate to documents screen
+        });
+        
         HBox navBtn3 = createNavButton("🏠", "Land & Property Services", true); // Active
         HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
         HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
@@ -130,7 +136,7 @@ public class landRecords {
         return navBtn;
     }
 
-    private VBox createMainContent(Runnable showProfileScreen, Runnable showLoginScreen) {
+    private VBox createMainContent(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc) {
         VBox mainContent = new VBox(25);
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setStyle("-fx-background-color: transparent;");
