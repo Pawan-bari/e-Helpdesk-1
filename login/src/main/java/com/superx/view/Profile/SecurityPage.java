@@ -32,7 +32,7 @@ public class SecurityPage {
     Stage secStage;
     Scene Secscene;
 
-    public BorderPane securityPageBox(Runnable onProfileClick, Runnable onAccountSettingClick) {
+    public BorderPane securityPageBox(Runnable onProfileClick, Runnable onAccountSettingClick,Runnable showsecurity,Runnable showdocscene,Runnable showNotification,Runnable showStorage) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -84,7 +84,7 @@ public class SecurityPage {
                 icon.setOnMouseEntered(e -> icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);"));
                 icon.setOnMouseExited(e -> icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #4b5563;"));
                 icon.setOnMouseClicked(event->{
-                    
+                    showdocscene.run();
                 });
             }
             navButtons2.getChildren().add(icon);
@@ -133,6 +133,13 @@ public class SecurityPage {
                     case "Account Setting":
                         navButton.setOnMouseClicked(e -> onAccountSettingClick.run());
                         break;
+                    case "Notifications"  :
+                        navButton.setOnMouseClicked(e-> showdocscene.run());  
+                        break;
+                         case "Storage"  :
+                        navButton.setOnMouseClicked(e-> showNotification.run());  
+                        break;
+                        
                     default:
                         navButton.setOnMouseClicked(e -> System.out.println(item[1] + " clicked"));
                         break;

@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class AccountSetting {
      Stage accStage,profStage,secStage;
-    Scene accScene,profScene,Secscene;
+    Scene accScene,profScene,Secscene,notiScene;
     public void setAccStage(Stage accStage) {
         this.accStage = accStage;
     }
@@ -32,7 +32,7 @@ public class AccountSetting {
 
    
 
-    public BorderPane accountSettingsBox(Runnable showProfileScreen,Runnable showSecurityScreen,Runnable showDocScene) {
+    public BorderPane accountSettingsBox(Runnable showProfileScreen,Runnable showSecurityScreen,Runnable showDocScene,Runnable showNotification,Runnable showStorage) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -131,8 +131,10 @@ for (String[] item : navItems) {
             navBox.setOnMouseClicked(e -> showProfileScreen.run());
         } else if (item[1].equals("Security")) {
             navBox.setOnMouseClicked(e -> showSecurityScreen.run());
+        } else if (item[1].equals("Notifications")) {
+            navBox.setOnMouseClicked(e -> showNotification.run());
         } else {
-            navBox.setOnMouseClicked(e -> System.out.println(item[1] + " clicked"));
+            navBox.setOnMouseClicked(event-> showStorage.run());
         }
     }
 
@@ -168,11 +170,13 @@ for (String[] item : navItems) {
         emailGrid.add(new Label("Confirm Email"), 1, 0);
         emailGrid.getChildren().forEach(node -> node.setStyle("-fx-font-size: 14px; -fx-font-weight: 500; -fx-text-fill: #1e3a8a;"));
         TextField newEmailField = new TextField();
+        newEmailField.setPrefWidth(300);
         newEmailField.setPromptText("Enter new email");
         newEmailField.setStyle("-fx-font-size: 14px; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: #a0b3d7; -fx-padding: 8px;");
         emailGrid.add(newEmailField, 0, 1);
         TextField confirmEmailField = new TextField();
         confirmEmailField.setPromptText("Confirm new email");
+        confirmEmailField.setPrefWidth(300);
         confirmEmailField.setStyle("-fx-font-size: 14px; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: #a0b3d7; -fx-padding: 8px;");
         emailGrid.add(confirmEmailField, 1, 1);
         emailCard.getChildren().addAll(emailTitle, emailGrid);

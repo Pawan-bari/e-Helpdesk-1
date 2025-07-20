@@ -32,10 +32,10 @@ public class ProfilePage {
         this.profScene = profScene;
     }
 
-    Stage profStage,accStage,SecStage;
-    Scene profScene,accScene,Secscene;
+    Stage profStage,accStage,SecStage,notiStage;
+    Scene profScene,accScene,Secscene,notiScene;
 
-    public BorderPane profilebox(Runnable showAccountScreen,Runnable showSecurityScreen, Runnable showDocScene) {
+    public BorderPane profilebox(Runnable showAccountScreen,Runnable showSecurityScreen, Runnable showDocScene,Runnable showNotification,Runnable showStorage) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -143,6 +143,14 @@ public class ProfilePage {
                         showSecurityScreen.run();
                     });
                    
+                }else if (item[1].equals("Notifications")){
+                        navButton.setOnMouseClicked(event->{
+                            showNotification.run();
+                        });
+                }else {
+                    navButton.setOnMouseClicked(event->{
+                        showStorage.run();
+                    });
                 }
             navButtons.getChildren().add(navButton);
         }
@@ -194,6 +202,7 @@ public class ProfilePage {
         profileGrid.getChildren().forEach(node -> node.setStyle("-fx-font-size: 14px; -fx-font-weight: 500; -fx-text-fill: #1e3a8a;"));
 
         TextField fNameField = new TextField();
+        fNameField.setPrefWidth(300);
         fNameField.setStyle("-fx-font-size: 14px; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-color: #a0b3d7; -fx-padding: 8px;");
         profileGrid.add(fNameField, 0, 1);
 
