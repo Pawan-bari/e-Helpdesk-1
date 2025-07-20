@@ -10,6 +10,7 @@ import com.superx.view.Profile.Notification;
 import com.superx.view.Profile.ProfilePage;
 import com.superx.view.Profile.SecurityPage;
 import com.superx.view.Profile.Storage;
+import com.superx.view.landRecords.landRecords;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -25,7 +26,7 @@ public class ViewController {
     private Stage mainStage;
 
     
-    private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene, accScene, securityScene, notiScene , stoScene;
+    private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene, accScene, securityScene, notiScene , stoScene,landRecordsScene;
 
     public ViewController(Stage stage) {
         this.mainStage = stage;
@@ -33,7 +34,8 @@ public class ViewController {
         this.loginController = new LoginController(this);
         this.signupController = new SignupController(this);
         this.forgotPasswordController = new ForgotpassController(this);
-        showLoginScreen();  
+        showLoginScreen(); 
+         
     }
 
     
@@ -87,7 +89,7 @@ public class ViewController {
 
     public void showDocScene() {
         documents docPage = new documents();
-        docScene = new Scene(docPage.docScenBox(this::showProfileScreen, this::showLoginScreen), 1920, 1080);  
+        docScene = new Scene(docPage.docScenBox(this::showProfileScreen, this::showLoginScreen,this::showLandRecordsScreen), 1920, 1080);  
         docPage.setDocStage(mainStage);
         docPage.setDocScene(docScene);
         mainStage.setScene(docScene);
@@ -136,5 +138,13 @@ public class ViewController {
         mainStage.setScene(stoScene);
 
     }
+
+    public void showLandRecordsScreen() {
+    landRecords landRecordsPage = new landRecords();
+    landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen), 1920, 1080);
+    landRecordsPage.setLandStage(mainStage);
+    landRecordsPage.setLandScene(landRecordsScene);
+    mainStage.setScene(landRecordsScene);
+}
 
 }

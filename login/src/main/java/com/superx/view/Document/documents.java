@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 public class documents{
 
      Stage docStage,profStage;
-     Scene docScene,profScene;
+     Scene docScene,profScene,landRecordsScene;
      public void setDocStage(Stage docStage) {
     this.docStage = docStage;
    }
@@ -35,7 +35,7 @@ public class documents{
     this.docScene = docScene;
    }
 
-   public BorderPane docScenBox (Runnable showProfileScreen ,Runnable showLoginScreen){
+   public BorderPane docScenBox (Runnable showProfileScreen ,Runnable showLoginScreen,Runnable showlandrecord){
     
        
         BorderPane mainbox = new BorderPane();
@@ -95,7 +95,9 @@ public class documents{
         navBtn3.setCursor(Cursor.HAND);
         navBtn3.setOnMouseEntered(event -> navBtn3.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
         navBtn3.setOnMouseExited(event -> navBtn3.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
-        
+        navBtn3.setOnMouseClicked(event->{
+            showlandrecord  .run();
+        });
         
         HBox navBtn4 = new HBox(15, new Label("⇄"), new Label("RTI & Grievance"));
         navBtn4.getChildren().get(0).setStyle("-fx-font-size: 24px;");
