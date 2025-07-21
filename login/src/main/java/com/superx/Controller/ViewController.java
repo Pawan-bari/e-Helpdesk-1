@@ -5,12 +5,15 @@ import com.superx.view.Loginpages.forgot;
 import com.superx.view.Loginpages.login;
 import com.superx.view.Loginpages.signup;
 import com.superx.view.Loginpages.terms;
+import com.superx.view.Notification.Notificationtab;
 import com.superx.view.Profile.AccountSetting;
 import com.superx.view.Profile.Notification;
 import com.superx.view.Profile.ProfilePage;
 import com.superx.view.Profile.SecurityPage;
 import com.superx.view.Profile.Storage;
 import com.superx.view.landRecords.landRecords;
+import com.superx.view.landRecords.archive.legalArchives;
+import com.superx.view.rti.RtiPage;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -26,7 +29,7 @@ public class ViewController {
     private Stage mainStage;
  private static String currentUserId;
     
-    private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene, accScene, securityScene, notiScene , stoScene,landRecordsScene;
+    private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene, accScene, securityScene, notiScene , stoScene,landRecordsScene,rtiScene,notiScenetab,legalScene;
 
     public ViewController(Stage stage) {
         this.mainStage = stage;
@@ -89,14 +92,22 @@ public class ViewController {
         mainStage.setScene(termsScene);
     }
 
-
+        
+    public void shownotification2() {
+        Notificationtab notipage = new Notificationtab();
+        notiScenetab = new Scene(notipage.notificationPage(this::showDocScene), 1920, 1080);  
+        notipage.setNoti2Stage(mainStage);
+        notipage.setNoti2Scene(notiScenetab);
+        mainStage.setScene(notiScenetab);
+    }
+        
 
 
 
 
     public void showDocScene() {
         documents docPage = new documents();
-        docScene = new Scene(docPage.docScenBox(this::showProfileScreen, this::showLoginScreen,this::showLandRecordsScreen), 1920, 1080);  
+        docScene = new Scene(docPage.docScenBox(this::showProfileScreen, this::showLoginScreen,this::showLandRecordsScreen,this::showRTI,this::shownotification2,this::showarchive), 1920, 1080);  
         docPage.setDocStage(mainStage);
         docPage.setDocScene(docScene);
         mainStage.setScene(docScene);
@@ -148,10 +159,26 @@ public class ViewController {
 
     public void showLandRecordsScreen() {
     landRecords landRecordsPage = new landRecords();
-    landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen,this::showDocScene), 1920, 1080);
+    landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen,this::showDocScene,this::showRTI,this::showarchive), 1920, 1080);
     landRecordsPage.setLandStage(mainStage);
     landRecordsPage.setLandScene(landRecordsScene);
     mainStage.setScene(landRecordsScene);
+}
+    
+    public void showRTI() {
+    RtiPage Page = new RtiPage();
+    rtiScene = new Scene(Page.rtiPageBox(this::showProfileScreen, this::showLoginScreen,this::showDocScene,this::showLandRecordsScreen,this::showarchive,this::shownotification2), 1920, 1080);
+    Page.setRtiStage(mainStage);
+    Page.setRtiScene(rtiScene);
+    mainStage.setScene(rtiScene);
+}
+   
+    public void showarchive() {
+    legalArchives Page = new legalArchives();
+    legalScene = new Scene(Page.legalbox(this::showProfileScreen, this::showLoginScreen,this::showDocScene,this::showLandRecordsScreen,this::showRTI), 1920, 1080);
+    Page.setLegalStage(mainStage);
+    Page.setLegalScene(legalScene);
+    mainStage.setScene(legalScene);
 }
 
 }

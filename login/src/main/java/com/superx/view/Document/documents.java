@@ -37,7 +37,7 @@ import java.util.Map;
 public class documents {
 
     Stage docStage, profStage;
-    Scene docScene, profScene, landRecordsScene;
+    Scene docScene, profScene, landRecordsScene,rtiScene;
     
     private GridPane documentGrid;
 
@@ -49,7 +49,7 @@ public class documents {
         this.docScene = docScene;
     }
 
-    public BorderPane docScenBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlandrecord) {
+    public BorderPane docScenBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlandrecord, Runnable showRTI, Runnable shownotification2,Runnable showarchive) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -115,6 +115,9 @@ public class documents {
         navBtn4.setCursor(Cursor.HAND);
         navBtn4.setOnMouseEntered(event -> navBtn4.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
         navBtn4.setOnMouseExited(event -> navBtn4.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn4 .setOnMouseClicked(event ->{
+            showRTI.run();
+        });
 
         HBox navBtn5 = new HBox(15, new Label("📚"), new Label("Legal Knowledge Base"));
         navBtn5.getChildren().get(0).setStyle("-fx-font-size: 24px;");
@@ -124,6 +127,9 @@ public class documents {
         navBtn5.setCursor(Cursor.HAND);
         navBtn5.setOnMouseEntered(event -> navBtn5.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
         navBtn5.setOnMouseExited(event -> navBtn5.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn5.setOnMouseClicked(evt->{
+            showarchive.run();
+        });
 
         navButtons.getChildren().addAll(navBtn1, navBtn2, navBtn3, navBtn4, navBtn5);
 
@@ -190,6 +196,9 @@ public class documents {
         notificationButton.setCursor(Cursor.HAND);
         notificationButton.setOnMouseEntered(event -> notificationButton.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
         notificationButton.setOnMouseExited(event -> notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        notificationButton.setOnMouseClicked(evt->{
+           
+        });
 
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));

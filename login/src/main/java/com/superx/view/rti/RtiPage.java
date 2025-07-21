@@ -1,4 +1,4 @@
-package com.superx.view.landRecords;
+package com.superx.view.rti;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,28 +16,28 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class landRecords {
+public class RtiPage {
+    
+     Stage rtiStage;
+     Scene rtiScene;
 
-     Stage landStage;
-     Scene landScene;
-
-    public void setLandStage(Stage landStage) {
-        this.landStage = landStage;
+    public void setRtiStage(Stage rtiStage) {
+        this.rtiStage = rtiStage;
     }
 
-    public void setLandScene(Scene landScene) {
-        this.landScene = landScene;
+    public void setRtiScene(Scene rtiScene) {
+        this.rtiScene = rtiScene;
     }
 
-    public BorderPane landRecordsBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc,Runnable showRTI,Runnable showarchive) {
+    public BorderPane rtiPageBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc,Runnable showland,Runnable showarchive,Runnable shownotificatio2) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
-        
-        VBox sidebar = createSidebar(showdoc,showRTI,showarchive);
+        // SIDEBAR SECTION
+        VBox sidebar = createSidebar(showdoc,showland,showarchive,shownotificatio2);
 
-        
+        // MAIN CONTENT SECTION
         VBox mainContent = createMainContent(showProfileScreen, showLoginScreen, showdoc);
 
         mainbox.setLeft(sidebar);
@@ -46,7 +46,7 @@ public class landRecords {
         return mainbox;
     }
 
-    private VBox createSidebar(Runnable showdoc,Runnable showRTI,Runnable showarchive) {
+    private VBox createSidebar(Runnable showdoc,Runnable showland,Runnable showarchive,Runnable shownotificatio2) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20, 15, 20, 15));
         sidebar.setStyle("-fx-background-color: #f5f9ff; -fx-pref-width: 280px;");
@@ -56,7 +56,7 @@ public class landRecords {
         sidebarTitle.setFont(Font.font("Inter", FontWeight.BOLD, 24));
         sidebarTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0 30px 0;");
 
-        
+        // Profile Section
         Label profileIcon = new Label("👤");
         profileIcon.setFont(Font.font("System", 36));
 
@@ -71,13 +71,13 @@ public class landRecords {
         pBox.setOnMouseEntered(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
         pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
 
-        
-        VBox navButtons = createNavigationButtons(showdoc, showRTI,showarchive);
+        // Navigation Buttons
+        VBox navButtons = createNavigationButtons(showdoc,showland,showarchive,shownotificatio2);
 
         Region sidebarSpacer = new Region();
         VBox.setVgrow(sidebarSpacer, Priority.ALWAYS);
 
-        
+        // Footer Links
         HBox links = new HBox(15);
         links.setAlignment(Pos.CENTER);
         Label contact = new Label("Contact");
@@ -93,27 +93,26 @@ public class landRecords {
         return sidebar;
     }
 
-    private VBox createNavigationButtons(Runnable showdoc,Runnable showRTI,Runnable showarchive) {
+    private VBox createNavigationButtons(Runnable showdoc,Runnable showland,Runnable showarchive,Runnable shownotificatio2) {
         VBox navButtons = new VBox(10);
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", false);
         HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
         
-        
+        // Add navigation functionality to Document & Certificate button
         navBtn2.setOnMouseClicked(evt -> {
-            showdoc.run(); 
+            showdoc.run(); // Navigate to documents screen
         });
         
-        HBox navBtn3 = createNavButton("🏠", "Land & Property Services", true); 
-        HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
-        navBtn4.setOnMouseClicked(evt->{
-            showRTI.run();
-        });
+        HBox navBtn3 = createNavButton("🏠", "Land & Property Services", false);
+        navBtn3.setOnMouseClicked(evt ->{
+            showland.run();
+        }); // Active
+        HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", true);
         HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
         navBtn5.setOnMouseClicked(evt->{
             showarchive.run();
         });
-        
 
         navButtons.getChildren().addAll(navBtn1, navBtn2, navBtn3, navBtn4, navBtn5);
         return navButtons;
@@ -148,15 +147,15 @@ public class landRecords {
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setStyle("-fx-background-color: transparent;");
 
-        
+        // Top Navigation
         HBox topNav = createTopNavigation(showProfileScreen, showLoginScreen);
 
-        
-        Label mainTitle = new Label("Land and Property Services");
+        // Main Title
+        Label mainTitle = new Label("RTI & Grievance");
         mainTitle.setFont(Font.font("Inter", FontWeight.BOLD, 32));
         mainTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
-        
+        // Service Cards Grid
         GridPane servicesGrid = createServicesGrid();
 
         mainContent.getChildren().addAll(topNav, mainTitle, servicesGrid);
@@ -182,14 +181,16 @@ public class landRecords {
         Region topNavSpacer = new Region();
         HBox.setHgrow(topNavSpacer, Priority.ALWAYS);
 
-        
+        // Action Buttons
         Button notificationButton = new Button("🔔");
         notificationButton.setFont(Font.font("System", 14));
         notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
         notificationButton.setCursor(Cursor.HAND);
         notificationButton.setOnMouseEntered(e -> notificationButton.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
         notificationButton.setOnMouseExited(e -> notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-
+        notificationButton.setOnMouseClicked(evt->{
+            
+        });
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));
         logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
@@ -219,24 +220,24 @@ public class landRecords {
         servicesGrid.setHgap(20);
         servicesGrid.setPadding(new Insets(20, 0, 0, 0));
 
+        // Create service cards
+        VBox rtiFilingBox = createServiceCard("📄", "File RTI Application", 
+            "Submit right to information request to obtain information about certain type");
         
-        VBox propertyRegistration = createServiceCard("🌐", "Property Registration", 
-            "Information & online services for property registrations");
+        VBox lodgeGrievanceBox = createServiceCard("📅", "Lodge Grievance", 
+            "Submit a grievance to raise concerns or complaints");
         
-        VBox propertyCalculation = createServiceCard("📅", "Property Calculation", 
-            "Calculate market value of your land and property");
+        VBox trackStatusBox = createServiceCard("📌", "Track Status", 
+            "Check the status of your RTI applications");
         
-        VBox landRecordsSearch = createServiceCard("🔍", "Land Records Search", 
-            "Access land records & ownership details");
-        
-        VBox titleDeeds = createServiceCard("↗️", "Title Deeds Application", 
-            "Submit an online application for Title Deeds");
+        VBox guidelinesBox = createServiceCard("📃", "Guidelines", 
+            "View instructions & guidelines for filing RTI & Grievance");
 
-        
-        servicesGrid.add(propertyRegistration, 0, 0);
-        servicesGrid.add(propertyCalculation, 1, 0);
-        servicesGrid.add(landRecordsSearch, 0, 1);
-        servicesGrid.add(titleDeeds, 1, 1);
+        // Add cards to grid (2x2 layout)
+        servicesGrid.add(rtiFilingBox, 0, 0);
+        servicesGrid.add(lodgeGrievanceBox, 1, 0);
+        servicesGrid.add(trackStatusBox, 0, 1);
+        servicesGrid.add(guidelinesBox, 1, 1);
 
         return servicesGrid;
     }
@@ -253,7 +254,7 @@ public class landRecords {
         serviceCard.setPrefWidth(400);
         serviceCard.setCursor(Cursor.HAND);
 
-        
+        // Icon and Title
         Label iconLabel = new Label(icon);
         iconLabel.setFont(Font.font("System", 40));
 
@@ -264,7 +265,7 @@ public class landRecords {
         HBox titleBox = new HBox(15, iconLabel, titleLabel);
         titleBox.setAlignment(Pos.CENTER_LEFT);
 
-        
+        // Description
         Label descriptionLabel = new Label(description);
         descriptionLabel.setFont(Font.font("Inter", 14));
         descriptionLabel.setStyle("-fx-text-fill: #4b5563;");
@@ -272,7 +273,7 @@ public class landRecords {
 
         serviceCard.getChildren().addAll(titleBox, descriptionLabel);
 
-        
+        // Hover effects
         serviceCard.setOnMouseEntered(e -> {
             serviceCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.95); " +
                                "-fx-border-color: #3b82f6; -fx-border-style: solid; " +
