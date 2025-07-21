@@ -1,8 +1,9 @@
 package com.superx.Controller;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import org.json.JSONObject; 
 
 public class LoginController extends AuthController {
     
@@ -17,7 +18,15 @@ public class LoginController extends AuthController {
         String password = passwordField.getText();
 
         if (validateLoginInput(email, password)) {
-            if (signIn(email, password)) {
+            String response = signIn(email, password);
+            if (response != null && !response.contains("error")) {
+                
+                JSONObject jsonResponse = new JSONObject(response);
+                String localId = jsonResponse.getString("localId");
+                
+                
+                ViewController.setCurrentUserId(localId);
+                
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Login Successful!");
                 mainController.showDocScene();
             } else {
@@ -27,16 +36,8 @@ public class LoginController extends AuthController {
     }
 
     private boolean validateLoginInput(String email, String password) {
-        if (email.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error", "Please enter your email.");
-            return false;
-        }
-        if (password.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error", "Please enter your password.");
-            return false;
-        }
-        if (!isValidEmail(email)) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error", "Please enter a valid email address.");
+        if (email.isEmpty() || password.isEmpty() || !isValidEmail(email)) {
+            showAlert(Alert.AlertType.WARNING, "Validation Error", "Please enter a valid email and password.");
             return false;
         }
         return true;

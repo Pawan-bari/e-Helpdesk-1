@@ -1,5 +1,6 @@
 package com.superx.view.Loginpages;
 
+import com.superx.Controller.SignupController; 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -40,82 +41,94 @@ public class signup {
 
         VBox logoBox = new VBox(logo);
 
-        
         Label title = new Label("Sign Up");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 50));
-        Label subtitle = new Label("to your account");
+        title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 40));
+        Label subtitle = new Label("to create your account");
         subtitle.setFont(Font.font("Arial", 10));
         subtitle.setTextFill(Color.GREY);
-        VBox textBlock = new VBox(10, title, subtitle);
-
+        VBox textBlock = new VBox(5, title, subtitle);
         
+        
+        Label fNameLabel = new Label("First Name");
+        fNameLabel.setFont(Font.font("arial", FontWeight.BOLD, 16));
+        TextField fNameField = new TextField();
+        fNameField.setPromptText("Enter First Name");
+        fNameField.setMinHeight(40);
+        VBox vbFName = new VBox(5, fNameLabel, fNameField);
+        
+        Label lNameLabel = new Label("Last Name");
+        lNameLabel.setFont(Font.font("arial", FontWeight.BOLD, 16));
+        TextField lNameField = new TextField();
+        lNameField.setPromptText("Enter Last Name");
+        lNameField.setMinHeight(40);
+        VBox vbLName = new VBox(5, lNameLabel, lNameField);
+        
+        HBox nameBox = new HBox(20, vbFName, vbLName);
+        
+
         Label emailLabel = new Label("Email");
-        emailLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        emailLabel.setFont(Font.font("arial", FontWeight.BOLD, 16));
         TextField emailField = new TextField();
         emailField.setPromptText("Enter Email");
-        emailField.setMinHeight(50);
-        VBox vbEmail = new VBox(10, emailLabel, emailField);
+        emailField.setMinHeight(40);
+        VBox vbEmail = new VBox(5, emailLabel, emailField);
 
-        
         Label passwordLabel = new Label("Password");
-        passwordLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        passwordLabel.setFont(Font.font("arial", FontWeight.BOLD, 16));
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter Password");
-        passwordField.setMinHeight(50);
-        Label guideTx = new Label("Use 8 or more characters including letters, numbers, symbols");
+        passwordField.setMinHeight(40);
+        Label guideTx = new Label("Use 8 or more characters with a mix of letters, numbers & symbols");
         guideTx.setFont(Font.font("arial", 10));
         guideTx.setTextFill(Color.GREY);
-        VBox vbPass = new VBox(10, passwordLabel, passwordField, guideTx);
-
+        VBox vbPass = new VBox(5, passwordLabel, passwordField, guideTx);
         
         Label repeatLabel = new Label("Repeat Password");
-        repeatLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
+        repeatLabel.setFont(Font.font("arial", FontWeight.BOLD, 16));
         PasswordField repeatPasswordField = new PasswordField();
         repeatPasswordField.setPromptText("Enter Password Again");
-        repeatPasswordField.setMinHeight(50);
-        VBox vbRepeat = new VBox(10, repeatLabel, repeatPasswordField);
+        repeatPasswordField.setMinHeight(40);
+        VBox vbRepeat = new VBox(5, repeatLabel, repeatPasswordField);
 
-        
         CheckBox termsBox = new CheckBox();
         Label termsLabel = new Label("I accept the");
         termsLabel.setFont(Font.font("arial", FontWeight.BOLD, 10));
         Hyperlink termsLink = new Hyperlink("terms");
         termsLink.setOnAction(e -> controller.showTermsScene());
-
         HBox termsAgreement = new HBox(10, termsBox, termsLabel, termsLink);
         termsAgreement.setAlignment(Pos.CENTER_LEFT);
 
-        
         Line line1 = new Line(0, 0, 300, 0);
         Line line2 = new Line(0, 0, 300, 0);
-        HBox divider = new HBox(10, line1, new Text("Or with"), line2);
+        HBox divider = new HBox(10, line1, new Text("Or"), line2);
         divider.setAlignment(Pos.CENTER);
 
         ImageView googleIcon = new ImageView(new Image("images/Group 26.png"));
         Button googleButton = new Button("Sign Up with Google", googleIcon);
         googleButton.setMinHeight(40);
 
-        ImageView mobileIcon = new ImageView(new Image("images/Vector (1).png"));
-        Button mobileButton = new Button("Sign Up with Mobile No", mobileIcon);
-        mobileButton.setMinHeight(40);
-
-        HBox altSignup = new HBox(10, googleButton, mobileButton);
+        HBox altSignup = new HBox(10, googleButton);
         altSignup.setAlignment(Pos.CENTER);
-
         
         Button signupBtn = new Button("Sign Up");
         signupBtn.setFont(Font.font("arial", FontWeight.BOLD, 20));
         signupBtn.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;");
         signupBtn.setAlignment(Pos.CENTER);
         signupBtn.setMaxWidth(750);
-        signupBtn.setOnAction(event -> controller.getSignupController().handleSignup(
+        
+        
+        signupBtn.setOnAction(event -> {
+            SignupController signupController = controller.getSignupController();
+            signupController.handleSignup(
+                fNameField,
+                lNameField,
                 emailField, 
                 passwordField, 
                 repeatPasswordField, 
                 termsBox
-            )); 
+            );
+        });
 
-        
         Text loginQuestion = new Text("Already have an account?");
         loginQuestion.setFont(Font.font("arial", 10));
         loginQuestion.setFill(Color.GREY);
@@ -125,8 +138,9 @@ public class signup {
         HBox loginPrompt = new HBox(10, loginQuestion, loginLink);
         loginPrompt.setAlignment(Pos.CENTER);
 
-        VBox formGroup = new VBox(10, vbRepeat, termsAgreement, divider, altSignup, signupBtn, loginPrompt);
-        VBox signupForm = new VBox(50, textBlock, vbEmail, vbPass, formGroup);
+        VBox formGroup = new VBox(15, vbRepeat, termsAgreement, signupBtn, loginPrompt, divider, altSignup);
+        
+        VBox signupForm = new VBox(20, textBlock, nameBox, vbEmail, vbPass, formGroup);
         signupForm.setAlignment(Pos.CENTER_LEFT);
         signupForm.setPadding(new Insets(30));
 
@@ -136,6 +150,7 @@ public class signup {
         HBox root = new HBox(10, logoBox, sp);
         root.setBackground(new Background(bg));
         root.setPrefSize(1920, 1080);
+        root.setAlignment(Pos.CENTER);
 
         return root;
     }

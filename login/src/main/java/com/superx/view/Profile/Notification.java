@@ -35,7 +35,7 @@ public class Notification {
         mainbox.setStyle(
                 "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
-        // --- TOP BAR ---
+        
         HBox welboxBar = new HBox(50);
         welboxBar.setPadding(new Insets(15, 40, 15, 40));
         welboxBar.setAlignment(Pos.CENTER_LEFT);
@@ -52,7 +52,7 @@ public class Notification {
 
         welboxBar.getChildren().addAll(logoLabel, welcomeLabel);
 
-        // --- FAR-LEFT ICON-ONLY SIDEBAR ---
+        
         VBox iconbox = new VBox();
         iconbox.setPadding(new Insets(20, 15, 20, 15));
         iconbox.setSpacing(10);
@@ -83,7 +83,7 @@ public class Notification {
         }
         iconbox.getChildren().add(navButtons2);
 
-        // --- MAIN SIDEBAR (WITH TEXT) ---
+        
         VBox probox = new VBox();
         probox.setPadding(new Insets(20, 15, 20, 15));
         probox.setSpacing(10);
@@ -122,7 +122,7 @@ public class Notification {
                         "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
             }
 
-            // Navigation Logic (fixed)
+            
             if (item[1].equals("Profile")) {
                 navButton.setOnMouseClicked(event -> showProfileScreen.run());
             } else if (item[1].equals("Account Setting")) {
@@ -141,7 +141,7 @@ public class Notification {
 
         HBox leftSidebarContainer = new HBox(10, iconbox, probox);
 
-        // --- MAIN CONTENT AREA ---
+        
         VBox mainContent = new VBox();
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setSpacing(30);
@@ -151,7 +151,7 @@ public class Notification {
         contentTitle.setFont(Font.font("Inter", FontWeight.BOLD, 32));
         contentTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
-        // --- Protection Status ---
+        
         VBox protectionCard = new VBox(10);
         protectionCard.setPadding(new Insets(20));
         protectionCard.setStyle("-fx-background-color: rgba(230, 255, 230, 0.8); -fx-background-radius: 12px; -fx-border-color: #22c55e; -fx-border-width: 1px; -fx-border-radius: 12px;");
@@ -166,7 +166,7 @@ public class Notification {
         protectionBox.setAlignment(Pos.CENTER_LEFT);
         protectionCard.getChildren().add(protectionBox);
 
-        // --- Settings Sections ---
+        
         VBox settingsList = new VBox(25);
 
         VBox accessControlSection = createSettingsSection("Access Control",
@@ -238,7 +238,7 @@ public class Notification {
         return itemBox;
     }
 
-    // Custom Switch control for better styling
+    
     static class Switch extends HBox {
         private final Label label = new Label();
         private final Button button = new Button();
@@ -296,7 +296,7 @@ public class Notification {
                 update();
             });
 
-            setSelected(false); // Default state
+            setSelected(false); 
         }
     }
 }

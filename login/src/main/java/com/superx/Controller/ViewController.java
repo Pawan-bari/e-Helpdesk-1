@@ -24,7 +24,7 @@ public class ViewController {
     private ForgotpassController forgotPasswordController;
     
     private Stage mainStage;
-
+ private static String currentUserId;
     
     private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene, accScene, securityScene, notiScene , stoScene,landRecordsScene;
 
@@ -37,12 +37,19 @@ public class ViewController {
         showLoginScreen(); 
          
     }
+ public static String getCurrentUserId() {
+        return currentUserId;
+    }
 
+    public static void setCurrentUserId(String uid) {
+        currentUserId = uid;
+    }
     
     
     
 
     public void showLoginScreen() {
+        setCurrentUserId(null);
         login loginPage = new login();
         loginScene = new Scene(loginPage.getLoginBox(this), 1920, 1080);
         mainStage.setScene(loginScene);

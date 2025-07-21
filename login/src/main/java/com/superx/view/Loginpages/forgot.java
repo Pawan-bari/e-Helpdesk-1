@@ -98,7 +98,7 @@ public class forgot {
         cancelButton.setOnMouseEntered(e -> cancelButton.setStyle("-fx-background-color: #cccccc; -fx-text-fill: black; -fx-background-radius: 10;"));
         cancelButton.setOnMouseExited(e -> cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10;"));
         cancelButton.setMaxWidth(200);
-        // cancelButton.setOnAction();
+        
 
         HBox buttonRow = new HBox(50, submitButton, cancelButton);
         buttonRow.setAlignment(Pos.CENTER_LEFT);

@@ -1,5 +1,13 @@
 package com.superx.view.Profile;
 
+import com.google.cloud.firestore.*;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.cloud.FirestoreClient;
+import com.google.protobuf.Timestamp;
+import com.superx.Controller.ViewController;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
@@ -19,16 +27,32 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class Storage {
-        public void setStoStage(Stage stoStage) {
+    
+    public void setStoStage(Stage stoStage) {
         this.stoStage = stoStage;
     }
+    
     public void setStoScene(Scene stoScene) {
         this.stoScene = stoScene;
     }
-        Stage stoStage;
-        Scene stoScene;
-    public BorderPane createStoragePage(Runnable showProfileScreen,Runnable showAccountScreen,Runnable showSecurityScreen, Runnable shownotification) {
+    
+    Stage stoStage;
+    Scene stoScene;
+    
+    
+    private Label welcomeLabel;
+    private GridPane documentGrid;
+    private BooleanProperty pdfOnlyToggle = new SimpleBooleanProperty();
+    private BooleanProperty cloudSyncToggle = new SimpleBooleanProperty(true);
+    private BooleanProperty autoDeleteToggle = new SimpleBooleanProperty();
+    private BooleanProperty clearCacheToggle = new SimpleBooleanProperty(true);
+    
+    public BorderPane createStoragePage(Runnable showProfileScreen, Runnable showAccountScreen, Runnable showSecurityScreen, Runnable shownotification) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle(
@@ -48,11 +72,12 @@ public class Storage {
         Region topSpacer = new Region();
         HBox.setHgrow(topSpacer, Priority.ALWAYS);
 
-        Label welcomeLabel = new Label("Welcome Pawan");
+        
+        welcomeLabel = new Label("Welcome");
         welcomeLabel.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         welcomeLabel.setStyle("-fx-text-fill: #4b5563;");
 
-        welboxBar.getChildren().addAll(logoLabel, welcomeLabel);
+        welboxBar.getChildren().addAll(logoLabel, topSpacer, welcomeLabel);
 
         
         VBox iconbox = new VBox();
@@ -64,8 +89,8 @@ public class Storage {
         VBox navButtons2 = new VBox(20);
         navButtons2.setAlignment(Pos.CENTER);
         String[][] navItems2 = {
-                { "👤", "" }, { " 📄 ", "" }, { " 📜 ", "" },
-                { " 🏠 ", "" }, { " ⇄ ", "" }, { " 📚 ", "" }
+                {"👤", ""}, {" 📄 ", ""}, {" 📜 ", ""},
+                {" 🏠 ", ""}, {" ⇄ ", ""}, {" 📚 ", ""}
         };
 
         for (String[] item : navItems2) {
@@ -93,11 +118,11 @@ public class Storage {
 
         VBox navButtons = new VBox(8);
         String[][] navItems = {
-                { "🧑‍💼", "Profile" },
-                { "⚙️", "Account Setting" },
-                { "🛡️", "Security" },
-                { "🔔", "Notifications" },
-                { "🏬", "Storage" }
+                {"🧑‍💼", "Profile"},
+                {"⚙️", "Account Setting"},
+                {"🛡️", "Security"},
+                {"🔔", "Notifications"},
+                {"🏬", "Storage"}
         };
 
         for (String[] item : navItems) {
@@ -123,14 +148,14 @@ public class Storage {
                         "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
             }
 
-             if (item[1].equals("Profile")) {
+            if (item[1].equals("Profile")) {
                 navButton.setOnMouseClicked(event -> showProfileScreen.run());
             } else if (item[1].equals("Account Setting")) {
                 navButton.setOnMouseClicked(event -> showAccountScreen.run());
             } else if (item[1].equals("Security")) {
                 navButton.setOnMouseClicked(event -> showSecurityScreen.run());
             } else if (item[1].equals("Notifications")) {
-                navButton.setOnMouseClicked(event-> shownotification.run());
+                navButton.setOnMouseClicked(event -> shownotification.run());
             }
             navButtons.getChildren().add(navButton);
         }
@@ -175,40 +200,11 @@ public class Storage {
         textBox1.getChildren().addAll(titleLabel1, descLabel1);
         Region spacer1 = new Region();
         HBox.setHgrow(spacer1, Priority.ALWAYS);
+
         
-        
-        BooleanProperty selected1 = new SimpleBooleanProperty();
-        HBox toggle1 = new HBox();
-        Label toggleLabel1 = new Label();
-        toggleLabel1.setFont(Font.font("Inter", FontWeight.BOLD, 10));
-        Button toggleButton1 = new Button();
-        toggle1.getChildren().addAll(toggleLabel1, toggleButton1);
-        toggle1.setCursor(Cursor.HAND);
-        toggleButton1.setCursor(Cursor.HAND);
-        toggle1.setMinSize(50, 25);
-        toggle1.setMaxSize(50, 25);
-        toggle1.setPadding(new Insets(2));
-        toggleButton1.setPrefSize(21, 21);
-        toggleButton1.setMinSize(21, 21);
-        toggleButton1.setMaxSize(21, 21);
-        toggleButton1.setStyle("-fx-background-radius: 25; -fx-background-color: white;");
-        selected1.addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                toggleLabel1.setText("ON");
-                toggle1.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 25;");
-                toggleLabel1.setStyle("-fx-text-fill: white;");
-                toggle1.setAlignment(Pos.CENTER_RIGHT);
-            } else {
-                toggleLabel1.setText("OFF");
-                toggle1.setStyle("-fx-background-color: #d1d5db; -fx-background-radius: 25;");
-                toggleLabel1.setStyle("-fx-text-fill: #4b5563;");
-                toggle1.setAlignment(Pos.CENTER_LEFT);
-            }
-        });
-        toggle1.setOnMouseClicked(event -> selected1.set(!selected1.get()));
-        toggleButton1.setOnMouseClicked(event -> selected1.set(!selected1.get()));
-        selected1.set(false); 
-        
+        HBox toggle1 = createToggle(pdfOnlyToggle);
+        pdfOnlyToggle.set(false);
+
         itemBox1.getChildren().addAll(textBox1, spacer1, toggle1);
 
         
@@ -228,42 +224,13 @@ public class Storage {
         HBox.setHgrow(spacer2, Priority.ALWAYS);
 
         
-        BooleanProperty selected2 = new SimpleBooleanProperty();
-        HBox toggle2 = new HBox();
-        Label toggleLabel2 = new Label();
-        toggleLabel2.setFont(Font.font("Inter", FontWeight.BOLD, 10));
-        Button toggleButton2 = new Button();
-        toggle2.getChildren().addAll(toggleLabel2, toggleButton2);
-        toggle2.setCursor(Cursor.HAND);
-        toggleButton2.setCursor(Cursor.HAND);
-        toggle2.setMinSize(50, 25);
-        toggle2.setMaxSize(50, 25);
-        toggle2.setPadding(new Insets(2));
-        toggleButton2.setPrefSize(21, 21);
-        toggleButton2.setMinSize(21, 21);
-        toggleButton2.setMaxSize(21, 21);
-        toggleButton2.setStyle("-fx-background-radius: 25; -fx-background-color: white;");
-        selected2.addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                toggleLabel2.setText("ON");
-                toggle2.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 25;");
-                toggleLabel2.setStyle("-fx-text-fill: white;");
-                toggle2.setAlignment(Pos.CENTER_RIGHT);
-            } else {
-                toggleLabel2.setText("OFF");
-                toggle2.setStyle("-fx-background-color: #d1d5db; -fx-background-radius: 25;");
-                toggleLabel2.setStyle("-fx-text-fill: #4b5563;");
-                toggle2.setAlignment(Pos.CENTER_LEFT);
-            }
-        });
-        toggle2.setOnMouseClicked(event -> selected2.set(!selected2.get()));
-        toggleButton2.setOnMouseClicked(event -> selected2.set(!selected2.get()));
-        selected2.set(true); 
-        
+        HBox toggle2 = createToggle(cloudSyncToggle);
+        cloudSyncToggle.set(true);
+
         itemBox2.getChildren().addAll(textBox2, spacer2, toggle2);
-        
+
         storageSettingsCard.getChildren().addAll(uploadTitleLabel, itemBox1, itemBox2);
-        
+
         
         VBox retentionSettingsCard = new VBox(15);
         retentionSettingsCard.setPadding(new Insets(20));
@@ -290,38 +257,9 @@ public class Storage {
         HBox.setHgrow(spacer3, Priority.ALWAYS);
 
         
-        BooleanProperty selected3 = new SimpleBooleanProperty();
-        HBox toggle3 = new HBox();
-        Label toggleLabel3 = new Label();
-        toggleLabel3.setFont(Font.font("Inter", FontWeight.BOLD, 10));
-        Button toggleButton3 = new Button();
-        toggle3.getChildren().addAll(toggleLabel3, toggleButton3);
-        toggle3.setCursor(Cursor.HAND);
-        toggleButton3.setCursor(Cursor.HAND);
-        toggle3.setMinSize(50, 25);
-        toggle3.setMaxSize(50, 25);
-        toggle3.setPadding(new Insets(2));
-        toggleButton3.setPrefSize(21, 21);
-        toggleButton3.setMinSize(21, 21);
-        toggleButton3.setMaxSize(21, 21);
-        toggleButton3.setStyle("-fx-background-radius: 25; -fx-background-color: white;");
-        selected3.addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                toggleLabel3.setText("ON");
-                toggle3.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 25;");
-                toggleLabel3.setStyle("-fx-text-fill: white;");
-                toggle3.setAlignment(Pos.CENTER_RIGHT);
-            } else {
-                toggleLabel3.setText("OFF");
-                toggle3.setStyle("-fx-background-color: #d1d5db; -fx-background-radius: 25;");
-                toggleLabel3.setStyle("-fx-text-fill: #4b5563;");
-                toggle3.setAlignment(Pos.CENTER_LEFT);
-            }
-        });
-        toggle3.setOnMouseClicked(event -> selected3.set(!selected3.get()));
-        toggleButton3.setOnMouseClicked(event -> selected3.set(!selected3.get()));
-        selected3.set(false); 
-        
+        HBox toggle3 = createToggle(autoDeleteToggle);
+        autoDeleteToggle.set(false);
+
         itemBox3.getChildren().addAll(textBox3, spacer3, toggle3);
 
         
@@ -341,40 +279,11 @@ public class Storage {
         HBox.setHgrow(spacer4, Priority.ALWAYS);
 
         
-        BooleanProperty selected4 = new SimpleBooleanProperty();
-        HBox toggle4 = new HBox();
-        Label toggleLabel4 = new Label();
-        toggleLabel4.setFont(Font.font("Inter", FontWeight.BOLD, 10));
-        Button toggleButton4 = new Button();
-        toggle4.getChildren().addAll(toggleLabel4, toggleButton4);
-        toggle4.setCursor(Cursor.HAND);
-        toggleButton4.setCursor(Cursor.HAND);
-        toggle4.setMinSize(50, 25);
-        toggle4.setMaxSize(50, 25);
-        toggle4.setPadding(new Insets(2));
-        toggleButton4.setPrefSize(21, 21);
-        toggleButton4.setMinSize(21, 21);
-        toggleButton4.setMaxSize(21, 21);
-        toggleButton4.setStyle("-fx-background-radius: 25; -fx-background-color: white;");
-        selected4.addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                toggleLabel4.setText("ON");
-                toggle4.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 25;");
-                toggleLabel4.setStyle("-fx-text-fill: white;");
-                toggle4.setAlignment(Pos.CENTER_RIGHT);
-            } else {
-                toggleLabel4.setText("OFF");
-                toggle4.setStyle("-fx-background-color: #d1d5db; -fx-background-radius: 25;");
-                toggleLabel4.setStyle("-fx-text-fill: #4b5563;");
-                toggle4.setAlignment(Pos.CENTER_LEFT);
-            }
-        });
-        toggle4.setOnMouseClicked(event -> selected4.set(!selected4.get()));
-        toggleButton4.setOnMouseClicked(event -> selected4.set(!selected4.get()));
-        selected4.set(true); 
-        
+        HBox toggle4 = createToggle(clearCacheToggle);
+        clearCacheToggle.set(true);
+
         itemBox4.getChildren().addAll(textBox4, spacer4, toggle4);
-        
+
         retentionSettingsCard.getChildren().addAll(retentionTitleLabel, itemBox3, itemBox4);
 
         
@@ -386,49 +295,11 @@ public class Storage {
         documentsTitle.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         documentsTitle.setStyle("-fx-text-fill: #1e3a8a;");
 
-        GridPane documentGrid = new GridPane();
+        
+        documentGrid = new GridPane();
         documentGrid.setHgap(20);
         documentGrid.setVgap(15);
         documentGrid.setPadding(new Insets(10, 0, 0, 0));
-
-        String headerStyle = "-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4b5563;";
-        documentGrid.add(new Label("NAME"), 1, 0);
-        documentGrid.add(new Label("UPLOAD TYPE"), 2, 0);
-        documentGrid.add(new Label("DATE"), 3, 0);
-        documentGrid.add(new Label("LEGAL TYPE"), 4, 0);
-        documentGrid.add(new Label("ACTIONS"), 5, 0);
-        documentGrid.getChildren().forEach(node -> node.setStyle(headerStyle));
-
-        
-        Object[][] docData = {
-                { "📄", "Aadhar-Card.pdf", "Manual Upload", "20 Jul, 2025", "Identity", "View" },
-                { "📄", "Case-File-001.pdf", "Case Sync", "18 Jul, 2025", "Case File", "View" },
-                { "📄", "Passport.jpg", "Manual Upload", "15 Jun, 2025", "Identity", "View" },
-                { "📄", "Property-Deed.pdf", "Manual Upload", "02 May, 2025", "Property", "View" }
-        };
-
-        for (int i = 0; i < docData.length; i++) {
-            int row = i + 1;
-            Label icon = new Label((String) docData[i][0]);
-            icon.setFont(Font.font(20));
-            documentGrid.add(icon, 0, row);
-
-            Label name = new Label((String) docData[i][1]);
-            name.setStyle("-fx-font-weight: 500;");
-            documentGrid.add(name, 1, row);
-
-            documentGrid.add(new Label((String) docData[i][2]), 2, row);
-            documentGrid.add(new Label((String) docData[i][3]), 3, row);
-
-            Label legalType = new Label((String) docData[i][4]);
-            legalType.setStyle(
-                    "-fx-background-color: #e0e7ff; -fx-text-fill: #3730a3; -fx-padding: 3px 8px; -fx-background-radius: 5px; -fx-font-weight: 500;");
-            documentGrid.add(legalType, 4, row);
-
-            Button viewButton = new Button("View");
-            viewButton.setCursor(Cursor.HAND);
-            documentGrid.add(viewButton, 5, row);
-        }
 
         documentsCard.getChildren().addAll(documentsTitle, documentGrid);
 
@@ -443,6 +314,184 @@ public class Storage {
         mainbox.setCenter(scrollPane);
         mainbox.setTop(welboxBar);
 
+        
+        loadUsernameAndRecentDocuments();
+
         return mainbox;
+    }
+
+    
+    private HBox createToggle(BooleanProperty selectedProperty) {
+        HBox toggle = new HBox();
+        Label toggleLabel = new Label();
+        toggleLabel.setFont(Font.font("Inter", FontWeight.BOLD, 10));
+        Button toggleButton = new Button();
+        toggle.getChildren().addAll(toggleLabel, toggleButton);
+        toggle.setCursor(Cursor.HAND);
+        toggleButton.setCursor(Cursor.HAND);
+        toggle.setMinSize(50, 25);
+        toggle.setMaxSize(50, 25);
+        toggle.setPadding(new Insets(2));
+        toggleButton.setPrefSize(21, 21);
+        toggleButton.setMinSize(21, 21);
+        toggleButton.setMaxSize(21, 21);
+        toggleButton.setStyle("-fx-background-radius: 25; -fx-background-color: white;");
+
+        selectedProperty.addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                toggleLabel.setText("ON");
+                toggle.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 25;");
+                toggleLabel.setStyle("-fx-text-fill: white;");
+                toggle.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                toggleLabel.setText("OFF");
+                toggle.setStyle("-fx-background-color: #d1d5db; -fx-background-radius: 25;");
+                toggleLabel.setStyle("-fx-text-fill: #4b5563;");
+                toggle.setAlignment(Pos.CENTER_LEFT);
+            }
+        });
+
+        toggle.setOnMouseClicked(event -> selectedProperty.set(!selectedProperty.get()));
+        toggleButton.setOnMouseClicked(event -> selectedProperty.set(!selectedProperty.get()));
+
+        return toggle;
+    }
+
+    
+    private void loadUsernameAndRecentDocuments() {
+        String uid = ViewController.getCurrentUserId();
+        if (uid == null) return;
+
+        
+        try {
+            UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
+            Platform.runLater(() -> {
+                String displayName = userRecord.getDisplayName();
+                if (displayName == null || displayName.isEmpty()) {
+                    String email = userRecord.getEmail();
+                    if (email != null) {
+                        displayName = email.split("@")[0];
+                    } else {
+                        displayName = "User";
+                    }
+                }
+                welcomeLabel.setText("Welcome " + displayName);
+            });
+        } catch (FirebaseAuthException e) {
+            e.printStackTrace();
+        }
+
+        
+        Firestore db = FirestoreClient.getFirestore();
+        db.collection("users").document(uid).collection("documents")
+                .orderBy("uploadedAt", Query.Direction.DESCENDING).limit(5).get()
+                .addListener(() -> {
+                    try {
+                        QuerySnapshot querySnapshot = db.collection("users").document(uid).collection("documents")
+                                .orderBy("uploadedAt", Query.Direction.DESCENDING).limit(5).get().get();
+                        List<QueryDocumentSnapshot> docs = querySnapshot.getDocuments();
+                        Platform.runLater(() -> populateDocumentGrid(docs));
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }, Platform::runLater);
+    }
+
+    
+    private void populateDocumentGrid(List<QueryDocumentSnapshot> docs) {
+        documentGrid.getChildren().clear();
+
+        
+        String headerStyle = "-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4b5563;";
+        Label nameHeader = new Label("NAME");
+        nameHeader.setStyle(headerStyle);
+        Label typeHeader = new Label("UPLOAD TYPE");
+        typeHeader.setStyle(headerStyle);
+        Label dateHeader = new Label("DATE");
+        dateHeader.setStyle(headerStyle);
+        Label legalHeader = new Label("LEGAL TYPE");
+        legalHeader.setStyle(headerStyle);
+        Label actionHeader = new Label("ACTIONS");
+        actionHeader.setStyle(headerStyle);
+
+        documentGrid.add(nameHeader, 1, 0);
+        documentGrid.add(typeHeader, 2, 0);
+        documentGrid.add(dateHeader, 3, 0);
+        documentGrid.add(legalHeader, 4, 0);
+        documentGrid.add(actionHeader, 5, 0);
+
+        int row = 1;
+        for (QueryDocumentSnapshot doc : docs) {
+            
+            Label icon = new Label("📄");
+            icon.setFont(Font.font(20));
+            documentGrid.add(icon, 0, row);
+
+            
+            Label name = new Label(doc.getString("fileName"));
+            name.setStyle("-fx-font-weight: 500;");
+            documentGrid.add(name, 1, row);
+
+            
+            Label uploadType = new Label("Manual Upload");
+            documentGrid.add(uploadType, 2, row);
+
+            
+            com.google.cloud.Timestamp ts = doc.getTimestamp("uploadedAt");
+            String date = (ts != null) ? new SimpleDateFormat("dd MMM, yyyy").format(ts.toDate()) : "N/A";
+            documentGrid.add(new Label(date), 3, row);
+
+            
+            String fileName = doc.getString("fileName");
+            String legalType = determineLegalType(fileName);
+            Label legalTypeLabel = new Label(legalType);
+            legalTypeLabel.setStyle(
+                    "-fx-background-color: #e0e7ff; -fx-text-fill: #3730a3; -fx-padding: 3px 8px; -fx-background-radius: 5px; -fx-font-weight: 500;");
+            documentGrid.add(legalTypeLabel, 4, row);
+
+            
+            Button viewButton = new Button("View");
+            viewButton.setCursor(Cursor.HAND);
+            viewButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
+            viewButton.setOnMouseEntered(e -> viewButton.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;"));
+            viewButton.setOnMouseExited(e -> viewButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;"));
+            
+            viewButton.setOnAction(e -> {
+                String downloadUrl = doc.getString("downloadUrl");
+                if (downloadUrl != null) {
+                    
+                    System.out.println("Viewing document: " + fileName);
+                }
+            });
+            documentGrid.add(viewButton, 5, row);
+
+            row++;
+        }
+
+        
+        if (docs.isEmpty()) {
+            Label noDocsLabel = new Label("No documents found. Upload some documents to see them here.");
+            noDocsLabel.setStyle("-fx-text-fill: #6b7280; -fx-font-style: italic;");
+            documentGrid.add(noDocsLabel, 1, 1);
+            GridPane.setColumnSpan(noDocsLabel, 5);
+        }
+    }
+
+    
+    private String determineLegalType(String fileName) {
+        if (fileName == null) return "Document";
+        
+        String lowerFileName = fileName.toLowerCase();
+        if (lowerFileName.contains("aadhar") || lowerFileName.contains("aadhaar") || lowerFileName.contains("passport")) {
+            return "Identity";
+        } else if (lowerFileName.contains("case") || lowerFileName.contains("legal")) {
+            return "Case File";
+        } else if (lowerFileName.contains("property") || lowerFileName.contains("deed") || lowerFileName.contains("land")) {
+            return "Property";
+        } else if (lowerFileName.contains("certificate") || lowerFileName.contains("cert")) {
+            return "Certificate";
+        } else {
+            return "Document";
+        }
     }
 }
