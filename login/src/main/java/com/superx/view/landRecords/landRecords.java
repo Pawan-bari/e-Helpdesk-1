@@ -4,22 +4,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class landRecords {
 
-     Stage landStage;
-     Scene landScene;
+    private Stage landStage;
+    private Scene landScene;
+    private VBox propertyCalculatorPanel; // Add this field
 
     public void setLandStage(Stage landStage) {
         this.landStage = landStage;
@@ -35,18 +30,23 @@ public class landRecords {
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
         
-        VBox sidebar = createSidebar(showdoc,showRTI,showarchive);
+        VBox sidebar = createSidebar(showdoc);
 
         
         VBox mainContent = createMainContent(showProfileScreen, showLoginScreen, showdoc);
 
+        // Create property calculator panel
+        propertyCalculatorPanel = createPropertyCalculatorPanel();
+        propertyCalculatorPanel.setVisible(false); // Initially hidden
+            HBox hb = new HBox(20,mainContent,propertyCalculatorPanel);
         mainbox.setLeft(sidebar);
-        mainbox.setCenter(mainContent);
+        mainbox.setCenter(hb);
+        // mainbox.setRight(propertyCalculatorPanel); // Add calculator to right side
 
         return mainbox;
     }
 
-    private VBox createSidebar(Runnable showdoc,Runnable showRTI,Runnable showarchive) {
+    private VBox createSidebar(Runnable showdoc) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20, 15, 20, 15));
         sidebar.setStyle("-fx-background-color: #f5f9ff; -fx-pref-width: 280px;");
@@ -72,7 +72,7 @@ public class landRecords {
         pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
 
         
-        VBox navButtons = createNavigationButtons(showdoc, showRTI,showarchive);
+        VBox navButtons = createNavigationButtons(showdoc);
 
         Region sidebarSpacer = new Region();
         VBox.setVgrow(sidebarSpacer, Priority.ALWAYS);
@@ -93,7 +93,7 @@ public class landRecords {
         return sidebar;
     }
 
-    private VBox createNavigationButtons(Runnable showdoc,Runnable showRTI,Runnable showarchive) {
+    private VBox createNavigationButtons(Runnable showdoc) {
         VBox navButtons = new VBox(10);
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", false);
@@ -106,14 +106,7 @@ public class landRecords {
         
         HBox navBtn3 = createNavButton("🏠", "Land & Property Services", true); 
         HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
-        navBtn4.setOnMouseClicked(evt->{
-            showRTI.run();
-        });
         HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
-        navBtn5.setOnMouseClicked(evt->{
-            showarchive.run();
-        });
-        
 
         navButtons.getChildren().addAll(navBtn1, navBtn2, navBtn3, navBtn4, navBtn5);
         return navButtons;
@@ -226,6 +219,11 @@ public class landRecords {
         VBox propertyCalculation = createServiceCard("📅", "Property Calculation", 
             "Calculate market value of your land and property");
         
+        // Add click handler to Property Calculation card
+        propertyCalculation.setOnMouseClicked(e -> {
+            propertyCalculatorPanel.setVisible(!propertyCalculatorPanel.isVisible());
+        });
+        
         VBox landRecordsSearch = createServiceCard("🔍", "Land Records Search", 
             "Access land records & ownership details");
         
@@ -288,5 +286,174 @@ public class landRecords {
         });
 
         return serviceCard;
+    }
+
+    // NEW METHOD: Create Property Calculator Panel
+    private VBox createPropertyCalculatorPanel() {
+        VBox calculatorPanel = new VBox(15);
+        calculatorPanel.setPadding(new Insets(20));
+        calculatorPanel.setStyle("-fx-background-color: rgba(255, 255, 255, 0.95); " +
+                               "-fx-border-color: #3b82f6; -fx-border-style: solid; " +
+                               "-fx-border-width: 2; -fx-border-radius: 15; " +
+                               "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);");
+        calculatorPanel.setPrefWidth(350);
+        calculatorPanel.setMaxHeight(600);
+
+        // Header with close button
+        HBox header = new HBox();
+        header.setAlignment(Pos.CENTER_LEFT);
+        
+        Label headerTitle = new Label("Property Calculator");
+        headerTitle.setFont(Font.font("Inter", FontWeight.BOLD, 20));
+        headerTitle.setStyle("-fx-text-fill: #1e3a8a;");
+        
+        Region headerSpacer = new Region();
+        HBox.setHgrow(headerSpacer, Priority.ALWAYS);
+        
+        Button closeBtn = new Button("✖");
+        closeBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #666; -fx-font-size: 14px; -fx-cursor: hand;");
+        closeBtn.setOnAction(e -> calculatorPanel.setVisible(false));
+        
+        header.getChildren().addAll(headerTitle, headerSpacer, closeBtn);
+
+        // Input fields
+        GridPane inputGrid = new GridPane();
+        inputGrid.setVgap(10);
+        inputGrid.setHgap(10);
+        inputGrid.setAlignment(Pos.CENTER_LEFT);
+
+        // Area input
+        Label areaLabel = new Label("Area (sq ft):");
+        areaLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
+        TextField areaField = new TextField();
+        areaField.setPromptText("Enter area in square feet");
+        styleTextField(areaField);
+
+        // Location factor
+        Label locationLabel = new Label("Location Factor:");
+        locationLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
+        ComboBox<String> locationCombo = new ComboBox<>();
+        locationCombo.getItems().addAll("Prime Location (1.5x)", "Good Location (1.2x)", "Average Location (1.0x)", "Remote Location (0.8x)");
+        locationCombo.setValue("Average Location (1.0x)");
+        styleComboBox(locationCombo);
+
+        // Base price per sq ft
+        Label basePriceLabel = new Label("Base Price (₹/sq ft):");
+        basePriceLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
+        TextField basePriceField = new TextField();
+        basePriceField.setPromptText("Enter base price per sq ft");
+        basePriceField.setText("5000"); // Default value
+        styleTextField(basePriceField);
+
+        // Property type
+        Label typeLabel = new Label("Property Type:");
+        typeLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
+        ComboBox<String> typeCombo = new ComboBox<>();
+        typeCombo.getItems().addAll("Residential (1.0x)", "Commercial (1.3x)", "Industrial (0.9x)", "Agricultural (0.6x)");
+        typeCombo.setValue("Residential (1.0x)");
+        styleComboBox(typeCombo);
+
+        // Age of property
+        Label ageLabel = new Label("Property Age:");
+        ageLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
+        ComboBox<String> ageCombo = new ComboBox<>();
+        ageCombo.getItems().addAll("New (1.0x)", "1-5 years (0.95x)", "6-10 years (0.9x)", "11-20 years (0.8x)", "20+ years (0.7x)");
+        ageCombo.setValue("New (1.0x)");
+        styleComboBox(ageCombo);
+
+        inputGrid.add(areaLabel, 0, 0);
+        inputGrid.add(areaField, 0, 1);
+        inputGrid.add(basePriceLabel, 0, 2);
+        inputGrid.add(basePriceField, 0, 3);
+        inputGrid.add(locationLabel, 0, 4);
+        inputGrid.add(locationCombo, 0, 5);
+        inputGrid.add(typeLabel, 0, 6);
+        inputGrid.add(typeCombo, 0, 7);
+        inputGrid.add(ageLabel, 0, 8);
+        inputGrid.add(ageCombo, 0, 9);
+
+        // Calculate button
+        Button calculateBtn = new Button("Calculate Property Value");
+        calculateBtn.setFont(Font.font("Inter", FontWeight.BOLD, 14));
+        calculateBtn.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 8px; " +
+                             "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;");
+        calculateBtn.setOnMouseEntered(e -> calculateBtn.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 8px; " +
+                                                                 "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;"));
+        calculateBtn.setOnMouseExited(e -> calculateBtn.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 8px; " +
+                                                                "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;"));
+        calculateBtn.setMaxWidth(Double.MAX_VALUE);
+
+        // Result area
+        VBox resultBox = new VBox(10);
+        resultBox.setStyle("-fx-background-color: #f0f9ff; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: #3b82f6; -fx-border-radius: 8px;");
+        
+        Label resultTitle = new Label("Calculated Value:");
+        resultTitle.setFont(Font.font("Inter", FontWeight.BOLD, 16));
+        resultTitle.setStyle("-fx-text-fill: #1e3a8a;");
+        
+        Label resultValue = new Label("₹ 0");
+        resultValue.setFont(Font.font("Inter", FontWeight.BOLD, 24));
+        resultValue.setStyle("-fx-text-fill: #059669;");
+        
+        Label breakdown = new Label("");
+        breakdown.setFont(Font.font("Inter", 12));
+        breakdown.setStyle("-fx-text-fill: #4b5563;");
+        breakdown.setWrapText(true);
+        
+        resultBox.getChildren().addAll(resultTitle, resultValue, breakdown);
+
+        // Calculate button action
+        calculateBtn.setOnAction(e -> {
+            try {
+                double area = Double.parseDouble(areaField.getText());
+                double basePrice = Double.parseDouble(basePriceField.getText());
+                
+                // Extract multipliers from combo box selections
+                double locationFactor = extractMultiplier(locationCombo.getValue());
+                double typeFactor = extractMultiplier(typeCombo.getValue());
+                double ageFactor = extractMultiplier(ageCombo.getValue());
+                
+                // Calculate total value
+                double totalValue = area * basePrice * locationFactor * typeFactor * ageFactor;
+                
+                // Update result
+                resultValue.setText("₹ " + String.format("%,.2f", totalValue));
+                breakdown.setText(String.format("Calculation: %.0f sq ft × ₹%.0f × %.2fx × %.2fx × %.2fx = ₹%.2f",
+                    area, basePrice, locationFactor, typeFactor, ageFactor, totalValue));
+                
+            } catch (NumberFormatException ex) {
+                resultValue.setText("Invalid Input");
+                breakdown.setText("Please enter valid numbers for area and base price.");
+            }
+        });
+
+        calculatorPanel.getChildren().addAll(header, inputGrid, calculateBtn, resultBox);
+        
+        return calculatorPanel;
+    }
+
+    private void styleTextField(TextField field) {
+        field.setStyle("-fx-background-color: white; -fx-border-color: #d1d5db; " +
+                      "-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-padding: 8px;");
+        field.setFont(Font.font("Inter", 14));
+    }
+
+    private void styleComboBox(ComboBox<String> combo) {
+        combo.setStyle("-fx-background-color: white; -fx-border-color: #d1d5db; " +
+                      "-fx-border-radius: 6px; -fx-background-radius: 6px;");
+        combo.setMaxWidth(Double.MAX_VALUE);
+    }
+
+    private double extractMultiplier(String selection) {
+        if (selection.contains("1.5x")) return 1.5;
+        if (selection.contains("1.3x")) return 1.3;
+        if (selection.contains("1.2x")) return 1.2;
+        if (selection.contains("1.0x")) return 1.0;
+        if (selection.contains("0.95x")) return 0.95;
+        if (selection.contains("0.9x")) return 0.9;
+        if (selection.contains("0.8x")) return 0.8;
+        if (selection.contains("0.7x")) return 0.7;
+        if (selection.contains("0.6x")) return 0.6;
+        return 1.0; // Default
     }
 }

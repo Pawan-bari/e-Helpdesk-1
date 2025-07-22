@@ -49,7 +49,7 @@ public class documents {
         this.docScene = docScene;
     }
 
-    public BorderPane docScenBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlandrecord, Runnable showRTI, Runnable shownotification2,Runnable showarchive) {
+    public BorderPane docScenBox(Runnable showProfileScreen, Runnable showLoginScreen,Runnable showlegalmana, Runnable showlandrecord, Runnable showRTI, Runnable shownotification2,Runnable showarchive) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
@@ -87,6 +87,9 @@ public class documents {
         navBtn1.setCursor(Cursor.HAND);
         navBtn1.setOnMouseEntered(event -> navBtn1.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
         navBtn1.setOnMouseExited(event -> navBtn1.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn1.setOnMouseClicked(evt->{
+                showlegalmana.run();
+        });
 
         HBox navBtn2 = new HBox(15, new Label("📜"), new Label("Document & Certificate"));
         navBtn2.getChildren().get(0).setStyle("-fx-font-size: 24px;");
