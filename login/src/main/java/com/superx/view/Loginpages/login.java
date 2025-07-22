@@ -16,17 +16,15 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-
 public class login {
 
     public HBox getLoginBox(com.superx.Controller.ViewController controller) {
-        
-        BackgroundImage bg = new BackgroundImage(
-            new Image("images/artistic-blurry-colorful-wallpaper-background.jpg", 1920, 1080, false, true),
-            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT
-        );
 
-        
+        BackgroundImage bg = new BackgroundImage(
+                new Image("images/artistic-blurry-colorful-wallpaper-background.jpg", 1920, 1080, false, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+
         DropShadow dp = new DropShadow();
         dp.setOffsetX(3.0);
         dp.setOffsetY(3.0);
@@ -43,14 +41,13 @@ public class login {
         signinBox.setFill(Color.rgb(247, 247, 251));
         signinBox.setEffect(dp);
 
-        
-        Image image = new Image("images/Lucid_Realism_Modern_minimal_logo_design_for_an_EHelp_Desk_app_1-removebg-preview.png");
+        Image image = new Image(
+                "images/logo.png");
         ImageView iv = new ImageView(image);
         iv.setFitHeight(1000);
         iv.setFitWidth(900);
         VBox logoBox = new VBox(iv);
 
-        
         Label signinText = new Label("Sign In");
         signinText.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 50));
         Label subtext = new Label("to your account");
@@ -58,29 +55,28 @@ public class login {
         subtext.setTextFill(Color.GREY);
         VBox vbtext = new VBox(10, signinText, subtext);
 
-        
         Label emailLabel = new Label("Email");
         emailLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
         TextField emailField = new TextField();
         emailField.setPromptText("Enter Email");
         emailField.setMinHeight(50);
-        emailField.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
+        emailField.setBorder(new Border(
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
         VBox vbemail = new VBox(10, emailLabel, emailField);
 
-        
         Label passwordLabel = new Label("Password");
         passwordLabel.setFont(Font.font("arial", FontWeight.BOLD, 20));
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter Password");
         passwordField.setMinHeight(50);
-        passwordField.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
+        passwordField.setBorder(new Border(
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT)));
         Hyperlink forgotPassword = new Hyperlink("Forgot Password ?");
         forgotPassword.setTextFill(Color.BLUE);
         forgotPassword.setAlignment(Pos.CENTER_RIGHT);
         forgotPassword.setOnAction(e -> controller.getLoginController().navigateToForgotPassword());
         VBox vbpass = new VBox(10, passwordLabel, passwordField, forgotPassword);
 
-        
         Line line1 = new Line(0, 0, 300, 0);
         Line line2 = new Line(0, 0, 300, 0);
         HBox divider = new HBox(10, line1, new Text("Or with"), line2);
@@ -99,22 +95,22 @@ public class login {
         HBox signupAlt = new HBox(10, signinGoogle, signinMobile);
         signupAlt.setAlignment(Pos.CENTER);
 
-        
         Button signInButton = new Button("Sign In");
         signInButton.setFont(Font.font("arial", FontWeight.BOLD, 20));
         signInButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;");
         signInButton.setMaxWidth(750);
-        signInButton.setOnMouseEntered(e -> signInButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-background-radius: 10;"));
-        signInButton.setOnMouseExited(e -> signInButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;"));
+        signInButton.setOnMouseEntered(e -> signInButton
+                .setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-background-radius: 10;"));
+        signInButton.setOnMouseExited(e -> signInButton
+                .setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;"));
         signInButton.setOnAction(event -> controller.getLoginController().handleLogin(emailField, passwordField));
 
-        
         Text questionText = new Text("Not a member yet?");
         questionText.setFont(Font.font("arial", 10));
         questionText.setFill(Color.GREY);
         Hyperlink signupLink = new Hyperlink("Sign Up");
         signupLink.setTextFill(Color.BLUE);
-        signupLink.setOnAction(event ->controller.getLoginController().navigateToSignup());
+        signupLink.setOnAction(event -> controller.getLoginController().navigateToSignup());
         HBox signinFooter = new HBox(10, questionText, signupLink);
         signinFooter.setAlignment(Pos.CENTER);
 

@@ -11,10 +11,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class landRecords {
-
     private Stage landStage;
     private Scene landScene;
-    private VBox propertyCalculatorPanel; // Add this field
+    private VBox propertyCalculatorPanel;
 
     public void setLandStage(Stage landStage) {
         this.landStage = landStage;
@@ -24,29 +23,31 @@ public class landRecords {
         this.landScene = landScene;
     }
 
-    public BorderPane landRecordsBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc,Runnable showRTI,Runnable showarchive) {
+    public BorderPane landRecordsBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlegal,
+            Runnable showdoc, Runnable showRTI, Runnable showarchive, Runnable showLRecords,
+            Runnable showPropertyReg) {
 
         BorderPane mainbox = new BorderPane();
-        mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
+        mainbox.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
-        
-        VBox sidebar = createSidebar(showdoc);
-
-        
-        VBox mainContent = createMainContent(showProfileScreen, showLoginScreen, showdoc);
+        VBox sidebar = createSidebar(showProfileScreen, showlegal, showdoc, showRTI, showarchive);
+        VBox mainContent = createMainContent(showProfileScreen, showLoginScreen, showlegal, showdoc, showRTI,
+                showarchive, showLRecords, showPropertyReg);
 
         // Create property calculator panel
         propertyCalculatorPanel = createPropertyCalculatorPanel();
         propertyCalculatorPanel.setVisible(false); // Initially hidden
-            HBox hb = new HBox(20,mainContent,propertyCalculatorPanel);
+
+        HBox hb = new HBox(20, mainContent, propertyCalculatorPanel);
         mainbox.setLeft(sidebar);
         mainbox.setCenter(hb);
-        // mainbox.setRight(propertyCalculatorPanel); // Add calculator to right side
 
         return mainbox;
     }
 
-    private VBox createSidebar(Runnable showdoc) {
+    private VBox createSidebar(Runnable showProfileScreen, Runnable showlegal, Runnable showdoc, Runnable showRTI,
+            Runnable showarchive) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20, 15, 20, 15));
         sidebar.setStyle("-fx-background-color: #f5f9ff; -fx-pref-width: 280px;");
@@ -56,7 +57,6 @@ public class landRecords {
         sidebarTitle.setFont(Font.font("Inter", FontWeight.BOLD, 24));
         sidebarTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0 30px 0;");
 
-        
         Label profileIcon = new Label("👤");
         profileIcon.setFont(Font.font("System", 36));
 
@@ -68,45 +68,61 @@ public class landRecords {
         pBox.setAlignment(Pos.CENTER_LEFT);
         pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px;");
         pBox.setCursor(Cursor.HAND);
-        pBox.setOnMouseEntered(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        pBox.setOnMouseEntered(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        pBox.setOnMouseExited(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        pBox.setOnMouseClicked(ebt -> {
+            showProfileScreen.run();
+        });
 
-        
-        VBox navButtons = createNavigationButtons(showdoc);
+        VBox navButtons = createNavigationButtons(showlegal, showdoc, showRTI, showarchive);
 
         Region sidebarSpacer = new Region();
         VBox.setVgrow(sidebarSpacer, Priority.ALWAYS);
 
-        
         HBox links = new HBox(15);
         links.setAlignment(Pos.CENTER);
         Label contact = new Label("Contact");
         Label terms = new Label("Terms");
         Label privacy = new Label("Privacy");
+
         String footerStyle = "-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-cursor: hand;";
         contact.setStyle(footerStyle);
         terms.setStyle(footerStyle);
         privacy.setStyle(footerStyle);
-        links.getChildren().addAll(contact, terms, privacy);
 
+        links.getChildren().addAll(contact, terms, privacy);
         sidebar.getChildren().addAll(sidebarTitle, pBox, navButtons, sidebarSpacer, links);
         return sidebar;
     }
 
-    private VBox createNavigationButtons(Runnable showdoc) {
+    private VBox createNavigationButtons(Runnable showlegal, Runnable showdoc, Runnable showRTI, Runnable showarchive) {
         VBox navButtons = new VBox(10);
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", false);
-        HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
-        
-        
-        navBtn2.setOnMouseClicked(evt -> {
-            showdoc.run(); 
+        navBtn1.setOnMouseClicked(evt -> {
+            showlegal.run();
         });
-        
-        HBox navBtn3 = createNavButton("🏠", "Land & Property Services", true); 
+
+        HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
+        navBtn2.setOnMouseClicked(evt -> {
+            showdoc.run();
+        });
+
+        HBox navBtn3 = createNavButton("🏠", "Land & Property Services", true);
+        navBtn3.setOnMouseClicked(evt -> {
+        });
+
         HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
+        navBtn4.setOnMouseClicked(evt -> {
+            showRTI.run();
+        });
+
         HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
+        navBtn5.setOnMouseClicked(evt -> {
+            showarchive.run();
+        });
 
         navButtons.getChildren().addAll(navBtn1, navBtn2, navBtn3, navBtn4, navBtn5);
         return navButtons;
@@ -115,48 +131,49 @@ public class landRecords {
     private HBox createNavButton(String icon, String text, boolean isActive) {
         HBox navBtn = new HBox(15, new Label(icon), new Label(text));
         navBtn.getChildren().get(0).setStyle("-fx-font-size: 24px;");
-        
-        String textStyle = isActive ? 
-            "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;" :
-            "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
+        String textStyle = isActive ? "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;"
+                : "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
         navBtn.getChildren().get(1).setStyle(textStyle);
-        
         navBtn.setAlignment(Pos.CENTER_LEFT);
-        String bgStyle = isActive ?
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;" :
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
+        String bgStyle = isActive
+                ? "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;"
+                : "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
         navBtn.setStyle(bgStyle);
         navBtn.setCursor(Cursor.HAND);
 
         if (!isActive) {
-            navBtn.setOnMouseEntered(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-            navBtn.setOnMouseExited(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+            navBtn.setOnMouseEntered(e -> navBtn
+                    .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+            navBtn.setOnMouseExited(e -> navBtn.setStyle(
+                    "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         }
 
         return navBtn;
     }
 
-    private VBox createMainContent(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc) {
+    private VBox createMainContent(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlegal,
+            Runnable showdoc, Runnable showRTI, Runnable showarchive, Runnable showLRecords,
+            Runnable showPropertyReg) {
+
         VBox mainContent = new VBox(25);
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setStyle("-fx-background-color: transparent;");
 
-        
-        HBox topNav = createTopNavigation(showProfileScreen, showLoginScreen);
+        HBox topNav = createTopNavigation(showProfileScreen, showLoginScreen, showlegal, showdoc, showRTI, showarchive);
 
-        
         Label mainTitle = new Label("Land and Property Services");
         mainTitle.setFont(Font.font("Inter", FontWeight.BOLD, 32));
         mainTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
-        
-        GridPane servicesGrid = createServicesGrid();
+        GridPane servicesGrid = createServicesGrid(showLRecords, showPropertyReg);
 
         mainContent.getChildren().addAll(topNav, mainTitle, servicesGrid);
         return mainContent;
     }
 
-    private HBox createTopNavigation(Runnable showProfileScreen, Runnable showLoginScreen) {
+    private HBox createTopNavigation(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlegal,
+            Runnable showdoc, Runnable showRTI, Runnable showarchive) {
+
         HBox topNav = new HBox(30);
         topNav.setAlignment(Pos.CENTER_LEFT);
 
@@ -175,20 +192,25 @@ public class landRecords {
         Region topNavSpacer = new Region();
         HBox.setHgrow(topNavSpacer, Priority.ALWAYS);
 
-        
         Button notificationButton = new Button("🔔");
         notificationButton.setFont(Font.font("System", 14));
-        notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
+        notificationButton.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
         notificationButton.setCursor(Cursor.HAND);
-        notificationButton.setOnMouseEntered(e -> notificationButton.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-        notificationButton.setOnMouseExited(e -> notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        notificationButton.setOnMouseEntered(e -> notificationButton.setStyle(
+                "-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        notificationButton.setOnMouseExited(e -> notificationButton.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
 
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));
-        logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
+        logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
         logoutButton.setCursor(Cursor.HAND);
-        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
-        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle(
+                "-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseExited(e -> logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnAction(event -> showLoginScreen.run());
 
         HBox actionButtons = new HBox(10, notificationButton, logoutButton);
@@ -206,31 +228,33 @@ public class landRecords {
         return link;
     }
 
-    private GridPane createServicesGrid() {
+    private GridPane createServicesGrid(Runnable showLRecords, Runnable showPropertyReg) {
         GridPane servicesGrid = new GridPane();
         servicesGrid.setVgap(20);
         servicesGrid.setHgap(20);
         servicesGrid.setPadding(new Insets(20, 0, 0, 0));
 
-        
-        VBox propertyRegistration = createServiceCard("🌐", "Property Registration", 
-            "Information & online services for property registrations");
-        
-        VBox propertyCalculation = createServiceCard("📅", "Property Calculation", 
-            "Calculate market value of your land and property");
-        
-        // Add click handler to Property Calculation card
+        // Property Registration Card with navigation
+        VBox propertyRegistration = createServiceCard("🌐", "Property Registration",
+                "Information & online services for property registrations");
+        propertyRegistration.setOnMouseClicked(e -> showPropertyReg.run());
+
+        // Property Calculation Card (keep existing functionality)
+        VBox propertyCalculation = createServiceCard("📅", "Property Calculation",
+                "Calculate market value of your land and property");
         propertyCalculation.setOnMouseClicked(e -> {
             propertyCalculatorPanel.setVisible(!propertyCalculatorPanel.isVisible());
         });
-        
-        VBox landRecordsSearch = createServiceCard("🔍", "Land Records Search", 
-            "Access land records & ownership details");
-        
-        VBox titleDeeds = createServiceCard("↗️", "Title Deeds Application", 
-            "Submit an online application for Title Deeds");
 
-        
+        // Land Records Search Card with navigation
+        VBox landRecordsSearch = createServiceCard("🔍", "Land Records Search",
+                "Access land records & ownership details");
+        landRecordsSearch.setOnMouseClicked(e -> showLRecords.run());
+
+        // Title Deeds Card (keep as is for now)
+        VBox titleDeeds = createServiceCard("↗️", "Title Deeds Application",
+                "Submit an online application for Title Deeds");
+
         servicesGrid.add(propertyRegistration, 0, 0);
         servicesGrid.add(propertyCalculation, 1, 0);
         servicesGrid.add(landRecordsSearch, 0, 1);
@@ -243,15 +267,14 @@ public class landRecords {
         VBox serviceCard = new VBox(15);
         serviceCard.setAlignment(Pos.CENTER_LEFT);
         serviceCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); " +
-                           "-fx-border-color: #a0b3d7; -fx-border-style: solid; " +
-                           "-fx-border-width: 1.5; -fx-border-radius: 15; " +
-                           "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+                "-fx-border-color: #a0b3d7; -fx-border-style: solid; " +
+                "-fx-border-width: 1.5; -fx-border-radius: 15; " +
+                "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
         serviceCard.setPadding(new Insets(30));
         serviceCard.setPrefHeight(200);
         serviceCard.setPrefWidth(400);
         serviceCard.setCursor(Cursor.HAND);
 
-        
         Label iconLabel = new Label(icon);
         iconLabel.setFont(Font.font("System", 40));
 
@@ -262,7 +285,6 @@ public class landRecords {
         HBox titleBox = new HBox(15, iconLabel, titleLabel);
         titleBox.setAlignment(Pos.CENTER_LEFT);
 
-        
         Label descriptionLabel = new Label(description);
         descriptionLabel.setFont(Font.font("Inter", 14));
         descriptionLabel.setStyle("-fx-text-fill: #4b5563;");
@@ -270,50 +292,50 @@ public class landRecords {
 
         serviceCard.getChildren().addAll(titleBox, descriptionLabel);
 
-        
         serviceCard.setOnMouseEntered(e -> {
             serviceCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.95); " +
-                               "-fx-border-color: #3b82f6; -fx-border-style: solid; " +
-                               "-fx-border-width: 2; -fx-border-radius: 15; " +
-                               "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);");
+                    "-fx-border-color: #3b82f6; -fx-border-style: solid; " +
+                    "-fx-border-width: 2; -fx-border-radius: 15; " +
+                    "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);");
         });
 
         serviceCard.setOnMouseExited(e -> {
             serviceCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); " +
-                               "-fx-border-color: #a0b3d7; -fx-border-style: solid; " +
-                               "-fx-border-width: 1.5; -fx-border-radius: 15; " +
-                               "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+                    "-fx-border-color: #a0b3d7; -fx-border-style: solid; " +
+                    "-fx-border-width: 1.5; -fx-border-radius: 15; " +
+                    "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
         });
 
         return serviceCard;
     }
 
-    // NEW METHOD: Create Property Calculator Panel
+    // Property Calculator Panel
     private VBox createPropertyCalculatorPanel() {
         VBox calculatorPanel = new VBox(15);
         calculatorPanel.setPadding(new Insets(20));
         calculatorPanel.setStyle("-fx-background-color: rgba(255, 255, 255, 0.95); " +
-                               "-fx-border-color: #3b82f6; -fx-border-style: solid; " +
-                               "-fx-border-width: 2; -fx-border-radius: 15; " +
-                               "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);");
+                "-fx-border-color: #3b82f6; -fx-border-style: solid; " +
+                "-fx-border-width: 2; -fx-border-radius: 15; " +
+                "-fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);");
         calculatorPanel.setPrefWidth(350);
         calculatorPanel.setMaxHeight(600);
 
         // Header with close button
         HBox header = new HBox();
         header.setAlignment(Pos.CENTER_LEFT);
-        
+
         Label headerTitle = new Label("Property Calculator");
         headerTitle.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         headerTitle.setStyle("-fx-text-fill: #1e3a8a;");
-        
+
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
-        
+
         Button closeBtn = new Button("✖");
-        closeBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #666; -fx-font-size: 14px; -fx-cursor: hand;");
+        closeBtn.setStyle(
+                "-fx-background-color: transparent; -fx-text-fill: #666; -fx-font-size: 14px; -fx-cursor: hand;");
         closeBtn.setOnAction(e -> calculatorPanel.setVisible(false));
-        
+
         header.getChildren().addAll(headerTitle, headerSpacer, closeBtn);
 
         // Input fields
@@ -333,7 +355,8 @@ public class landRecords {
         Label locationLabel = new Label("Location Factor:");
         locationLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
         ComboBox<String> locationCombo = new ComboBox<>();
-        locationCombo.getItems().addAll("Prime Location (1.5x)", "Good Location (1.2x)", "Average Location (1.0x)", "Remote Location (0.8x)");
+        locationCombo.getItems().addAll("Prime Location (1.5x)", "Good Location (1.2x)", "Average Location (1.0x)",
+                "Remote Location (0.8x)");
         locationCombo.setValue("Average Location (1.0x)");
         styleComboBox(locationCombo);
 
@@ -349,7 +372,8 @@ public class landRecords {
         Label typeLabel = new Label("Property Type:");
         typeLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
         ComboBox<String> typeCombo = new ComboBox<>();
-        typeCombo.getItems().addAll("Residential (1.0x)", "Commercial (1.3x)", "Industrial (0.9x)", "Agricultural (0.6x)");
+        typeCombo.getItems().addAll("Residential (1.0x)", "Commercial (1.3x)", "Industrial (0.9x)",
+                "Agricultural (0.6x)");
         typeCombo.setValue("Residential (1.0x)");
         styleComboBox(typeCombo);
 
@@ -357,7 +381,8 @@ public class landRecords {
         Label ageLabel = new Label("Property Age:");
         ageLabel.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
         ComboBox<String> ageCombo = new ComboBox<>();
-        ageCombo.getItems().addAll("New (1.0x)", "1-5 years (0.95x)", "6-10 years (0.9x)", "11-20 years (0.8x)", "20+ years (0.7x)");
+        ageCombo.getItems().addAll("New (1.0x)", "1-5 years (0.95x)", "6-10 years (0.9x)", "11-20 years (0.8x)",
+                "20+ years (0.7x)");
         ageCombo.setValue("New (1.0x)");
         styleComboBox(ageCombo);
 
@@ -376,30 +401,33 @@ public class landRecords {
         Button calculateBtn = new Button("Calculate Property Value");
         calculateBtn.setFont(Font.font("Inter", FontWeight.BOLD, 14));
         calculateBtn.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 8px; " +
-                             "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;");
-        calculateBtn.setOnMouseEntered(e -> calculateBtn.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 8px; " +
-                                                                 "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;"));
-        calculateBtn.setOnMouseExited(e -> calculateBtn.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 8px; " +
-                                                                "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;"));
+                "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;");
+        calculateBtn.setOnMouseEntered(
+                e -> calculateBtn.setStyle("-fx-background-color: #2563eb; -fx-background-radius: 8px; " +
+                        "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;"));
+        calculateBtn.setOnMouseExited(
+                e -> calculateBtn.setStyle("-fx-background-color: #3b82f6; -fx-background-radius: 8px; " +
+                        "-fx-text-fill: white; -fx-padding: 12px 20px; -fx-cursor: hand;"));
         calculateBtn.setMaxWidth(Double.MAX_VALUE);
 
         // Result area
         VBox resultBox = new VBox(10);
-        resultBox.setStyle("-fx-background-color: #f0f9ff; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: #3b82f6; -fx-border-radius: 8px;");
-        
+        resultBox.setStyle(
+                "-fx-background-color: #f0f9ff; -fx-padding: 15px; -fx-background-radius: 8px; -fx-border-color: #3b82f6; -fx-border-radius: 8px;");
+
         Label resultTitle = new Label("Calculated Value:");
         resultTitle.setFont(Font.font("Inter", FontWeight.BOLD, 16));
         resultTitle.setStyle("-fx-text-fill: #1e3a8a;");
-        
+
         Label resultValue = new Label("₹ 0");
         resultValue.setFont(Font.font("Inter", FontWeight.BOLD, 24));
         resultValue.setStyle("-fx-text-fill: #059669;");
-        
+
         Label breakdown = new Label("");
         breakdown.setFont(Font.font("Inter", 12));
         breakdown.setStyle("-fx-text-fill: #4b5563;");
         breakdown.setWrapText(true);
-        
+
         resultBox.getChildren().addAll(resultTitle, resultValue, breakdown);
 
         // Calculate button action
@@ -407,20 +435,19 @@ public class landRecords {
             try {
                 double area = Double.parseDouble(areaField.getText());
                 double basePrice = Double.parseDouble(basePriceField.getText());
-                
+
                 // Extract multipliers from combo box selections
                 double locationFactor = extractMultiplier(locationCombo.getValue());
                 double typeFactor = extractMultiplier(typeCombo.getValue());
                 double ageFactor = extractMultiplier(ageCombo.getValue());
-                
+
                 // Calculate total value
                 double totalValue = area * basePrice * locationFactor * typeFactor * ageFactor;
-                
+
                 // Update result
                 resultValue.setText("₹ " + String.format("%,.2f", totalValue));
                 breakdown.setText(String.format("Calculation: %.0f sq ft × ₹%.0f × %.2fx × %.2fx × %.2fx = ₹%.2f",
-                    area, basePrice, locationFactor, typeFactor, ageFactor, totalValue));
-                
+                        area, basePrice, locationFactor, typeFactor, ageFactor, totalValue));
             } catch (NumberFormatException ex) {
                 resultValue.setText("Invalid Input");
                 breakdown.setText("Please enter valid numbers for area and base price.");
@@ -428,32 +455,40 @@ public class landRecords {
         });
 
         calculatorPanel.getChildren().addAll(header, inputGrid, calculateBtn, resultBox);
-        
         return calculatorPanel;
     }
 
     private void styleTextField(TextField field) {
         field.setStyle("-fx-background-color: white; -fx-border-color: #d1d5db; " +
-                      "-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-padding: 8px;");
+                "-fx-border-radius: 6px; -fx-background-radius: 6px; -fx-padding: 8px;");
         field.setFont(Font.font("Inter", 14));
     }
 
     private void styleComboBox(ComboBox<String> combo) {
         combo.setStyle("-fx-background-color: white; -fx-border-color: #d1d5db; " +
-                      "-fx-border-radius: 6px; -fx-background-radius: 6px;");
+                "-fx-border-radius: 6px; -fx-background-radius: 6px;");
         combo.setMaxWidth(Double.MAX_VALUE);
     }
 
     private double extractMultiplier(String selection) {
-        if (selection.contains("1.5x")) return 1.5;
-        if (selection.contains("1.3x")) return 1.3;
-        if (selection.contains("1.2x")) return 1.2;
-        if (selection.contains("1.0x")) return 1.0;
-        if (selection.contains("0.95x")) return 0.95;
-        if (selection.contains("0.9x")) return 0.9;
-        if (selection.contains("0.8x")) return 0.8;
-        if (selection.contains("0.7x")) return 0.7;
-        if (selection.contains("0.6x")) return 0.6;
+        if (selection.contains("1.5x"))
+            return 1.5;
+        if (selection.contains("1.3x"))
+            return 1.3;
+        if (selection.contains("1.2x"))
+            return 1.2;
+        if (selection.contains("1.0x"))
+            return 1.0;
+        if (selection.contains("0.95x"))
+            return 0.95;
+        if (selection.contains("0.9x"))
+            return 0.9;
+        if (selection.contains("0.8x"))
+            return 0.8;
+        if (selection.contains("0.7x"))
+            return 0.7;
+        if (selection.contains("0.6x"))
+            return 0.6;
         return 1.0; // Default
     }
 }

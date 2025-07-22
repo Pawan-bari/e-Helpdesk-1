@@ -13,6 +13,11 @@ import com.superx.view.Profile.SecurityPage;
 import com.superx.view.Profile.Storage;
 import com.superx.view.landRecords.landRecords;
 import com.superx.view.landRecords.archive.legalArchives;
+import com.superx.view.landRecords.archive.archiveSubfiles.courtProcedures;
+import com.superx.view.landRecords.archive.archiveSubfiles.introToLaw;
+import com.superx.view.landRecords.archive.archiveSubfiles.rightRespons;
+import com.superx.view.landRecords.subfilesLandrecords.lrecords;
+import com.superx.view.landRecords.subfilesLandrecords.propertyReg;
 import com.superx.view.legalTech.governOfficail;
 import com.superx.view.legalTech.legalCaseManagement;
 import com.superx.view.legalTech.guidedFormBox;
@@ -26,26 +31,28 @@ public class ViewController {
 
     private LoginController loginController;
     private SignupController signupController;
-    private ForgotpassController forgotPasswordController;
-    private HostServices hostServices;
     
+    private HostServices hostServices;
+
     private Stage mainStage;
     private static String currentUserId;
-    
+
     private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene,
-     accScene, securityScene, notiScene, 
-     stoScene, landRecordsScene, rtiScene,
-     notiScenetab, legalScene, legalcaseScene,
-     governOffScene, guidedFormScene;
+            accScene, securityScene, notiScene,
+            stoScene, landRecordsScene, rtiScene,
+            notiScenetab, legalScene, legalcaseScene,
+            governOffScene, guidedFormScene, fileRtiAppScene, rtiGuidelinesScene, lodgeGrievanceScene,
+            courtProceduresScene, introToLawScene, rightResponsScene,
+            lRecordsScene, propertyRegScene;
 
     public ViewController(Stage stage, HostServices hostServices) {
         this.mainStage = stage;
         this.hostServices = hostServices;
-         
+
         this.loginController = new LoginController(this);
         this.signupController = new SignupController(this);
-        this.forgotPasswordController = new ForgotpassController(this);
-        showLoginScreen(); 
+       
+        showLoginScreen();
     }
 
     public static String getCurrentUserId() {
@@ -85,9 +92,7 @@ public class ViewController {
         return signupController;
     }
 
-    public ForgotpassController getForgotPasswordController() {
-        return forgotPasswordController;
-    }
+   
 
     public void showTermsScene() {
         terms termsPage = new terms();
@@ -99,7 +104,7 @@ public class ViewController {
 
     public void shownotification2() {
         Notificationtab notipage = new Notificationtab();
-        notiScenetab = new Scene(notipage.notificationPage(this::showDocScene), 1920, 1080);  
+        notiScenetab = new Scene(notipage.notificationPage(this::showDocScene), 1920, 1080);
         notipage.setNoti2Stage(mainStage);
         notipage.setNoti2Scene(notiScenetab);
         mainStage.setScene(notiScenetab);
@@ -107,7 +112,10 @@ public class ViewController {
 
     public void showDocScene() {
         documents docPage = new documents();
-        docScene = new Scene(docPage.docScenBox(this::showProfileScreen, this::showLoginScreen, this::showLegal, this::showLandRecordsScreen, this::showRTI, this::shownotification2, this::showarchive), 1920, 1080);  
+        docScene = new Scene(
+                docPage.docScenBox(this::showProfileScreen, this::showLoginScreen, this::showLegal,
+                        this::showLandRecordsScreen, this::showRTI, this::shownotification2, this::showarchive),
+                1920, 1080);
         docPage.setDocStage(mainStage);
         docPage.setDocScene(docScene);
         mainStage.setScene(docScene);
@@ -115,7 +123,8 @@ public class ViewController {
 
     public void showProfileScreen() {
         ProfilePage profile = new ProfilePage();
-        profileScene = new Scene(profile.profilebox(this::showAccountScreen, this::showSecurityScreen, this::showDocScene, this::showNotification, this::showStorage), 1920, 1080);
+        profileScene = new Scene(profile.profilebox(this::showAccountScreen, this::showSecurityScreen,
+                this::showDocScene, this::showNotification, this::showStorage), 1920, 1080);
         profile.setProfStage(mainStage);
         profile.setProfScene(profileScene);
         mainStage.setScene(profileScene);
@@ -123,7 +132,8 @@ public class ViewController {
 
     public void showAccountScreen() {
         AccountSetting accPage = new AccountSetting();
-        accScene = new Scene(accPage.accountSettingsBox(this::showProfileScreen, this::showSecurityScreen, this::showDocScene, this::showNotification, this::showStorage), 1920, 1080);
+        accScene = new Scene(accPage.accountSettingsBox(this::showProfileScreen, this::showSecurityScreen,
+                this::showDocScene, this::showNotification, this::showStorage), 1920, 1080);
         accPage.setAccStage(mainStage);
         accPage.setAccScene(accScene);
         mainStage.setScene(accScene);
@@ -131,7 +141,8 @@ public class ViewController {
 
     public void showSecurityScreen() {
         SecurityPage secPage = new SecurityPage();
-        securityScene = new Scene(secPage.securityPageBox(this::showProfileScreen, this::showAccountScreen, this::showDocScene, this::showNotification, this::showStorage, null), 1920, 1080);
+        securityScene = new Scene(secPage.securityPageBox(this::showProfileScreen, this::showAccountScreen,
+                this::showDocScene, this::showNotification, this::showStorage, null), 1920, 1080);
         secPage.setSecStage(mainStage);
         secPage.setSecscene(securityScene);
         mainStage.setScene(securityScene);
@@ -139,7 +150,8 @@ public class ViewController {
 
     public void showNotification() {
         Notification notpage = new Notification();
-        notiScene = new Scene(notpage.notificationPageBox(this::showProfileScreen, this::showAccountScreen, this::showSecurityScreen, this::showDocScene, this::showStorage), 1920, 1080);
+        notiScene = new Scene(notpage.notificationPageBox(this::showProfileScreen, this::showAccountScreen,
+                this::showSecurityScreen, this::showDocScene, this::showStorage), 1920, 1080);
         notpage.setNotiStage(mainStage);
         notpage.setNotiScene(notiScene);
         mainStage.setScene(notiScene);
@@ -147,7 +159,8 @@ public class ViewController {
 
     public void showStorage() {
         Storage stopage = new Storage();
-        stoScene = new Scene(stopage.createStoragePage(this::showProfileScreen, this::showAccountScreen, this::showSecurityScreen, this::showNotification), 1920, 1080);
+        stoScene = new Scene(stopage.createStoragePage(this::showProfileScreen, this::showAccountScreen,
+                this::showSecurityScreen, this::showNotification), 1920, 1080);
         stopage.setStoStage(mainStage);
         stopage.setStoScene(stoScene);
         mainStage.setScene(stoScene);
@@ -155,23 +168,31 @@ public class ViewController {
 
     public void showLandRecordsScreen() {
         landRecords landRecordsPage = new landRecords();
-        landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen, this::showDocScene, this::showRTI, this::showarchive), 1920, 1080);
+        landRecordsScene = new Scene(landRecordsPage.landRecordsBox(this::showProfileScreen, this::showLoginScreen,
+                this::showLegal, this::showDocScene, this::showRTI, this::showarchive, this::showLRecords,
+                this::showPropertyReg), 1920, 1080);
         landRecordsPage.setLandStage(mainStage);
         landRecordsPage.setLandScene(landRecordsScene);
         mainStage.setScene(landRecordsScene);
     }
-    
+
     public void showRTI() {
         RtiPage Page = new RtiPage();
-        rtiScene = new Scene(Page.rtiPageBox(this::showProfileScreen, this::showLoginScreen, this::showDocScene, this::showLandRecordsScreen, this::showarchive, this::shownotification2), 1920, 1080);
+        rtiScene = new Scene(Page.rtiPageBox(this::showProfileScreen, this::showLoginScreen,
+                this::showLegal, this::showDocScene, this::showLandRecordsScreen,
+                this::showarchive, this::shownotification2,
+                this::showFileRtiApp, this::showRtiGuidelines, this::showLodgeGrievance),
+                1920, 1080);
         Page.setRtiStage(mainStage);
         Page.setRtiScene(rtiScene);
         mainStage.setScene(rtiScene);
     }
-   
+
     public void showarchive() {
         legalArchives Page = new legalArchives();
-        legalScene = new Scene(Page.legalbox(this::showProfileScreen, this::showLoginScreen, this::showDocScene, this::showLandRecordsScreen, this::showRTI), 1920, 1080);
+        legalScene = new Scene(Page.legalbox(this::showProfileScreen, this::showLoginScreen, this::showLegal,
+                this::showDocScene, this::showLandRecordsScreen, this::showRTI, this::showCourtProcedures,
+                this::showIntroToLaw, this::showRightRespons), 1920, 1080);
         Page.setLegalStage(mainStage);
         Page.setLegalScene(legalScene);
         mainStage.setScene(legalScene);
@@ -181,7 +202,9 @@ public class ViewController {
     public void showLegal() {
         legalCaseManagement Page = new legalCaseManagement();
         Page.setHostServices(hostServices); // Pass HostServices
-        legalcaseScene = new Scene(Page.legalmanabox(this::showDocScene, this::showgovOff, this::showGuidedForm), 1920, 1080);
+        legalcaseScene = new Scene(Page.legalmanabox(this::showProfileScreen, this::showDocScene,
+                this::showLandRecordsScreen, this::showRTI, this::showarchive, this::showgovOff, this::showGuidedForm),
+                1920, 1080);
         Page.setLegalCaseStage(mainStage);
         Page.setLegalCaseScene(legalcaseScene);
         mainStage.setScene(legalcaseScene);
@@ -200,9 +223,83 @@ public class ViewController {
     public void showGuidedForm() {
         guidedFormBox Page = new guidedFormBox();
         Page.setHostServices(hostServices);
-        guidedFormScene = new Scene(Page.rtiPageBox(this::showProfileScreen, this::showLoginScreen, this::showDocScene), 1920, 1080);
+        guidedFormScene = new Scene(Page.rtiPageBox(this::showProfileScreen, this::showLoginScreen, this::showDocScene),
+                1920, 1080);
         Page.setGuidedFormStage(mainStage);
         Page.setGuidedFormScene(guidedFormScene);
         mainStage.setScene(guidedFormScene);
     }
+
+    public void showFileRtiApp() {
+        com.superx.view.rti.subFiles.fileRtiApp fileRtiAppPage = new com.superx.view.rti.subFiles.fileRtiApp();
+        fileRtiAppPage.setHostServices(hostServices);
+        fileRtiAppScene = new Scene(fileRtiAppPage.fileRtiAppBox(this::showRTI), 1920, 1080);
+        fileRtiAppPage.setFileRtiAppStage(mainStage);
+        fileRtiAppPage.setFileRtiAppScene(fileRtiAppScene);
+        mainStage.setScene(fileRtiAppScene);
+    }
+
+    public void showRtiGuidelines() {
+        com.superx.view.rti.subFiles.rtiGuidelines rtiGuidelinesPage = new com.superx.view.rti.subFiles.rtiGuidelines();
+        rtiGuidelinesPage.setHostServices(hostServices);
+        rtiGuidelinesScene = new Scene(rtiGuidelinesPage.rtiGuidelinesBox(this::showRTI), 1920, 1080);
+        rtiGuidelinesPage.setRtiGuidelinesStage(mainStage);
+        rtiGuidelinesPage.setRtiGuidelinesScene(rtiGuidelinesScene);
+        mainStage.setScene(rtiGuidelinesScene);
+    }
+
+    public void showLodgeGrievance() {
+        com.superx.view.rti.subFiles.lodgeGrievance lodgeGrievancePage = new com.superx.view.rti.subFiles.lodgeGrievance();
+        lodgeGrievancePage.setHostServices(hostServices);
+        lodgeGrievanceScene = new Scene(lodgeGrievancePage.lodgeGrievanceBox(this::showRTI), 1920, 1080);
+        lodgeGrievancePage.setLodgeGrievanceStage(mainStage);
+        lodgeGrievancePage.setLodgeGrievanceScene(lodgeGrievanceScene);
+        mainStage.setScene(lodgeGrievanceScene);
+    }
+
+    public void showCourtProcedures() {
+        courtProcedures courtProceduresPage = new courtProcedures();
+        courtProceduresPage.setHostServices(hostServices);
+        courtProceduresScene = new Scene(courtProceduresPage.courtProceduresBox(this::showarchive), 1920, 1080);
+        courtProceduresPage.setCourtProceduresStage(mainStage);
+        courtProceduresPage.setCourtProceduresScene(courtProceduresScene);
+        mainStage.setScene(courtProceduresScene);
+    }
+
+    public void showIntroToLaw() {
+        introToLaw introToLawPage = new introToLaw();
+        introToLawPage.setHostServices(hostServices);
+        introToLawScene = new Scene(introToLawPage.introTolawBox(this::showarchive), 1920, 1080);
+        introToLawPage.setIntroToLawStage(mainStage);
+        introToLawPage.setIntroToLawScene(introToLawScene);
+        mainStage.setScene(introToLawScene);
+    }
+
+    public void showRightRespons() {
+        rightRespons rightResponsPage = new rightRespons();
+        rightResponsPage.setHostServices(hostServices);
+        rightResponsScene = new Scene(rightResponsPage.rightResponsBox(this::showarchive), 1920, 1080);
+        rightResponsPage.setRightResponsStage(mainStage);
+        rightResponsPage.setRightResponsScene(rightResponsScene);
+        mainStage.setScene(rightResponsScene);
+    }
+
+    public void showLRecords() {
+        lrecords lRecordsPage = new lrecords();
+        lRecordsPage.setHostServices(hostServices);
+        lRecordsScene = new Scene(lRecordsPage.landRecordsBox(this::showLandRecordsScreen), 1920, 1080);
+        lRecordsPage.setLandRedordsStage(mainStage);
+        lRecordsPage.setLandRecordsScene(lRecordsScene);
+        mainStage.setScene(lRecordsScene);
+    }
+
+    public void showPropertyReg() {
+        propertyReg propertyRegPage = new propertyReg();
+        propertyRegPage.setHostServices(hostServices);
+        propertyRegScene = new Scene(propertyRegPage.propertyRegBox(this::showLandRecordsScreen), 1920, 1080);
+        propertyRegPage.setPropertyRegStage(mainStage);
+        propertyRegPage.setPropertyRegScene(propertyRegScene);
+        mainStage.setScene(propertyRegScene);
+    }
+
 }

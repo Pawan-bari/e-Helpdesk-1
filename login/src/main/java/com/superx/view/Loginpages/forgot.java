@@ -1,7 +1,5 @@
 package com.superx.view.Loginpages;
 
-
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,11 +31,10 @@ public class forgot {
     public void setForgotStage(Stage forgotStage) {
         this.forgotStage = forgotStage;
     }
-    
 
-    public HBox forgotBox(Runnable showlogin,com.superx.Controller.ViewController controller) {
+    public HBox forgotBox(Runnable showlogin, com.superx.Controller.ViewController controller) {
         this.mainController = controller;
-        
+
         BackgroundImage bg = new BackgroundImage(
                 new Image("images/green.png", 1920, 1080, false, true),
                 BackgroundRepeat.NO_REPEAT,
@@ -45,7 +42,6 @@ public class forgot {
                 BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
 
-        
         DropShadow dp = new DropShadow(BlurType.GAUSSIAN, Color.rgb(146, 146, 146), 10, 0.5, 3, 3);
 
         Rectangle card = new Rectangle(800, 700);
@@ -54,14 +50,13 @@ public class forgot {
         card.setFill(Color.rgb(247, 247, 251));
         card.setEffect(dp);
 
-        
-        Image image = new Image("images/Lucid_Realism_Modern_minimal_logo_design_for_an_EHelp_Desk_app_1-removebg-preview.png");
+        Image image = new Image(
+                "images/logo.png");
         ImageView logo = new ImageView(image);
         logo.setFitHeight(1000);
         logo.setFitWidth(900);
         VBox logoBox = new VBox(logo);
 
-        
         Label title = new Label("Forgot Password?");
         title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 50));
 
@@ -81,24 +76,29 @@ public class forgot {
 
         VBox emailBox = new VBox(10, emailLabel, emailField);
 
-        
         Button submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         submitButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;");
-        submitButton.setOnMouseEntered(e -> submitButton.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-background-radius: 10;"));
-        submitButton.setOnMouseExited(e -> submitButton.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;"));
+        submitButton.setOnMouseEntered(e -> submitButton
+                .setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-background-radius: 10;"));
+        submitButton.setOnMouseExited(e -> submitButton
+                .setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 10;"));
         submitButton.setMaxWidth(200);
-        submitButton.setOnAction(event->{
-             controller.getForgotPasswordController().handlePasswordReset(emailField);
+        submitButton.setOnAction(event -> {
+           
         });
 
         Button cancelButton = new Button("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10;");
-        cancelButton.setOnMouseEntered(e -> cancelButton.setStyle("-fx-background-color: #cccccc; -fx-text-fill: black; -fx-background-radius: 10;"));
-        cancelButton.setOnMouseExited(e -> cancelButton.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10;"));
+        cancelButton.setOnMouseEntered(e -> cancelButton
+                .setStyle("-fx-background-color: #cccccc; -fx-text-fill: black; -fx-background-radius: 10;"));
+        cancelButton.setOnMouseExited(e -> cancelButton
+                .setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 10;"));
         cancelButton.setMaxWidth(200);
-        
+        cancelButton.setOnMouseClicked(evt->{
+            showlogin.run();
+        });
 
         HBox buttonRow = new HBox(50, submitButton, cancelButton);
         buttonRow.setAlignment(Pos.CENTER_LEFT);

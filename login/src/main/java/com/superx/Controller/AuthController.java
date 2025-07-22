@@ -7,10 +7,9 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 public abstract class AuthController {
-    
-    
-    protected final static String API_KEY = "AIzaSyCQrg4rBocTpR_HTjRkO_z5AlPpvHTwXkc";
-    
+
+    protected final static String API_KEY = "AIzaSyDc1AAmZzAjPUVg-wWp9H8gLjch00_hayM";
+
     protected String signUp(String email, String password) {
         try {
             URL url = new URL("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + API_KEY);
@@ -55,7 +54,6 @@ public abstract class AuthController {
         }
     }
 
-    
     private String readResponse(HttpsURLConnection conn) throws Exception {
         int responseCode = conn.getResponseCode();
         BufferedReader reader;
@@ -64,7 +62,7 @@ public abstract class AuthController {
         } else {
             reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
         }
-        
+
         StringBuilder response = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
@@ -74,7 +72,6 @@ public abstract class AuthController {
         System.out.println("Firebase Auth Response: " + response.toString());
         return response.toString();
     }
-
 
     protected boolean resetPassword(String email) {
         try {

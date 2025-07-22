@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "seadmin",
+            "request": "launch",
+            "mainClass": "com.superx.Controller.Admin.seadmin",
+            "projectName": "login"
+        },
+        {
+            "type": "java",
+            "name": "setadmin",
+            "request": "launch",
+            "mainClass": "com.superx.Controller.Admmin.setadmin",
+            "projectName": "login"
+        },
+        {
+            "type": "java",
             "name": "Storage",
             "request": "launch",
             "mainClass": "com.superx.view.Profile.Storage",

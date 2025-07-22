@@ -37,8 +37,8 @@ import java.util.Map;
 public class documents {
 
     Stage docStage, profStage;
-    Scene docScene, profScene, landRecordsScene,rtiScene;
-    
+    Scene docScene, profScene, landRecordsScene, rtiScene;
+
     private GridPane documentGrid;
 
     public void setDocStage(Stage docStage) {
@@ -49,10 +49,12 @@ public class documents {
         this.docScene = docScene;
     }
 
-    public BorderPane docScenBox(Runnable showProfileScreen, Runnable showLoginScreen,Runnable showlegalmana, Runnable showlandrecord, Runnable showRTI, Runnable shownotification2,Runnable showarchive) {
+    public BorderPane docScenBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showlegalmana,
+            Runnable showlandrecord, Runnable showRTI, Runnable shownotification2, Runnable showarchive) {
 
         BorderPane mainbox = new BorderPane();
-        mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
+        mainbox.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20, 15, 20, 15));
@@ -71,8 +73,10 @@ public class documents {
         HBox pBox = new HBox(15, profileIcon, profileLabel);
         pBox.setAlignment(Pos.CENTER_LEFT);
         pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px;");
-        pBox.setOnMouseEntered(event -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        pBox.setOnMouseExited(event -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        pBox.setOnMouseEntered(event -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        pBox.setOnMouseExited(event -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         pBox.setOnMouseClicked(event -> {
             showProfileScreen.run();
         });
@@ -85,10 +89,12 @@ public class documents {
         navBtn1.setAlignment(Pos.CENTER_LEFT);
         navBtn1.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
         navBtn1.setCursor(Cursor.HAND);
-        navBtn1.setOnMouseEntered(event -> navBtn1.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        navBtn1.setOnMouseExited(event -> navBtn1.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
-        navBtn1.setOnMouseClicked(evt->{
-                showlegalmana.run();
+        navBtn1.setOnMouseEntered(event -> navBtn1
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        navBtn1.setOnMouseExited(event -> navBtn1
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn1.setOnMouseClicked(evt -> {
+            showlegalmana.run();
         });
 
         HBox navBtn2 = new HBox(15, new Label("📜"), new Label("Document & Certificate"));
@@ -104,8 +110,10 @@ public class documents {
         navBtn3.setAlignment(Pos.CENTER_LEFT);
         navBtn3.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
         navBtn3.setCursor(Cursor.HAND);
-        navBtn3.setOnMouseEntered(event -> navBtn3.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        navBtn3.setOnMouseExited(event -> navBtn3.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn3.setOnMouseEntered(event -> navBtn3
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        navBtn3.setOnMouseExited(event -> navBtn3
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         navBtn3.setOnMouseClicked(event -> {
             showlandrecord.run();
         });
@@ -116,9 +124,11 @@ public class documents {
         navBtn4.setAlignment(Pos.CENTER_LEFT);
         navBtn4.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
         navBtn4.setCursor(Cursor.HAND);
-        navBtn4.setOnMouseEntered(event -> navBtn4.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        navBtn4.setOnMouseExited(event -> navBtn4.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
-        navBtn4 .setOnMouseClicked(event ->{
+        navBtn4.setOnMouseEntered(event -> navBtn4
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        navBtn4.setOnMouseExited(event -> navBtn4
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn4.setOnMouseClicked(event -> {
             showRTI.run();
         });
 
@@ -128,9 +138,11 @@ public class documents {
         navBtn5.setAlignment(Pos.CENTER_LEFT);
         navBtn5.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
         navBtn5.setCursor(Cursor.HAND);
-        navBtn5.setOnMouseEntered(event -> navBtn5.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        navBtn5.setOnMouseExited(event -> navBtn5.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
-        navBtn5.setOnMouseClicked(evt->{
+        navBtn5.setOnMouseEntered(event -> navBtn5
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        navBtn5.setOnMouseExited(event -> navBtn5
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        navBtn5.setOnMouseClicked(evt -> {
             showarchive.run();
         });
 
@@ -195,24 +207,30 @@ public class documents {
 
         Button notificationButton = new Button("🔔");
         notificationButton.setFont(Font.font("System", 14));
-        notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
+        notificationButton.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
         notificationButton.setCursor(Cursor.HAND);
-        notificationButton.setOnMouseEntered(event -> notificationButton.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-        notificationButton.setOnMouseExited(event -> notificationButton.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-        notificationButton.setOnMouseClicked(evt->{
-           
+        notificationButton.setOnMouseEntered(event -> notificationButton.setStyle(
+                "-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        notificationButton.setOnMouseExited(event -> notificationButton.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        notificationButton.setOnMouseClicked(evt -> {
+            shownotification2.run();
         });
 
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));
-        logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
+        logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
         logoutButton.setCursor(Cursor.HAND);
-        logoutButton.setOnMouseEntered(event -> logoutButton.setStyle("-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
-        logoutButton.setOnMouseExited(event -> logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseEntered(event -> logoutButton.setStyle(
+                "-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseExited(event -> logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnAction(event -> {
             showLoginScreen.run();
         });
-        
+
         HBox loginButtons = new HBox(10, notificationButton, logoutButton);
         loginButtons.setAlignment(Pos.CENTER);
         topNav.getChildren().addAll(navLinks, topNavSpacer, loginButtons);
@@ -231,7 +249,8 @@ public class documents {
 
         VBox dropZone = new VBox(10);
         dropZone.setAlignment(Pos.CENTER);
-        dropZone.setStyle("-fx-background-color: rgba(255, 255, 255, 0.6); -fx-border-color: #a0b3d7; -fx-border-style: dashed; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;");
+        dropZone.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.6); -fx-border-color: #a0b3d7; -fx-border-style: dashed; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10;");
         dropZone.setPadding(new Insets(30));
         dropZone.setPrefHeight(300);
 
@@ -243,7 +262,8 @@ public class documents {
 
         Button selectDocButton = new Button("Select File");
         selectDocButton.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
-        selectDocButton.setStyle("-fx-background-color: #d1d5db; -fx-background-radius: 8px; -fx-text-fill: #1f2937; -fx-padding: 5px 15px;");
+        selectDocButton.setStyle(
+                "-fx-background-color: #d1d5db; -fx-background-radius: 8px; -fx-text-fill: #1f2937; -fx-padding: 5px 15px;");
         selectDocButton.setCursor(Cursor.HAND);
         // MODIFIED: Connect button to upload handler
         selectDocButton.setOnAction(event -> handleSelectAndUploadFile());
@@ -260,10 +280,13 @@ public class documents {
         verifyTitle.setStyle("-fx-text-fill: #1e3a8a;");
         Button verifyButton = new Button("Verify");
         verifyButton.setFont(Font.font("Inter", FontWeight.BOLD, 15));
-        verifyButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 10px 25px;");
+        verifyButton.setStyle(
+                "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 10px 25px;");
         verifyButton.setCursor(Cursor.HAND);
-        verifyButton.setOnMouseEntered(event -> verifyButton.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 10px; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 10px 25px;"));
-        verifyButton.setOnMouseExited(event -> verifyButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10px; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 10px 25px;"));
+        verifyButton.setOnMouseEntered(event -> verifyButton.setStyle(
+                "-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 10px; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 10px 25px;"));
+        verifyButton.setOnMouseExited(event -> verifyButton.setStyle(
+                "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10px; -fx-font-weight: bold; -fx-font-size: 15px; -fx-padding: 10px 25px;"));
         verifySection.getChildren().addAll(verifyTitle, verifyButton);
 
         VBox documentsListSection = new VBox(15);
@@ -295,8 +318,7 @@ public class documents {
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("PDF Files", "*.pdf"),
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"),
-                new FileChooser.ExtensionFilter("All Files", "*.*")
-        );
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
         File selectedFile = fileChooser.showOpenDialog(docStage);
 
         if (selectedFile != null) {
@@ -318,17 +340,14 @@ public class documents {
 
             String contentType = Files.probeContentType(file.toPath());
             if (contentType == null) {
-                contentType = "application/octet-stream"; 
+                contentType = "application/octet-stream";
             }
 
-  
             storageClient.bucket().create(blobName, Files.readAllBytes(file.toPath()), contentType);
-            
-   
+
             String downloadUrl = "https://firebasestorage.googleapis.com/v0/b/" + bucketName + "/o/" +
                     java.net.URLEncoder.encode(blobName, "UTF-8") + "?alt=media";
 
-          
             addDocumentToFirestore(file.getName(), downloadUrl, Files.size(file.toPath()));
 
         } catch (IOException e) {
@@ -346,22 +365,23 @@ public class documents {
         docData.put("downloadUrl", downloadUrl);
         docData.put("fileSize", fileSize);
         docData.put("uploadedAt", Timestamp.now());
-        docData.put("status", "Verified"); 
+        docData.put("status", "Verified");
 
         db.collection("users").document(uid).collection("documents").add(docData)
                 .addListener(() -> {
                     System.out.println("Document metadata saved to Firestore.");
                     showAlert(Alert.AlertType.INFORMATION, "Success", "File uploaded successfully!");
-                 
+
                     Platform.runLater(this::loadUserDocuments);
                 }, Platform::runLater);
     }
 
     private void loadUserDocuments() {
         String uid = ViewController.getCurrentUserId();
-        if (uid == null) return;
+        if (uid == null)
+            return;
 
-        documentGrid.getChildren().clear(); 
+        documentGrid.getChildren().clear();
 
         Label nameHeader = new Label("Document Name");
         nameHeader.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 14));
@@ -404,7 +424,8 @@ public class documents {
         statusLabel.setStyle("-fx-font-size: 18px;");
 
         Timestamp uploadedAt = doc.getTimestamp("uploadedAt");
-        String dateString = uploadedAt != null ? new SimpleDateFormat("dd MMM yyyy").format(uploadedAt.toDate()) : "N/A";
+        String dateString = uploadedAt != null ? new SimpleDateFormat("dd MMM yyyy").format(uploadedAt.toDate())
+                : "N/A";
         Label dateLabel = new Label(dateString);
         dateLabel.setStyle("-fx-font-size: 15px; -fx-text-fill: #6b7280;");
 
@@ -420,7 +441,8 @@ public class documents {
     }
 
     private void downloadDocument(String downloadUrl, String fileName) {
-        if (downloadUrl == null || downloadUrl.isEmpty()) return;
+        if (downloadUrl == null || downloadUrl.isEmpty())
+            return;
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Document");
@@ -435,7 +457,8 @@ public class documents {
                 try (FileOutputStream fos = new FileOutputStream(file.getAbsolutePath())) {
                     fos.write(content);
                 }
-                showAlert(Alert.AlertType.INFORMATION, "Success", "File downloaded successfully to:\n" + file.getAbsolutePath());
+                showAlert(Alert.AlertType.INFORMATION, "Success",
+                        "File downloaded successfully to:\n" + file.getAbsolutePath());
             } catch (Exception e) {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Download Failed", "Could not download file.");
@@ -445,7 +468,8 @@ public class documents {
 
     private void deleteDocument(String docId, String fileName) {
         String uid = ViewController.getCurrentUserId();
-        if (uid == null) return;
+        if (uid == null)
+            return;
 
         Firestore db = FirestoreClient.getFirestore();
         db.collection("users").document(uid).collection("documents").document(docId).delete()

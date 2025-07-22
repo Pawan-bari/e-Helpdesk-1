@@ -18,9 +18,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class legalCaseManagement {
-    
-     Stage legalCaseStage;
-     Scene legalCaseScene;
+
+    Stage legalCaseStage;
+    Scene legalCaseScene;
     private HostServices hostServices;
 
     public void setHostServices(HostServices hostServices) {
@@ -35,12 +35,14 @@ public class legalCaseManagement {
         this.legalCaseScene = legalCaseScene;
     }
 
-    public BorderPane legalmanabox(Runnable showdoc, Runnable showgovoff, Runnable showGuidedForm) {
+    public BorderPane legalmanabox(Runnable showprofile, Runnable showdoc, Runnable shoeland, Runnable showrti,
+            Runnable showarchive, Runnable showgovoff, Runnable showGuidedForm) {
         BorderPane mainbox = new BorderPane();
-        mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
+        mainbox.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
         // SIDEBAR SECTION
-        VBox sidebar = createSidebar(showdoc);
+        VBox sidebar = createSidebar(showprofile, showdoc, shoeland, showrti, showarchive, showgovoff, showGuidedForm);
 
         // MAIN CONTENT SECTION
         VBox mainContent = createMainContent(showdoc, showgovoff, showGuidedForm);
@@ -51,7 +53,8 @@ public class legalCaseManagement {
         return mainbox;
     }
 
-    private VBox createSidebar(Runnable showdoc) {
+    private VBox createSidebar(Runnable showprofile, Runnable showdoc, Runnable shoeland, Runnable showrti,
+            Runnable showarchive, Runnable showgovoff, Runnable showGuidedForm) {
         VBox sidebar = new VBox(20);
         sidebar.setPadding(new Insets(20, 15, 20, 15));
         sidebar.setStyle("-fx-background-color: #f5f9ff; -fx-pref-width: 280px;");
@@ -73,11 +76,16 @@ public class legalCaseManagement {
         pBox.setAlignment(Pos.CENTER_LEFT);
         pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px;");
         pBox.setCursor(Cursor.HAND);
-        pBox.setOnMouseEntered(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
-
+        pBox.setOnMouseEntered(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        pBox.setOnMouseExited(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        pBox.setOnMouseClicked(evt -> {
+            showprofile.run();
+        });
         // Navigation Buttons
-        VBox navButtons = createNavigationButtons(showdoc);
+        VBox navButtons = createNavigationButtons(showprofile, showdoc, shoeland, showrti, showarchive, showgovoff,
+                showGuidedForm);
 
         Region sidebarSpacer = new Region();
         VBox.setVgrow(sidebarSpacer, Priority.ALWAYS);
@@ -92,31 +100,40 @@ public class legalCaseManagement {
         contact.setStyle(footerStyle);
         terms.setStyle(footerStyle);
         privacy.setStyle(footerStyle);
-        
+
         // Add click handlers for footer links
         contact.setOnMouseClicked(e -> openWebsite("mailto:contact@ehelpdesk.gov.in"));
         terms.setOnMouseClicked(e -> openWebsite("https://ehelpdesk.gov.in/terms"));
         privacy.setOnMouseClicked(e -> openWebsite("https://ehelpdesk.gov.in/privacy"));
-        
+
         links.getChildren().addAll(contact, terms, privacy);
 
         sidebar.getChildren().addAll(sidebarTitle, pBox, navButtons, sidebarSpacer, links);
         return sidebar;
     }
 
-    private VBox createNavigationButtons(Runnable showdoc) {
+    private VBox createNavigationButtons(Runnable showprofile, Runnable showdoc, Runnable shoeland, Runnable showrti,
+            Runnable showarchive, Runnable showgovoff, Runnable showGuidedForm) {
         VBox navButtons = new VBox(10);
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", true);
         HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
-        
+
         // Add navigation functionality
         navBtn2.setOnMouseClicked(evt -> showdoc.run());
-        
-        HBox navBtn3 = createNavButton("🏠", "Land & Property Services", false);
-        HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
-        HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
 
+        HBox navBtn3 = createNavButton("🏠", "Land & Property Services", false);
+        navBtn3.setOnMouseClicked(evt -> {
+            shoeland.run();
+        });
+        HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
+        navBtn4.setOnMouseClicked(evt -> {
+            showrti.run();
+        });
+        HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
+        navBtn5.setOnMouseClicked(evt -> {
+            showarchive.run();
+        });
         navButtons.getChildren().addAll(navBtn1, navBtn2, navBtn3, navBtn4, navBtn5);
         return navButtons;
     }
@@ -124,22 +141,23 @@ public class legalCaseManagement {
     private HBox createNavButton(String icon, String text, boolean isActive) {
         HBox navBtn = new HBox(15, new Label(icon), new Label(text));
         navBtn.getChildren().get(0).setStyle("-fx-font-size: 24px;");
-        
-        String textStyle = isActive ? 
-            "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;" :
-            "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
+
+        String textStyle = isActive ? "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;"
+                : "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
         navBtn.getChildren().get(1).setStyle(textStyle);
-        
+
         navBtn.setAlignment(Pos.CENTER_LEFT);
-        String bgStyle = isActive ?
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;" :
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
+        String bgStyle = isActive
+                ? "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;"
+                : "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
         navBtn.setStyle(bgStyle);
         navBtn.setCursor(Cursor.HAND);
 
         if (!isActive) {
-            navBtn.setOnMouseEntered(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-            navBtn.setOnMouseExited(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+            navBtn.setOnMouseEntered(e -> navBtn
+                    .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+            navBtn.setOnMouseExited(e -> navBtn.setStyle(
+                    "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         }
 
         return navBtn;
@@ -159,7 +177,7 @@ public class legalCaseManagement {
         mainTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
         // Service Cards Grid
-        GridPane servicesGrid = createServicesGrid(showgovoff, showGuidedForm);
+        GridPane servicesGrid = createServicesGrid(showdoc, showgovoff, showGuidedForm);
 
         mainContent.getChildren().addAll(topNav, mainTitle, servicesGrid);
         return mainContent;
@@ -175,7 +193,7 @@ public class legalCaseManagement {
 
         Label home = createTopNavLink("Home", topNavLinkStyle, topNavLinkHoverStyle);
         home.setOnMouseClicked(e -> showdoc.run());
-        
+
         Label services = createTopNavLink("Services", topNavLinkStyle, topNavLinkHoverStyle);
         Label rtiLink = createTopNavLink("RTI", topNavLinkStyle, topNavLinkHoverStyle);
         Label help = createTopNavLink("Legal Help", topNavLinkStyle, topNavLinkHoverStyle);
@@ -200,20 +218,26 @@ public class legalCaseManagement {
     private Button createActionButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("System", 14));
-        button.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
+        button.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
         button.setCursor(Cursor.HAND);
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        button.setOnMouseEntered(e -> button.setStyle(
+                "-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        button.setOnMouseExited(e -> button.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
         return button;
     }
 
     private Button createLogoutButton(Runnable showdoc) {
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));
-        logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
+        logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
         logoutButton.setCursor(Cursor.HAND);
-        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
-        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle(
+                "-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseExited(e -> logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnAction(event -> showdoc.run());
         return logoutButton;
     }
@@ -226,28 +250,27 @@ public class legalCaseManagement {
         return link;
     }
 
-    private GridPane createServicesGrid(Runnable showgovoff, Runnable showGuidedForm) {
+    private GridPane createServicesGrid(Runnable showdoc, Runnable showgovoff, Runnable showGuidedForm) {
         GridPane servicesGrid = new GridPane();
         servicesGrid.setVgap(20);
         servicesGrid.setHgap(20);
         servicesGrid.setPadding(new Insets(20, 0, 0, 0));
 
         // Create service cards with navigation
-        VBox guidedFormBox = createServiceCard("📄", "Guided Forms", 
-            "Access government scheme application forms with step-by-step guidance", 
-            showGuidedForm);
-        
-        VBox storageBox = createServiceCard("📃", "Digital Certificate Verification", 
-            "Verify and validate digital certificates and documents", 
-            () -> openWebsite("https://digitallocker.gov.in/"));
-        
-        VBox certificateBox = createServiceCard("☁", "Upload & Storage", 
-            "Securely upload and store your legal documents in the cloud", 
-            () -> openWebsite("https://digitallocker.gov.in/"));
-        
-        VBox govOffBox = createServiceCard("🌐", "Government Official Websites", 
-            "Access official government portals and services", 
-            showgovoff);
+        VBox guidedFormBox = createServiceCard("📄", "Guided Forms",
+                "Access government scheme application forms with step-by-step guidance",
+                showGuidedForm);
+
+        VBox storageBox = createServiceCard("📃", "Digital Certificate Verification",
+                "Verify and validate digital certificates and documents",
+                () -> openWebsite("https://digitallocker.gov.in/"));
+
+        VBox certificateBox = createServiceCard("☁", "Upload & Storage",
+                "Securely upload and store your legal documents in the cloud", showdoc);
+
+        VBox govOffBox = createServiceCard("🌐", "Government Official Websites",
+                "Access official government portals and services",
+                showgovoff);
 
         // Add cards to grid
         servicesGrid.add(guidedFormBox, 0, 0);

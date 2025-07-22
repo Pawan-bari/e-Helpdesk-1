@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.protobuf.Timestamp;
+
 import com.superx.Controller.ViewController;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -32,33 +32,32 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Storage {
-    
+
     public void setStoStage(Stage stoStage) {
         this.stoStage = stoStage;
     }
-    
+
     public void setStoScene(Scene stoScene) {
         this.stoScene = stoScene;
     }
-    
+
     Stage stoStage;
     Scene stoScene;
-    
-    
+
     private Label welcomeLabel;
     private GridPane documentGrid;
     private BooleanProperty pdfOnlyToggle = new SimpleBooleanProperty();
     private BooleanProperty cloudSyncToggle = new SimpleBooleanProperty(true);
     private BooleanProperty autoDeleteToggle = new SimpleBooleanProperty();
     private BooleanProperty clearCacheToggle = new SimpleBooleanProperty(true);
-    
-    public BorderPane createStoragePage(Runnable showProfileScreen, Runnable showAccountScreen, Runnable showSecurityScreen, Runnable shownotification) {
+
+    public BorderPane createStoragePage(Runnable showProfileScreen, Runnable showAccountScreen,
+            Runnable showSecurityScreen, Runnable shownotification) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle(
                 "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
-        
         HBox welboxBar = new HBox(50);
         welboxBar.setPadding(new Insets(15, 40, 15, 40));
         welboxBar.setAlignment(Pos.CENTER_LEFT);
@@ -72,14 +71,12 @@ public class Storage {
         Region topSpacer = new Region();
         HBox.setHgrow(topSpacer, Priority.ALWAYS);
 
-        
         welcomeLabel = new Label("Welcome");
         welcomeLabel.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         welcomeLabel.setStyle("-fx-text-fill: #4b5563;");
 
         welboxBar.getChildren().addAll(logoLabel, topSpacer, welcomeLabel);
 
-        
         VBox iconbox = new VBox();
         iconbox.setPadding(new Insets(20, 15, 20, 15));
         iconbox.setSpacing(10);
@@ -89,8 +86,8 @@ public class Storage {
         VBox navButtons2 = new VBox(20);
         navButtons2.setAlignment(Pos.CENTER);
         String[][] navItems2 = {
-                {"👤", ""}, {" 📄 ", ""}, {" 📜 ", ""},
-                {" 🏠 ", ""}, {" ⇄ ", ""}, {" 📚 ", ""}
+                { "👤", "" }, { " 📄 ", "" }, { " 📜 ", "" },
+                { " 🏠 ", "" }, { " ⇄ ", "" }, { " 📚 ", "" }
         };
 
         for (String[] item : navItems2) {
@@ -109,7 +106,6 @@ public class Storage {
         }
         iconbox.getChildren().add(navButtons2);
 
-        
         VBox probox = new VBox();
         probox.setPadding(new Insets(20, 15, 20, 15));
         probox.setSpacing(10);
@@ -118,11 +114,11 @@ public class Storage {
 
         VBox navButtons = new VBox(8);
         String[][] navItems = {
-                {"🧑‍💼", "Profile"},
-                {"⚙️", "Account Setting"},
-                {"🛡️", "Security"},
-                {"🔔", "Notifications"},
-                {"🏬", "Storage"}
+                { "🧑‍💼", "Profile" },
+                { "⚙️", "Account Setting" },
+                { "🛡️", "Security" },
+                { "🔔", "Notifications" },
+                { "🏬", "Storage" }
         };
 
         for (String[] item : navItems) {
@@ -166,7 +162,6 @@ public class Storage {
 
         HBox leftSidebarContainer = new HBox(10, iconbox, probox);
 
-        
         VBox mainContent = new VBox();
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setSpacing(30);
@@ -176,7 +171,6 @@ public class Storage {
         contentTitle.setFont(Font.font("Inter", FontWeight.BOLD, 32));
         contentTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
-        
         VBox storageSettingsCard = new VBox(15);
         storageSettingsCard.setPadding(new Insets(20));
         storageSettingsCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-background-radius: 10px;");
@@ -185,7 +179,6 @@ public class Storage {
         uploadTitleLabel.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         uploadTitleLabel.setStyle("-fx-text-fill: #1e3a8a;");
 
-        
         HBox itemBox1 = new HBox();
         itemBox1.setAlignment(Pos.CENTER_LEFT);
         itemBox1.setPadding(new Insets(10, 0, 10, 0));
@@ -201,13 +194,11 @@ public class Storage {
         Region spacer1 = new Region();
         HBox.setHgrow(spacer1, Priority.ALWAYS);
 
-        
         HBox toggle1 = createToggle(pdfOnlyToggle);
         pdfOnlyToggle.set(false);
 
         itemBox1.getChildren().addAll(textBox1, spacer1, toggle1);
 
-        
         HBox itemBox2 = new HBox();
         itemBox2.setAlignment(Pos.CENTER_LEFT);
         itemBox2.setPadding(new Insets(10, 0, 10, 0));
@@ -223,7 +214,6 @@ public class Storage {
         Region spacer2 = new Region();
         HBox.setHgrow(spacer2, Priority.ALWAYS);
 
-        
         HBox toggle2 = createToggle(cloudSyncToggle);
         cloudSyncToggle.set(true);
 
@@ -231,7 +221,6 @@ public class Storage {
 
         storageSettingsCard.getChildren().addAll(uploadTitleLabel, itemBox1, itemBox2);
 
-        
         VBox retentionSettingsCard = new VBox(15);
         retentionSettingsCard.setPadding(new Insets(20));
         retentionSettingsCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-background-radius: 10px;");
@@ -240,7 +229,6 @@ public class Storage {
         retentionTitleLabel.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         retentionTitleLabel.setStyle("-fx-text-fill: #1e3a8a;");
 
-        
         HBox itemBox3 = new HBox();
         itemBox3.setAlignment(Pos.CENTER_LEFT);
         itemBox3.setPadding(new Insets(10, 0, 10, 0));
@@ -256,13 +244,11 @@ public class Storage {
         Region spacer3 = new Region();
         HBox.setHgrow(spacer3, Priority.ALWAYS);
 
-        
         HBox toggle3 = createToggle(autoDeleteToggle);
         autoDeleteToggle.set(false);
 
         itemBox3.getChildren().addAll(textBox3, spacer3, toggle3);
 
-        
         HBox itemBox4 = new HBox();
         itemBox4.setAlignment(Pos.CENTER_LEFT);
         itemBox4.setPadding(new Insets(10, 0, 10, 0));
@@ -278,7 +264,6 @@ public class Storage {
         Region spacer4 = new Region();
         HBox.setHgrow(spacer4, Priority.ALWAYS);
 
-        
         HBox toggle4 = createToggle(clearCacheToggle);
         clearCacheToggle.set(true);
 
@@ -286,7 +271,6 @@ public class Storage {
 
         retentionSettingsCard.getChildren().addAll(retentionTitleLabel, itemBox3, itemBox4);
 
-        
         VBox documentsCard = new VBox(15);
         documentsCard.setPadding(new Insets(20));
         documentsCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8); -fx-background-radius: 10px;");
@@ -295,7 +279,6 @@ public class Storage {
         documentsTitle.setFont(Font.font("Inter", FontWeight.BOLD, 20));
         documentsTitle.setStyle("-fx-text-fill: #1e3a8a;");
 
-        
         documentGrid = new GridPane();
         documentGrid.setHgap(20);
         documentGrid.setVgap(15);
@@ -314,13 +297,11 @@ public class Storage {
         mainbox.setCenter(scrollPane);
         mainbox.setTop(welboxBar);
 
-        
         loadUsernameAndRecentDocuments();
 
         return mainbox;
     }
 
-    
     private HBox createToggle(BooleanProperty selectedProperty) {
         HBox toggle = new HBox();
         Label toggleLabel = new Label();
@@ -357,12 +338,11 @@ public class Storage {
         return toggle;
     }
 
-    
     private void loadUsernameAndRecentDocuments() {
         String uid = ViewController.getCurrentUserId();
-        if (uid == null) return;
+        if (uid == null)
+            return;
 
-        
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
             Platform.runLater(() -> {
@@ -381,7 +361,6 @@ public class Storage {
             e.printStackTrace();
         }
 
-        
         Firestore db = FirestoreClient.getFirestore();
         db.collection("users").document(uid).collection("documents")
                 .orderBy("uploadedAt", Query.Direction.DESCENDING).limit(5).get()
@@ -397,11 +376,9 @@ public class Storage {
                 }, Platform::runLater);
     }
 
-    
     private void populateDocumentGrid(List<QueryDocumentSnapshot> docs) {
         documentGrid.getChildren().clear();
 
-        
         String headerStyle = "-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4b5563;";
         Label nameHeader = new Label("NAME");
         nameHeader.setStyle(headerStyle);
@@ -422,26 +399,22 @@ public class Storage {
 
         int row = 1;
         for (QueryDocumentSnapshot doc : docs) {
-            
+
             Label icon = new Label("📄");
             icon.setFont(Font.font(20));
             documentGrid.add(icon, 0, row);
 
-            
             Label name = new Label(doc.getString("fileName"));
             name.setStyle("-fx-font-weight: 500;");
             documentGrid.add(name, 1, row);
 
-            
             Label uploadType = new Label("Manual Upload");
             documentGrid.add(uploadType, 2, row);
 
-            
             com.google.cloud.Timestamp ts = doc.getTimestamp("uploadedAt");
             String date = (ts != null) ? new SimpleDateFormat("dd MMM, yyyy").format(ts.toDate()) : "N/A";
             documentGrid.add(new Label(date), 3, row);
 
-            
             String fileName = doc.getString("fileName");
             String legalType = determineLegalType(fileName);
             Label legalTypeLabel = new Label(legalType);
@@ -449,17 +422,19 @@ public class Storage {
                     "-fx-background-color: #e0e7ff; -fx-text-fill: #3730a3; -fx-padding: 3px 8px; -fx-background-radius: 5px; -fx-font-weight: 500;");
             documentGrid.add(legalTypeLabel, 4, row);
 
-            
             Button viewButton = new Button("View");
             viewButton.setCursor(Cursor.HAND);
-            viewButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
-            viewButton.setOnMouseEntered(e -> viewButton.setStyle("-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;"));
-            viewButton.setOnMouseExited(e -> viewButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;"));
-            
+            viewButton.setStyle(
+                    "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;");
+            viewButton.setOnMouseEntered(e -> viewButton.setStyle(
+                    "-fx-background-color: #2563eb; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;"));
+            viewButton.setOnMouseExited(e -> viewButton.setStyle(
+                    "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 10px;"));
+
             viewButton.setOnAction(e -> {
                 String downloadUrl = doc.getString("downloadUrl");
                 if (downloadUrl != null) {
-                    
+
                     System.out.println("Viewing document: " + fileName);
                 }
             });
@@ -468,7 +443,6 @@ public class Storage {
             row++;
         }
 
-        
         if (docs.isEmpty()) {
             Label noDocsLabel = new Label("No documents found. Upload some documents to see them here.");
             noDocsLabel.setStyle("-fx-text-fill: #6b7280; -fx-font-style: italic;");
@@ -477,16 +451,18 @@ public class Storage {
         }
     }
 
-    
     private String determineLegalType(String fileName) {
-        if (fileName == null) return "Document";
-        
+        if (fileName == null)
+            return "Document";
+
         String lowerFileName = fileName.toLowerCase();
-        if (lowerFileName.contains("aadhar") || lowerFileName.contains("aadhaar") || lowerFileName.contains("passport")) {
+        if (lowerFileName.contains("aadhar") || lowerFileName.contains("aadhaar")
+                || lowerFileName.contains("passport")) {
             return "Identity";
         } else if (lowerFileName.contains("case") || lowerFileName.contains("legal")) {
             return "Case File";
-        } else if (lowerFileName.contains("property") || lowerFileName.contains("deed") || lowerFileName.contains("land")) {
+        } else if (lowerFileName.contains("property") || lowerFileName.contains("deed")
+                || lowerFileName.contains("land")) {
             return "Property";
         } else if (lowerFileName.contains("certificate") || lowerFileName.contains("cert")) {
             return "Certificate";

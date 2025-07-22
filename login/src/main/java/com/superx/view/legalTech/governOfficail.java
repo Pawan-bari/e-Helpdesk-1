@@ -26,7 +26,7 @@ public class governOfficail {
     public void setHostServices(HostServices hostServices) {
         this.hostServices = hostServices;
     }
- 
+
     public void setGuidedFormStage(Stage governOffStage) {
         this.governOffStage = governOffStage;
     }
@@ -37,7 +37,8 @@ public class governOfficail {
 
     public BorderPane govOff(Runnable showdoc, Runnable showlegalman) {
         BorderPane mainbox = new BorderPane();
-        mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
+        mainbox.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
         // SIDEBAR SECTION
         VBox sidebar = createSidebar(showdoc);
@@ -73,8 +74,10 @@ public class governOfficail {
         pBox.setAlignment(Pos.CENTER_LEFT);
         pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px;");
         pBox.setCursor(Cursor.HAND);
-        pBox.setOnMouseEntered(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        pBox.setOnMouseEntered(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        pBox.setOnMouseExited(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
 
         // Navigation Buttons
         VBox navButtons = createNavigationButtons(showdoc);
@@ -94,10 +97,10 @@ public class governOfficail {
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", true);
         HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
-        
+
         // Add navigation functionality
         navBtn2.setOnMouseClicked(evt -> showdoc.run());
-        
+
         HBox navBtn3 = createNavButton("🏠", "Land & Property Services", false); // Active
         HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
         HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
@@ -109,22 +112,23 @@ public class governOfficail {
     private HBox createNavButton(String icon, String text, boolean isActive) {
         HBox navBtn = new HBox(15, new Label(icon), new Label(text));
         navBtn.getChildren().get(0).setStyle("-fx-font-size: 24px;");
-        
-        String textStyle = isActive ? 
-            "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;" :
-            "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
+
+        String textStyle = isActive ? "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;"
+                : "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
         navBtn.getChildren().get(1).setStyle(textStyle);
-        
+
         navBtn.setAlignment(Pos.CENTER_LEFT);
-        String bgStyle = isActive ?
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;" :
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
+        String bgStyle = isActive
+                ? "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;"
+                : "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
         navBtn.setStyle(bgStyle);
         navBtn.setCursor(Cursor.HAND);
 
         if (!isActive) {
-            navBtn.setOnMouseEntered(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-            navBtn.setOnMouseExited(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+            navBtn.setOnMouseEntered(e -> navBtn
+                    .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+            navBtn.setOnMouseExited(e -> navBtn.setStyle(
+                    "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         }
 
         return navBtn;
@@ -133,21 +137,21 @@ public class governOfficail {
     private HBox createFooterLinks() {
         HBox links = new HBox(15);
         links.setAlignment(Pos.CENTER);
-        
+
         Label contact = new Label("Contact");
         Label terms = new Label("Terms");
         Label privacy = new Label("Privacy");
-        
+
         String footerStyle = "-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-cursor: hand;";
         contact.setStyle(footerStyle);
         terms.setStyle(footerStyle);
         privacy.setStyle(footerStyle);
-        
+
         // Add click handlers
         contact.setOnMouseClicked(e -> openWebsite("mailto:contact@ehelpdesk.gov.in"));
         terms.setOnMouseClicked(e -> openWebsite("https://ehelpdesk.gov.in/terms"));
         privacy.setOnMouseClicked(e -> openWebsite("https://ehelpdesk.gov.in/privacy"));
-        
+
         links.getChildren().addAll(contact, terms, privacy);
         return links;
     }
@@ -182,12 +186,12 @@ public class governOfficail {
 
         Label home = createTopNavLink("Home", topNavLinkStyle, topNavLinkHoverStyle);
         home.setOnMouseClicked(e -> showdoc.run());
-        
+
         Label services = createTopNavLink("Services", topNavLinkStyle, topNavLinkHoverStyle);
         Label rtiLink = createTopNavLink("RTI", topNavLinkStyle, topNavLinkHoverStyle);
         Label help = createTopNavLink("Legal Help", topNavLinkStyle, topNavLinkHoverStyle);
         help.setOnMouseClicked(e -> showlegalman.run());
-        
+
         Label resourcesLink = createTopNavLink("Resources", topNavLinkStyle, topNavLinkHoverStyle);
 
         navLinks.getChildren().addAll(home, services, rtiLink, help, resourcesLink);
@@ -209,20 +213,26 @@ public class governOfficail {
     private Button createActionButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("System", 14));
-        button.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
+        button.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
         button.setCursor(Cursor.HAND);
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        button.setOnMouseEntered(e -> button.setStyle(
+                "-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        button.setOnMouseExited(e -> button.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
         return button;
     }
 
     private Button createLogoutButton(Runnable showdoc) {
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));
-        logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
+        logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
         logoutButton.setCursor(Cursor.HAND);
-        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
-        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle(
+                "-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseExited(e -> logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnAction(event -> showdoc.run());
         return logoutButton;
     }
@@ -239,7 +249,8 @@ public class governOfficail {
         VBox card = new VBox(20);
         card.setPadding(new Insets(30));
         card.setPrefSize(800, 600);
-        card.setStyle("-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+        card.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
         card.setAlignment(Pos.TOP_LEFT);
 
         Text heading = new Text("Essential Government Services");
@@ -250,7 +261,7 @@ public class governOfficail {
         buttonBox.setPadding(new Insets(20));
         buttonBox.setStyle("-fx-background-color: #f0f7ff; -fx-background-radius: 10;");
         buttonBox.setAlignment(Pos.CENTER_LEFT);
-        
+
         Text btnText = new Text("Click on any service to access the official portal:");
         btnText.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 16));
         btnText.setStyle("-fx-fill: #1e40af;");
@@ -259,18 +270,21 @@ public class governOfficail {
         // Government service hyperlinks
         VBox linksBox = new VBox(15);
         linksBox.setPadding(new Insets(10, 0, 0, 0));
-        
+
         Hyperlink[] links = {
-            createServiceLink("1. Aadhaar Enrollment / Update", "https://appointments.uidai.gov.in/bookappointment.aspx"),
-            createServiceLink("2. Apply for PAN Card (NSDL)", "https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html"),
-            createServiceLink("3. Apply Voter ID (Form 6)", "https://www.nvsp.in/Forms/Forms/form6"),
-            createServiceLink("4. Track Voter Application", "https://www.nvsp.in/Account/Login"),
-            createServiceLink("5. Apply Driving License (DL/Learner's)", "https://sarathi.parivahan.gov.in/sarathiservice/stateSelection.do"),
-            createServiceLink("6. Apply for Ayushman Bharat Card", "https://beneficiary.nha.gov.in/"),
-            createServiceLink("7. Digital Locker (DigiLocker)", "https://digilocker.gov.in/"),
-            createServiceLink("8. Income Tax E-Filing", "https://www.incometax.gov.in/"),
-            createServiceLink("9. EPF Services", "https://passbook.epfindia.gov.in/MemberPassBook/Login.jsp"),
-            createServiceLink("10. GST Registration", "https://www.gst.gov.in/")
+                createServiceLink("1. Aadhaar Enrollment / Update",
+                        "https://appointments.uidai.gov.in/bookappointment.aspx"),
+                createServiceLink("2. Apply for PAN Card (NSDL)",
+                        "https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html"),
+                createServiceLink("3. Apply Voter ID (Form 6)", "https://www.nvsp.in/Forms/Forms/form6"),
+                createServiceLink("4. Track Voter Application", "https://www.nvsp.in/Account/Login"),
+                createServiceLink("5. Apply Driving License (DL/Learner's)",
+                        "https://sarathi.parivahan.gov.in/sarathiservice/stateSelection.do"),
+                createServiceLink("6. Apply for Ayushman Bharat Card", "https://beneficiary.nha.gov.in/"),
+                createServiceLink("7. Digital Locker (DigiLocker)", "https://digilocker.gov.in/"),
+                createServiceLink("8. Income Tax E-Filing", "https://www.incometax.gov.in/"),
+                createServiceLink("9. EPF Services", "https://passbook.epfindia.gov.in/MemberPassBook/Login.jsp"),
+                createServiceLink("10. GST Registration", "https://www.gst.gov.in/")
         };
 
         linksBox.getChildren().addAll(links);
@@ -279,13 +293,13 @@ public class governOfficail {
         card.getChildren().addAll(heading, buttonBox, linksBox);
         return card;
     }
-    
+
     private Hyperlink createServiceLink(String text, String url) {
         Hyperlink link = new Hyperlink(text);
         link.setFont(Font.font("Inter", 15));
         link.setStyle("-fx-text-fill: #2563eb; -fx-underline: false;");
         link.setOnAction(e -> openWebsite(url));
-        
+
         // Hover effects
         link.setOnMouseEntered(e -> {
             link.setStyle("-fx-text-fill: #1d4ed8; -fx-underline: true;");
@@ -293,10 +307,10 @@ public class governOfficail {
         link.setOnMouseExited(e -> {
             link.setStyle("-fx-text-fill: #2563eb; -fx-underline: false;");
         });
-        
+
         return link;
     }
-    
+
     public void openWebsite(String url) {
         try {
             if (hostServices != null) {

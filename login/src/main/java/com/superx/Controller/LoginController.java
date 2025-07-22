@@ -3,12 +3,12 @@ package com.superx.Controller;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.json.JSONObject; 
+import org.json.JSONObject;
 
 public class LoginController extends AuthController {
-    
+
     private ViewController mainController;
-    
+
     public LoginController(ViewController mainController) {
         this.mainController = mainController;
     }
@@ -20,13 +20,12 @@ public class LoginController extends AuthController {
         if (validateLoginInput(email, password)) {
             String response = signIn(email, password);
             if (response != null && !response.contains("error")) {
-                
+
                 JSONObject jsonResponse = new JSONObject(response);
                 String localId = jsonResponse.getString("localId");
-                
-                
+
                 ViewController.setCurrentUserId(localId);
-                
+
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Login Successful!");
                 mainController.showDocScene();
             } else {

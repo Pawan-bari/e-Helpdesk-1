@@ -21,7 +21,7 @@ public class SignupController extends AuthController {
     }
 
     public void handleSignup(TextField fNameField, TextField lNameField, TextField emailField,
-                           PasswordField passwordField, PasswordField confirmPasswordField, CheckBox termsCheckBox) {
+            PasswordField passwordField, PasswordField confirmPasswordField, CheckBox termsCheckBox) {
         String firstName = fNameField.getText().trim();
         String lastName = lNameField.getText().trim();
         String email = emailField.getText().trim();
@@ -31,27 +31,34 @@ public class SignupController extends AuthController {
         if (validateSignupInput(firstName, lastName, email, password, confirmPassword, termsCheckBox)) {
             String response = signUp(email, password);
 
-            if (response != null && !response.contains("error")) {
+            if (response != null) {
                 JSONObject jsonResponse = new JSONObject(response);
-                String localId = jsonResponse.getString("localId"); 
+                // Check for localId to confirm successful authentication user creation
+                if (jsonResponse.has("localId")) {
+                    String localId = jsonResponse.getString("localId");
 
-                
-                if (createUserInFirestore(localId, firstName, lastName, email)) {
-                    showAlert(Alert.AlertType.INFORMATION, "Success", "Account created successfully!");
-                    
-                    
-                    ViewController.setCurrentUserId(localId);
-                    mainController.showDocScene();
+                    // Only create the Firestore user AFTER successful authentication
+                    if (createUserInFirestore(localId, firstName, lastName, email)) {
+                        showAlert(Alert.AlertType.INFORMATION, "Success", "Account created successfully!");
+                        ViewController.setCurrentUserId(localId);
+                        mainController.showDocScene();
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Signup succeeded, but failed to save user profile.");
+                    }
+                } else if (jsonResponse.has("error")) {
+                    // Provide more specific error feedback to the user
+                    JSONObject errorObject = jsonResponse.getJSONObject("error");
+                    String errorMessage = errorObject.getString("message");
+                    showAlert(Alert.AlertType.ERROR, "Signup Failed", "Error: " + errorMessage);
                 } else {
-                     showAlert(Alert.AlertType.ERROR, "Error", "Signup succeeded, but failed to save profile.");
+                    showAlert(Alert.AlertType.ERROR, "Error", "An unknown error occurred during signup.");
                 }
-
             } else {
-                showAlert(Alert.AlertType.ERROR, "Error", "Signup failed. The email might already be in use.");
+                showAlert(Alert.AlertType.ERROR, "Error", "Could not connect to the server. Please try again.");
             }
         }
     }
-    
+
     private boolean createUserInFirestore(String uid, String firstName, String lastName, String email) {
         Firestore db = FirestoreClient.getFirestore();
         Map<String, Object> user = new HashMap<>();
@@ -59,12 +66,12 @@ public class SignupController extends AuthController {
         user.put("lastName", lastName);
         user.put("email", email);
         user.put("joinedDate", com.google.cloud.Timestamp.now());
-        user.put("mobileNumber", ""); 
+        user.put("mobileNumber", "");
         user.put("about", "");
         user.put("profilePictureUrl", "");
 
         try {
-            
+
             db.collection("users").document(uid).set(user).get();
             System.out.println("User profile created in Firestore for UID: " + uid);
             return true;
@@ -74,9 +81,8 @@ public class SignupController extends AuthController {
         }
     }
 
-
     private boolean validateSignupInput(String firstName, String lastName, String email, String password,
-                                      String confirmPassword, CheckBox termsCheckBox) {
+            String confirmPassword, CheckBox termsCheckBox) {
         if (firstName.isEmpty() || lastName.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", "Please enter your first and last name.");
             return false;

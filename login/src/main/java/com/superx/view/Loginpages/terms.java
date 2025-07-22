@@ -26,46 +26,45 @@ public class terms {
     public VBox termsBox(Runnable back) {
         Text terms = new Text(
                 """
-                Terms and Conditions for E-Legal Desk
-                Effective Date: [DD/MM/YYYY]
-                Application: E-Legal Desk (Desktop Legal Assistant)
+                        Terms and Conditions for E-Legal Desk
+                        Effective Date: [DD/MM/YYYY]
+                        Application: E-Legal Desk (Desktop Legal Assistant)
 
-                1. Acceptance of Terms
-                By using E-Legal Desk, you agree to be bound by these Terms and Conditions.
+                        1. Acceptance of Terms
+                        By using E-Legal Desk, you agree to be bound by these Terms and Conditions.
 
-                2. Purpose of the App
-                E-Legal Desk helps users draft legal documents, track cases, access verified resources, and connect with legal professionals.
+                        2. Purpose of the App
+                        E-Legal Desk helps users draft legal documents, track cases, access verified resources, and connect with legal professionals.
 
-                NOTE: This app does not file legal cases directly or act as a legal representative.
+                        NOTE: This app does not file legal cases directly or act as a legal representative.
 
-                3. User Responsibilities
-                • Provide accurate data.
-                • Do not use the app for illegal purposes.
-                • Use the app wisely and independently.
+                        3. User Responsibilities
+                        • Provide accurate data.
+                        • Do not use the app for illegal purposes.
+                        • Use the app wisely and independently.
 
-                4. Document Usage
-                • E-Legal Desk offers templates and redirects to official sites.
-                • Users must file and submit legally via official portals.
+                        4. Document Usage
+                        • E-Legal Desk offers templates and redirects to official sites.
+                        • Users must file and submit legally via official portals.
 
-                5. Privacy and Storage
-                • Data is stored only with consent, encrypted, not sold or shared.
+                        5. Privacy and Storage
+                        • Data is stored only with consent, encrypted, not sold or shared.
 
-                6. Lawyer Connection
-                • E-Legal Desk only connects; legal advice is independent.
+                        6. Lawyer Connection
+                        • E-Legal Desk only connects; legal advice is independent.
 
-                7. Legal Limitation
-                • Not responsible for outcomes, data loss, or government delays.
+                        7. Legal Limitation
+                        • Not responsible for outcomes, data loss, or government delays.
 
-                8. Termination
-                • You may stop using this service at any time.
+                        8. Termination
+                        • You may stop using this service at any time.
 
-                9. Disclaimer
-                • This is not an official government service.
+                        9. Disclaimer
+                        • This is not an official government service.
 
-                10. Support
-                📧 support@elegaldesk.in
-                """
-        );
+                        10. Support
+                        📧 support@elegaldesk.in
+                        """);
         terms.setFont(Font.font(16));
         terms.setWrappingWidth(1000);
 

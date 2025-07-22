@@ -28,7 +28,7 @@ public class guidedFormBox {
     public void setHostServices(HostServices hostServices) {
         this.hostServices = hostServices;
     }
-    
+
     public void setGuidedFormStage(Stage guidedFormStage) {
         this.guidedFormStage = guidedFormStage;
     }
@@ -39,7 +39,8 @@ public class guidedFormBox {
 
     public BorderPane rtiPageBox(Runnable showProfileScreen, Runnable showLoginScreen, Runnable showdoc) {
         BorderPane mainbox = new BorderPane();
-        mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
+        mainbox.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
         // SIDEBAR SECTION
         VBox sidebar = createSidebar(showdoc);
@@ -75,8 +76,10 @@ public class guidedFormBox {
         pBox.setAlignment(Pos.CENTER_LEFT);
         pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px;");
         pBox.setCursor(Cursor.HAND);
-        pBox.setOnMouseEntered(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-        pBox.setOnMouseExited(e -> pBox.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+        pBox.setOnMouseEntered(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+        pBox.setOnMouseExited(e -> pBox
+                .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
 
         // Navigation Buttons
         VBox navButtons = createNavigationButtons(showdoc);
@@ -96,10 +99,10 @@ public class guidedFormBox {
 
         HBox navBtn1 = createNavButton("📄", "Legal Case Management", true);
         HBox navBtn2 = createNavButton("📜", "Document & Certificate", false);
-        
+
         // Add navigation functionality
         navBtn2.setOnMouseClicked(evt -> showdoc.run());
-        
+
         HBox navBtn3 = createNavButton("🏠", "Land & Property Services", false); // Active
         HBox navBtn4 = createNavButton("⇄", "RTI & Grievance", false);
         HBox navBtn5 = createNavButton("📚", "Legal Knowledge Base", false);
@@ -111,22 +114,23 @@ public class guidedFormBox {
     private HBox createNavButton(String icon, String text, boolean isActive) {
         HBox navBtn = new HBox(15, new Label(icon), new Label(text));
         navBtn.getChildren().get(0).setStyle("-fx-font-size: 24px;");
-        
-        String textStyle = isActive ? 
-            "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;" :
-            "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
+
+        String textStyle = isActive ? "-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;"
+                : "-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;";
         navBtn.getChildren().get(1).setStyle(textStyle);
-        
+
         navBtn.setAlignment(Pos.CENTER_LEFT);
-        String bgStyle = isActive ?
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;" :
-            "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
+        String bgStyle = isActive
+                ? "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;"
+                : "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;";
         navBtn.setStyle(bgStyle);
         navBtn.setCursor(Cursor.HAND);
 
         if (!isActive) {
-            navBtn.setOnMouseEntered(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-            navBtn.setOnMouseExited(e -> navBtn.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+            navBtn.setOnMouseEntered(e -> navBtn
+                    .setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+            navBtn.setOnMouseExited(e -> navBtn.setStyle(
+                    "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
         }
 
         return navBtn;
@@ -135,21 +139,21 @@ public class guidedFormBox {
     private HBox createFooterLinks() {
         HBox links = new HBox(15);
         links.setAlignment(Pos.CENTER);
-        
+
         Label contact = new Label("Contact");
         Label terms = new Label("Terms");
         Label privacy = new Label("Privacy");
-        
+
         String footerStyle = "-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-cursor: hand;";
         contact.setStyle(footerStyle);
         terms.setStyle(footerStyle);
         privacy.setStyle(footerStyle);
-        
+
         // Add click handlers
         contact.setOnMouseClicked(e -> openWebsite("mailto:contact@ehelpdesk.gov.in"));
         terms.setOnMouseClicked(e -> openWebsite("https://ehelpdesk.gov.in/terms"));
         privacy.setOnMouseClicked(e -> openWebsite("https://ehelpdesk.gov.in/privacy"));
-        
+
         links.getChildren().addAll(contact, terms, privacy);
         return links;
     }
@@ -187,7 +191,7 @@ public class guidedFormBox {
 
         Label home = createTopNavLink("Home", topNavLinkStyle, topNavLinkHoverStyle);
         home.setOnMouseClicked(e -> showdoc.run());
-        
+
         Label services = createTopNavLink("Services", topNavLinkStyle, topNavLinkHoverStyle);
         Label rtiLink = createTopNavLink("RTI", topNavLinkStyle, topNavLinkHoverStyle);
         Label help = createTopNavLink("Legal Help", topNavLinkStyle, topNavLinkHoverStyle);
@@ -212,20 +216,26 @@ public class guidedFormBox {
     private Button createActionButton(String text) {
         Button button = new Button(text);
         button.setFont(Font.font("System", 14));
-        button.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
+        button.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;");
         button.setCursor(Cursor.HAND);
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
-        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        button.setOnMouseEntered(e -> button.setStyle(
+                "-fx-background-color: #f6f3f3; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
+        button.setOnMouseExited(e -> button.setStyle(
+                "-fx-background-color: transparent; -fx-border-color: #d1d5db; -fx-border-width: 1.5px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 8px 20px;"));
         return button;
     }
 
     private Button createLogoutButton(Runnable showLoginScreen) {
         Button logoutButton = new Button("LogOut");
         logoutButton.setFont(Font.font("Inter", FontWeight.BOLD, 14));
-        logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
+        logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;");
         logoutButton.setCursor(Cursor.HAND);
-        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle("-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
-        logoutButton.setOnMouseExited(e -> logoutButton.setStyle("-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseEntered(e -> logoutButton.setStyle(
+                "-fx-background-color: #eb2525; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
+        logoutButton.setOnMouseExited(e -> logoutButton.setStyle(
+                "-fx-background-color: #f63b3b; -fx-background-radius: 8px; -fx-text-fill: white; -fx-padding: 8px 20px;"));
         logoutButton.setOnAction(event -> showLoginScreen.run());
         return logoutButton;
     }
@@ -242,7 +252,8 @@ public class guidedFormBox {
         VBox cardBox = new VBox(20);
         cardBox.setPadding(new Insets(30));
         cardBox.setAlignment(Pos.TOP_LEFT);
-        cardBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+        cardBox.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.9); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
 
         // Header
         Text headerText = new Text("Government Scheme Guidelines & Application Forms");
@@ -251,57 +262,53 @@ public class guidedFormBox {
 
         // Scheme categories
         TitledPane[] schemePanes = {
-            createSchemeCategory("PMAY - Urban (Housing for All)",
-                createLink("PMAY‑U 2.0 Operational Guidelines", 
-                    "https://pmay-urban.gov.in/uploads/guidelines/Operational-Guidelines-of-PMAY-U-2.pdf"),
-                createLink("PMAY‑U User Manual (PLI)", 
-                    "https://pmaymis.gov.in/PMAYMIS2_2024/PDF/UserManual/PLI-USER-MANUAL_27122024.pdf"),
-                createLink("PMAY‑Urban Financial Norms", 
-                    "https://mohua.gov.in/upload/uploadfiles/files/1Financial_norms_CBA_booklet.pdf")
-            ),
-            
-            createSchemeCategory("PMAY - Gramin (Rural Housing)",
-                createLink("PMAY‑G Implementation Framework", 
-                    "https://rdpri.andaman.gov.in/admin-pannel/achievements/25-Framework%20For%20Implementation%20FFIof%20PMAYG.pdf")
-            ),
-            
-            createSchemeCategory("PMFME - Food Processing",
-                createLink("PMFME Scheme Guidelines", 
-                    "https://pmfme.mofpi.gov.in/newsletters/docs/SchemeGuidelines.pdf")
-            ),
-            
-            createSchemeCategory("Startup India Seed Fund",
-                createLink("Seed Fund Scheme Guidelines", 
-                    "https://www.startupindia.gov.in/content/dam/invest-india/Templates/public/Guidelines%20for%20Startup%20India%20Seed%20Fund%20Scheme.pdf")
-            ),
-            
-            createSchemeCategory("Operation Greens",
-                createLink("Operation Greens Guidelines", 
-                    "https://www.mofpi.gov.in/sites/default/files/2._operational_guidelines_dated_25.05.2022_0.pdf")
-            ),
-            
-            createSchemeCategory("Social Justice Schemes",
-                createLink("Social Justice Scheme Guidelines", 
-                    "https://socialjustice.gov.in/public/ckeditor/upload/66671696827061.pdf")
-            ),
-            
-            createSchemeCategory("Medical Device Parks",
-                createLink("Promotion of Medical Device Parks", 
-                    "https://pharma-dept.gov.in/sites/default/files/Guidelines%20of%20the%20Scheme%20Promotion%20of%20Medical%20Devices%20Parks_1.pdf")
-            ),
-            
-            createSchemeCategory("PM Jan Dhan Yojana (PMJDY)",
-                createLink("PMJDY Scheme Guide", "https://pmjdy.gov.in/files/QuickLinks/guide.pdf"),
-                createLink("Continuation Guidelines", "https://pmjdy.gov.in/files/E-Documents/Continuation_of_PMJDY.pdf"),
-                createLink("PMJDY FAQ (SLBC)", "https://slbcne.nic.in/NE/Pmjdy%20FAQ.pdf")
-            ),
-            
-            createSchemeCategory("PM Kaushal Vikas Yojana (PMKVY)",
-                createLink("PMKVY 4.0 Guidelines (2024)", "https://www.msde.gov.in/static/uploads/2024/02/PMKVY-4.0-Guidelines_final-copy.pdf"),
-                createLink("PMKVY 3.0 Guidelines", "https://dsde.goa.gov.in/wp-content/uploads/2021/02/PMKY-Guideline_report_V3.pdf"),
-                createLink("Monitoring Guidelines (3.0)", "https://www.msde.gov.in/static/uploads/2024/04/Monitoring-Guidelines_PMKVY-3.0.pdf"),
-                createLink("Branding Guidelines (3.0)", "https://www.msde.gov.in/static/uploads/2024/04/Branding-and-Communication-Guidelines-and-Social-Media-Guidelines-for-PMKVY-3.0.pdf")
-            )
+                createSchemeCategory("PMAY - Urban (Housing for All)",
+                        createLink("PMAY‑U 2.0 Operational Guidelines",
+                                "https://pmay-urban.gov.in/uploads/guidelines/Operational-Guidelines-of-PMAY-U-2.pdf"),
+                        createLink("PMAY‑U User Manual (PLI)",
+                                "https://pmaymis.gov.in/PMAYMIS2_2024/PDF/UserManual/PLI-USER-MANUAL_27122024.pdf"),
+                        createLink("PMAY‑Urban Financial Norms",
+                                "https://mohua.gov.in/upload/uploadfiles/files/1Financial_norms_CBA_booklet.pdf")),
+
+                createSchemeCategory("PMAY - Gramin (Rural Housing)",
+                        createLink("PMAY‑G Implementation Framework",
+                                "https://rdpri.andaman.gov.in/admin-pannel/achievements/25-Framework%20For%20Implementation%20FFIof%20PMAYG.pdf")),
+
+                createSchemeCategory("PMFME - Food Processing",
+                        createLink("PMFME Scheme Guidelines",
+                                "https://pmfme.mofpi.gov.in/newsletters/docs/SchemeGuidelines.pdf")),
+
+                createSchemeCategory("Startup India Seed Fund",
+                        createLink("Seed Fund Scheme Guidelines",
+                                "https://www.startupindia.gov.in/content/dam/invest-india/Templates/public/Guidelines%20for%20Startup%20India%20Seed%20Fund%20Scheme.pdf")),
+
+                createSchemeCategory("Operation Greens",
+                        createLink("Operation Greens Guidelines",
+                                "https://www.mofpi.gov.in/sites/default/files/2._operational_guidelines_dated_25.05.2022_0.pdf")),
+
+                createSchemeCategory("Social Justice Schemes",
+                        createLink("Social Justice Scheme Guidelines",
+                                "https://socialjustice.gov.in/public/ckeditor/upload/66671696827061.pdf")),
+
+                createSchemeCategory("Medical Device Parks",
+                        createLink("Promotion of Medical Device Parks",
+                                "https://pharma-dept.gov.in/sites/default/files/Guidelines%20of%20the%20Scheme%20Promotion%20of%20Medical%20Devices%20Parks_1.pdf")),
+
+                createSchemeCategory("PM Jan Dhan Yojana (PMJDY)",
+                        createLink("PMJDY Scheme Guide", "https://pmjdy.gov.in/files/QuickLinks/guide.pdf"),
+                        createLink("Continuation Guidelines",
+                                "https://pmjdy.gov.in/files/E-Documents/Continuation_of_PMJDY.pdf"),
+                        createLink("PMJDY FAQ (SLBC)", "https://slbcne.nic.in/NE/Pmjdy%20FAQ.pdf")),
+
+                createSchemeCategory("PM Kaushal Vikas Yojana (PMKVY)",
+                        createLink("PMKVY 4.0 Guidelines (2024)",
+                                "https://www.msde.gov.in/static/uploads/2024/02/PMKVY-4.0-Guidelines_final-copy.pdf"),
+                        createLink("PMKVY 3.0 Guidelines",
+                                "https://dsde.goa.gov.in/wp-content/uploads/2021/02/PMKY-Guideline_report_V3.pdf"),
+                        createLink("Monitoring Guidelines (3.0)",
+                                "https://www.msde.gov.in/static/uploads/2024/04/Monitoring-Guidelines_PMKVY-3.0.pdf"),
+                        createLink("Branding Guidelines (3.0)",
+                                "https://www.msde.gov.in/static/uploads/2024/04/Branding-and-Communication-Guidelines-and-Social-Media-Guidelines-for-PMKVY-3.0.pdf"))
         };
 
         VBox allPanes = new VBox(15);
@@ -315,11 +322,11 @@ public class guidedFormBox {
         VBox box = new VBox(10);
         box.setPadding(new Insets(15));
         box.getChildren().addAll(links);
-        
+
         TitledPane pane = new TitledPane(title, box);
         pane.setExpanded(false);
         pane.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         return pane;
     }
 
@@ -328,7 +335,7 @@ public class guidedFormBox {
         link.setFont(Font.font("Inter", 14));
         link.setStyle("-fx-text-fill: #2563eb; -fx-underline: false;");
         link.setOnAction(e -> openWebsite(url));
-        
+
         // Hover effects
         link.setOnMouseEntered(e -> {
             link.setStyle("-fx-text-fill: #1d4ed8; -fx-underline: true;");
@@ -336,7 +343,7 @@ public class guidedFormBox {
         link.setOnMouseExited(e -> {
             link.setStyle("-fx-text-fill: #2563eb; -fx-underline: false;");
         });
-        
+
         return link;
     }
 

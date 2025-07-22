@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 public class Notification {
     Stage notiStage;
-    Scene notiScene, profScene, accScene, Secscene,stoScene;
+    Scene notiScene, profScene, accScene, Secscene, stoScene;
 
     public void setNotiStage(Stage notiStage) {
         this.notiStage = notiStage;
@@ -28,14 +28,14 @@ public class Notification {
         this.notiScene = notiScene;
     }
 
-    public BorderPane notificationPageBox(Runnable showDocScene,Runnable showAccountScreen, Runnable showSecurityScreen,
-                                           Runnable showProfileScreen,Runnable showStorage) {
+    public BorderPane notificationPageBox(Runnable showDocScene, Runnable showAccountScreen,
+            Runnable showSecurityScreen,
+            Runnable showProfileScreen, Runnable showStorage) {
 
         BorderPane mainbox = new BorderPane();
         mainbox.setStyle(
                 "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
-        
         HBox welboxBar = new HBox(50);
         welboxBar.setPadding(new Insets(15, 40, 15, 40));
         welboxBar.setAlignment(Pos.CENTER_LEFT);
@@ -52,7 +52,6 @@ public class Notification {
 
         welboxBar.getChildren().addAll(logoLabel, welcomeLabel);
 
-        
         VBox iconbox = new VBox();
         iconbox.setPadding(new Insets(20, 15, 20, 15));
         iconbox.setSpacing(10);
@@ -62,8 +61,8 @@ public class Notification {
         VBox navButtons2 = new VBox(20);
         navButtons2.setAlignment(Pos.CENTER);
         String[][] navItems2 = {
-                {"👤", ""}, {" 📄 ", ""}, {" 📜 ", ""},
-                {" 🏠 ", ""}, {" ⇄ ", ""}, {" 📚 ", ""}
+                { "👤", "" }, { " 📄 ", "" }, { " 📜 ", "" },
+                { " 🏠 ", "" }, { " ⇄ ", "" }, { " 📚 ", "" }
         };
 
         for (String[] item : navItems2) {
@@ -83,7 +82,6 @@ public class Notification {
         }
         iconbox.getChildren().add(navButtons2);
 
-        
         VBox probox = new VBox();
         probox.setPadding(new Insets(20, 15, 20, 15));
         probox.setSpacing(10);
@@ -92,11 +90,11 @@ public class Notification {
 
         VBox navButtons = new VBox(8);
         String[][] navItems = {
-                {"👤", "Profile"},
-                {"⚙️", "Account Setting"},
-                {"🛡️", "Security"},
-                {"🔔", "Notifications"},
-                {"🏬", "Storage"}
+                { "👤", "Profile" },
+                { "⚙️", "Account Setting" },
+                { "🛡️", "Security" },
+                { "🔔", "Notifications" },
+                { "🏬", "Storage" }
         };
 
         for (String[] item : navItems) {
@@ -122,7 +120,6 @@ public class Notification {
                         "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
             }
 
-            
             if (item[1].equals("Profile")) {
                 navButton.setOnMouseClicked(event -> showProfileScreen.run());
             } else if (item[1].equals("Account Setting")) {
@@ -130,7 +127,7 @@ public class Notification {
             } else if (item[1].equals("Security")) {
                 navButton.setOnMouseClicked(event -> showSecurityScreen.run());
             } else if (item[1].equals("Storage")) {
-                navButton.setOnMouseClicked(event-> showStorage.run());
+                navButton.setOnMouseClicked(event -> showStorage.run());
             }
             navButtons.getChildren().add(navButton);
         }
@@ -141,7 +138,6 @@ public class Notification {
 
         HBox leftSidebarContainer = new HBox(10, iconbox, probox);
 
-        
         VBox mainContent = new VBox();
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setSpacing(30);
@@ -151,10 +147,10 @@ public class Notification {
         contentTitle.setFont(Font.font("Inter", FontWeight.BOLD, 32));
         contentTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
-        
         VBox protectionCard = new VBox(10);
         protectionCard.setPadding(new Insets(20));
-        protectionCard.setStyle("-fx-background-color: rgba(230, 255, 230, 0.8); -fx-background-radius: 12px; -fx-border-color: #22c55e; -fx-border-width: 1px; -fx-border-radius: 12px;");
+        protectionCard.setStyle(
+                "-fx-background-color: rgba(230, 255, 230, 0.8); -fx-background-radius: 12px; -fx-border-color: #22c55e; -fx-border-width: 1px; -fx-border-radius: 12px;");
         protectionCard.setAlignment(Pos.CENTER_LEFT);
 
         Label protectionIcon = new Label("✅");
@@ -166,19 +162,17 @@ public class Notification {
         protectionBox.setAlignment(Pos.CENTER_LEFT);
         protectionCard.getChildren().add(protectionBox);
 
-        
         VBox settingsList = new VBox(25);
 
         VBox accessControlSection = createSettingsSection("Access Control",
                 createSettingRow("Enable/Disable Notifications", "Control all app notifications.", true),
-                createSettingRow("Enable/Disable Reminders", "Get reminders for incomplete forms or deadlines.", true)
-        );
+                createSettingRow("Enable/Disable Reminders", "Get reminders for incomplete forms or deadlines.", true));
 
         VBox otherSection = createSettingsSection("Other Notifications",
-                createSettingRow("Case Updates", "Receive alerts for new documents or status changes in your cases.", true),
+                createSettingRow("Case Updates", "Receive alerts for new documents or status changes in your cases.",
+                        true),
                 createSettingRow("Promotional", "Get updates on new features and offers.", false),
-                createSettingRow("Tips and Articles", "Receive helpful tips and legal articles.", false)
-        );
+                createSettingRow("Tips and Articles", "Receive helpful tips and legal articles.", false));
 
         settingsList.getChildren().addAll(accessControlSection, otherSection);
 
@@ -238,7 +232,6 @@ public class Notification {
         return itemBox;
     }
 
-    
     static class Switch extends HBox {
         private final Label label = new Label();
         private final Button button = new Button();
@@ -296,7 +289,7 @@ public class Notification {
                 update();
             });
 
-            setSelected(false); 
+            setSelected(false);
         }
     }
 }

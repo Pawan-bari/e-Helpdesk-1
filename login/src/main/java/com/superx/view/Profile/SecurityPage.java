@@ -32,12 +32,13 @@ public class SecurityPage {
     Stage secStage;
     Scene Secscene;
 
-    public BorderPane securityPageBox(Runnable onProfileClick, Runnable onAccountSettingClick,Runnable showsecurity,Runnable showdocscene,Runnable showNotification,Runnable showStorage) {
+    public BorderPane securityPageBox(Runnable onProfileClick, Runnable onAccountSettingClick, Runnable showsecurity,
+            Runnable showdocscene, Runnable showNotification, Runnable showStorage) {
 
         BorderPane mainbox = new BorderPane();
-        mainbox.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
+        mainbox.setStyle(
+                "-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e6f0ff, #d6e4ff); -fx-font-family: 'Inter', 'Segoe UI', sans-serif;");
 
-        
         HBox welboxBar = new HBox(50);
         welboxBar.setPadding(new Insets(15, 40, 15, 40));
         welboxBar.setAlignment(Pos.CENTER_LEFT);
@@ -56,18 +57,17 @@ public class SecurityPage {
 
         welboxBar.getChildren().addAll(logoLabel, welcomeLabel);
 
-        
         VBox iconbox = new VBox();
         iconbox.setPadding(new Insets(20, 15, 20, 15));
         iconbox.setSpacing(10);
         iconbox.setStyle("-fx-background-color: #f5f9ff;");
         iconbox.setAlignment(Pos.TOP_CENTER);
 
-         VBox navButtons2 = new VBox(20);
+        VBox navButtons2 = new VBox(20);
         navButtons2.setAlignment(Pos.CENTER);
         String[][] navItems2 = {
-            {"👤", ""}, {" 📄 ", ""}, {" 📜 ", ""},
-            {" 🏠 ", ""}, {" ⇄ ", ""}, {" 📚 ", ""}
+                { "👤", "" }, { " 📄 ", "" }, { " 📜 ", "" },
+                { " 🏠 ", "" }, { " ⇄ ", "" }, { " 📚 ", "" }
         };
 
         for (String[] item : navItems2) {
@@ -75,15 +75,17 @@ public class SecurityPage {
             icon.setStyle("-fx-font-size: 40px;");
             icon.setCursor(Cursor.HAND);
             if (item[0].equals("👤")) {
-                icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);");
-                icon.setOnMouseClicked(event->{
-                    
+                icon.setStyle(
+                        "-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);");
+                icon.setOnMouseClicked(event -> {
+
                 });
-            } else { 
+            } else {
                 icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #4b5563;");
-                icon.setOnMouseEntered(e -> icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);"));
+                icon.setOnMouseEntered(e -> icon.setStyle(
+                        "-fx-font-size: 40px; -fx-text-fill: #3b82f6; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.5), 10, 0, 0, 0);"));
                 icon.setOnMouseExited(e -> icon.setStyle("-fx-font-size: 40px; -fx-text-fill: #4b5563;"));
-                icon.setOnMouseClicked(event->{
+                icon.setOnMouseClicked(event -> {
                     showdocscene.run();
                 });
             }
@@ -91,7 +93,6 @@ public class SecurityPage {
         }
         iconbox.getChildren().add(navButtons2);
 
-        
         VBox probox = new VBox();
         probox.setPadding(new Insets(20, 15, 20, 15));
         probox.setSpacing(10);
@@ -100,11 +101,11 @@ public class SecurityPage {
 
         VBox navButtons = new VBox(8);
         String[][] navItems = {
-            {"👤", "Profile"},
-            {"⚙️", "Account Setting"},
-            {"🛡️", "Security"},
-            {"🔔", "Notifications"},
-            {"🏬", "Storage"}
+                { "👤", "Profile" },
+                { "⚙️", "Account Setting" },
+                { "🛡️", "Security" },
+                { "🔔", "Notifications" },
+                { "🏬", "Storage" }
         };
 
         for (String[] item : navItems) {
@@ -116,16 +117,19 @@ public class SecurityPage {
             navButton.setAlignment(Pos.CENTER_LEFT);
             navButton.setCursor(Cursor.HAND);
 
-            if (item[1].equals("Security")) { 
+            if (item[1].equals("Security")) {
                 text.setStyle("-fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;");
-                navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;");
+                navButton.setStyle(
+                        "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #e0e7ff;");
             } else {
                 text.setStyle("-fx-font-size: 15px; -fx-font-weight: 500; -fx-text-fill: #4b5563;");
-                navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
-                navButton.setOnMouseEntered(e -> navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
-                navButton.setOnMouseExited(e -> navButton.setStyle("-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
-                
-                
+                navButton.setStyle(
+                        "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;");
+                navButton.setOnMouseEntered(e -> navButton.setStyle(
+                        "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: #eef2ff;"));
+                navButton.setOnMouseExited(e -> navButton.setStyle(
+                        "-fx-padding: 12px 15px; -fx-background-radius: 10px; -fx-background-color: transparent;"));
+
                 switch (item[1]) {
                     case "Profile":
                         navButton.setOnMouseClicked(e -> onProfileClick.run());
@@ -133,13 +137,13 @@ public class SecurityPage {
                     case "Account Setting":
                         navButton.setOnMouseClicked(e -> onAccountSettingClick.run());
                         break;
-                    case "Notifications"  :
-                        navButton.setOnMouseClicked(e-> showdocscene.run());  
+                    case "Notifications":
+                        navButton.setOnMouseClicked(e -> showdocscene.run());
                         break;
-                         case "Storage"  :
-                        navButton.setOnMouseClicked(e-> showNotification.run());  
+                    case "Storage":
+                        navButton.setOnMouseClicked(e -> showNotification.run());
                         break;
-                        
+
                     default:
                         navButton.setOnMouseClicked(e -> System.out.println(item[1] + " clicked"));
                         break;
@@ -152,10 +156,8 @@ public class SecurityPage {
         VBox.setVgrow(proboxSpacer, Priority.ALWAYS);
         probox.getChildren().addAll(navButtons, proboxSpacer);
 
-        
         HBox leftSidebarContainer = new HBox(10, iconbox, probox);
 
-        
         VBox mainContent = new VBox();
         mainContent.setPadding(new Insets(20, 40, 40, 40));
         mainContent.setSpacing(30);
@@ -165,27 +167,29 @@ public class SecurityPage {
         contentTitle.setFont(Font.font("Inter", FontWeight.BOLD, 32));
         contentTitle.setStyle("-fx-text-fill: #1e3a8a; -fx-padding: 10px 0;");
 
-        
         VBox twoFactorCard = new VBox(15);
-        twoFactorCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7); -fx-background-radius: 12px; -fx-padding: 25px;");
+        twoFactorCard.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.7); -fx-background-radius: 12px; -fx-padding: 25px;");
         Label twoFactorTitle = new Label("Two-Factor Authentication");
         twoFactorTitle.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 20));
         twoFactorTitle.setStyle("-fx-text-fill: #1e3a8a;");
-        Label twoFactorDesc = new Label("Add an extra layer of security to your account by requiring a second authentication step.");
+        Label twoFactorDesc = new Label(
+                "Add an extra layer of security to your account by requiring a second authentication step.");
         twoFactorDesc.setWrapText(true);
         twoFactorDesc.setStyle("-fx-font-size: 14px; -fx-text-fill: #4b5563;");
-        
+
         Button enable2FAButton = new Button("Enable Two-Factor Authentication");
         enable2FAButton.setFont(Font.font("Inter", FontWeight.BOLD, 15));
-        enable2FAButton.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 10px 25px;");
+        enable2FAButton.setStyle(
+                "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 10px 25px;");
         enable2FAButton.setCursor(Cursor.HAND);
         HBox twoFactorButtonBox = new HBox(enable2FAButton);
         twoFactorButtonBox.setAlignment(Pos.CENTER_LEFT);
         twoFactorCard.getChildren().addAll(twoFactorTitle, twoFactorDesc, twoFactorButtonBox);
 
-        
         VBox historyCard = new VBox(20);
-        historyCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7); -fx-background-radius: 12px; -fx-padding: 25px;");
+        historyCard.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.7); -fx-background-radius: 12px; -fx-padding: 25px;");
         Label historyTitle = new Label("Recent Login Activity");
         historyTitle.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 20));
         historyTitle.setStyle("-fx-text-fill: #1e3a8a;");
@@ -194,7 +198,7 @@ public class SecurityPage {
         historyGrid.setHgap(40);
         historyGrid.setVgap(15);
         historyGrid.setPadding(new Insets(10, 0, 0, 0));
-        
+
         String headerStyle = "-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #4b5563;";
         Label statusHeader = new Label("STATUS");
         statusHeader.setStyle(headerStyle);
@@ -214,16 +218,17 @@ public class SecurityPage {
         historyGrid.add(ipHeader, 4, 0);
 
         Object[][] historyData = {
-            {true, "Chrome on Windows", "Pune, IN", "July 19, 2025 at 4:30 PM", "103.120.115.45"},
-            {true, "Mobile App (iOS)", "Mumbai, IN", "July 18, 2025 at 11:00 AM", "103.120.110.12"},
-            {false, "Firefox on Linux", "Unknown", "July 17, 2025 at 9:15 PM", "45.115.220.89"}
+                { true, "Chrome on Windows", "Pune, IN", "July 19, 2025 at 4:30 PM", "103.120.115.45" },
+                { true, "Mobile App (iOS)", "Mumbai, IN", "July 18, 2025 at 11:00 AM", "103.120.110.12" },
+                { false, "Firefox on Linux", "Unknown", "July 17, 2025 at 9:15 PM", "45.115.220.89" }
         };
 
         for (int i = 0; i < historyData.length; i++) {
             boolean success = (boolean) historyData[i][0];
             Circle statusIndicator = new Circle(5, success ? Color.web("#22c55e") : Color.web("#ef4444"));
             Label statusLabel = new Label(success ? "Success" : "Failed");
-            statusLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: " + (success ? "#22c55e" : "#ef4444") + ";");
+            statusLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: "
+                    + (success ? "#22c55e" : "#ef4444") + ";");
             HBox statusBox = new HBox(5, statusIndicator, statusLabel);
             statusBox.setAlignment(Pos.CENTER_LEFT);
 
@@ -234,25 +239,26 @@ public class SecurityPage {
             historyGrid.add(new Label((String) historyData[i][4]), 4, i + 1);
         }
         historyCard.getChildren().addAll(historyTitle, historyGrid);
-        
-        
+
         VBox signOutCard = new VBox(15);
-        signOutCard.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7); -fx-background-radius: 12px; -fx-padding: 25px;");
+        signOutCard.setStyle(
+                "-fx-background-color: rgba(255, 255, 255, 0.7); -fx-background-radius: 12px; -fx-padding: 25px;");
         Label signOutTitle = new Label("Sign out of all other sessions");
         signOutTitle.setFont(Font.font("Inter", FontWeight.SEMI_BOLD, 20));
         signOutTitle.setStyle("-fx-text-fill: #1e3a8a;");
-        Label signOutDesc = new Label("For your security, you can sign out of all other active sessions on other devices.");
+        Label signOutDesc = new Label(
+                "For your security, you can sign out of all other active sessions on other devices.");
         signOutDesc.setWrapText(true);
         signOutDesc.setStyle("-fx-font-size: 14px; -fx-text-fill: #4b5563;");
-        
+
         Button signOutButton = new Button("Sign Out Everywhere");
         signOutButton.setFont(Font.font("Inter", FontWeight.BOLD, 15));
-        signOutButton.setStyle("-fx-background-color: #dc2626; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 10px 25px;");
+        signOutButton.setStyle(
+                "-fx-background-color: #dc2626; -fx-text-fill: white; -fx-background-radius: 10px; -fx-padding: 10px 25px;");
         signOutButton.setCursor(Cursor.HAND);
         HBox signOutButtonBox = new HBox(signOutButton);
         signOutButtonBox.setAlignment(Pos.CENTER_LEFT);
         signOutCard.getChildren().addAll(signOutTitle, signOutDesc, signOutButtonBox);
-
 
         mainContent.getChildren().addAll(contentTitle, twoFactorCard, historyCard, signOutCard);
 
@@ -261,12 +267,11 @@ public class SecurityPage {
         scrollPane.setStyle("-fx-background-color: transparent; -fx-background-insets: 0;");
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        
         mainbox.setLeft(leftSidebarContainer);
         mainbox.setCenter(scrollPane);
         mainbox.setTop(welboxBar);
 
         return mainbox;
     }
-    
+
 }
