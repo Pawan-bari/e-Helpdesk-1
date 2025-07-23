@@ -1,5 +1,6 @@
 package com.superx.view.Profile;
 
+import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -338,30 +339,54 @@ public class Storage {
         return toggle;
     }
 
-    private void loadUsernameAndRecentDocuments() {
-        String uid = ViewController.getCurrentUserId();
-        if (uid == null)
-            return;
+   private void loadUsernameAndRecentDocuments() {
+    String uid = ViewController.getCurrentUserId();
+    if (uid == null) {
+        return;
+    }
 
+    // 1. Get a reference to your Firestore database
+    Firestore db = FirestoreClient.getFirestore();
+    
+    // 2. Point to the specific user's document in the "users" collection
+    DocumentReference userDocRef = db.collection("users").document(uid);
+
+    // 3. Asynchronously retrieve the document
+    ApiFuture<DocumentSnapshot> future = userDocRef.get();
+
+    // 4. Add a listener to process the result when it arrives
+    future.addListener(() -> {
         try {
-            UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
-            Platform.runLater(() -> {
-                String displayName = userRecord.getDisplayName();
-                if (displayName == null || displayName.isEmpty()) {
-                    String email = userRecord.getEmail();
-                    if (email != null) {
-                        displayName = email.split("@")[0];
-                    } else {
-                        displayName = "User";
-                    }
-                }
-                welcomeLabel.setText("Welcome " + displayName);
-            });
-        } catch (FirebaseAuthException e) {
-            e.printStackTrace();
-        }
+            DocumentSnapshot document = future.get();
+            String displayName = "User"; // A default value
 
-        Firestore db = FirestoreClient.getFirestore();
+            if (document.exists()) {
+                // If the document exists, get the firstName field
+                String firstName = document.getString("firstName");
+                if (firstName != null && !firstName.isEmpty()) {
+                    displayName = firstName; // Set displayName to "Shivam"
+                }
+            } else {
+                System.out.println("User document does not exist in Firestore for UID: " + uid);
+            }
+
+            // 5. Update the JavaFX UI on the main application thread
+            final String finalDisplayName = displayName;
+            Platform.runLater(() -> {
+                welcomeLabel.setText("Welcome " + finalDisplayName);
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle any errors, e.g., by setting a default name
+            Platform.runLater(() -> {
+                welcomeLabel.setText("Welcome User");
+            });
+        }
+    }, Runnable::run); // The executor to run the listener
+
+
+
         db.collection("users").document(uid).collection("documents")
                 .orderBy("uploadedAt", Query.Direction.DESCENDING).limit(5).get()
                 .addListener(() -> {

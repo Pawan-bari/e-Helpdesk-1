@@ -11,6 +11,8 @@ import com.superx.view.Profile.Notification;
 import com.superx.view.Profile.ProfilePage;
 import com.superx.view.Profile.SecurityPage;
 import com.superx.view.Profile.Storage;
+import com.superx.view.admin.adminDashboard;
+import com.superx.view.admin.adminlogin;
 import com.superx.view.landRecords.landRecords;
 import com.superx.view.landRecords.archive.legalArchives;
 import com.superx.view.landRecords.archive.archiveSubfiles.courtProcedures;
@@ -22,39 +24,37 @@ import com.superx.view.legalTech.governOfficail;
 import com.superx.view.legalTech.legalCaseManagement;
 import com.superx.view.legalTech.guidedFormBox;
 import com.superx.view.rti.RtiPage;
-
 import javafx.application.HostServices;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ViewController {
-
     private LoginController loginController;
     private SignupController signupController;
-    
+    private AdminLoginController adminLoginController; 
     private HostServices hostServices;
-
     private Stage mainStage;
     private static String currentUserId;
-
+    private static String currentUserRole; 
+    
+    
     private Scene loginScene, signupScene, forgotScene, termsScene, docScene, profileScene,
-            accScene, securityScene, notiScene,
-            stoScene, landRecordsScene, rtiScene,
-            notiScenetab, legalScene, legalcaseScene,
-            governOffScene, guidedFormScene, fileRtiAppScene, rtiGuidelinesScene, lodgeGrievanceScene,
-            courtProceduresScene, introToLawScene, rightResponsScene,
-            lRecordsScene, propertyRegScene;
+            accScene, securityScene, notiScene, stoScene, landRecordsScene, rtiScene,
+            notiScenetab, legalScene, legalcaseScene, governOffScene, guidedFormScene, 
+            fileRtiAppScene, rtiGuidelinesScene, lodgeGrievanceScene, courtProceduresScene, 
+            introToLawScene, rightResponsScene, lRecordsScene, propertyRegScene,
+            adminLoginScene, adminDashboardScene; 
 
     public ViewController(Stage stage, HostServices hostServices) {
         this.mainStage = stage;
         this.hostServices = hostServices;
-
         this.loginController = new LoginController(this);
         this.signupController = new SignupController(this);
-       
+        this.adminLoginController = new AdminLoginController(this); 
         showLoginScreen();
     }
 
+    
     public static String getCurrentUserId() {
         return currentUserId;
     }
@@ -63,17 +63,52 @@ public class ViewController {
         currentUserId = uid;
     }
 
+    
+    public static String getCurrentUserRole() {
+        return currentUserRole;
+    }
+
+    public static void setCurrentUserRole(String role) {
+        currentUserRole = role;
+    }
+
+    public static boolean isCurrentUserAdmin() {
+        return "admin".equals(currentUserRole) || "super_admin".equals(currentUserRole);
+    }
+
+    
+    public void showAdminLoginScreen() {
+        adminlogin adminLoginPage = new adminlogin();
+        adminLoginScene = new Scene(adminLoginPage.getAdminLoginBox(this), 1920, 1080);
+        mainStage.setScene(adminLoginScene);
+        mainStage.setTitle("Admin Login - e-help Desk");
+    }
+
+    
+    public void showAdminDashboard() {
+        adminDashboard adminDashboard = new com.superx.view.admin.adminDashboard();
+        adminDashboardScene = new Scene(
+            adminDashboard.adminDashboardScene(this::showLoginScreen), 1920, 1080);
+        adminDashboard.setAdminStage(mainStage);
+        adminDashboard.setAdminScene(adminDashboardScene);
+        mainStage.setScene(adminDashboardScene);
+        mainStage.setTitle("Admin Dashboard - e-help Desk");
+    }
+
     public void showLoginScreen() {
         setCurrentUserId(null);
+        setCurrentUserRole(null); 
         login loginPage = new login();
         loginScene = new Scene(loginPage.getLoginBox(this), 1920, 1080);
         mainStage.setScene(loginScene);
+        mainStage.setTitle("Login - e-help Desk");
     }
 
     public void showSignupScreen() {
         signup signupPage = new signup();
         signupScene = new Scene(signupPage.signupBox(this), 1920, 1080);
         mainStage.setScene(signupScene);
+        mainStage.setTitle("Sign Up - e-help Desk");
     }
 
     public void showForgotScreen() {
@@ -82,8 +117,10 @@ public class ViewController {
         forgotPage.setForgotStage(mainStage);
         forgotPage.setForgotScene(forgotScene);
         mainStage.setScene(forgotScene);
+        mainStage.setTitle("Reset Password - e-help Desk");
     }
 
+    
     public LoginController getLoginController() {
         return loginController;
     }
@@ -92,14 +129,18 @@ public class ViewController {
         return signupController;
     }
 
-   
+    
+    public AdminLoginController getAdminLoginController() {
+        return adminLoginController;
+    }
 
     public void showTermsScene() {
         terms termsPage = new terms();
-        termsScene = new Scene(termsPage.termsBox(this::showSignupScreen), 1200, 800);
+        termsScene = new Scene(termsPage.termsBox(this::showSignupScreen), 1920, 1080);
         termsPage.setTermsStage(mainStage);
         termsPage.setTermsScene(termsScene);
         mainStage.setScene(termsScene);
+        mainStage.setTitle("Terms & Conditions - e-help Desk");
     }
 
     public void shownotification2() {
@@ -108,17 +149,21 @@ public class ViewController {
         notipage.setNoti2Stage(mainStage);
         notipage.setNoti2Scene(notiScenetab);
         mainStage.setScene(notiScenetab);
+        mainStage.setTitle("Notifications - e-help Desk");
     }
 
+    
     public void showDocScene() {
         documents docPage = new documents();
         docScene = new Scene(
-                docPage.docScenBox(this::showProfileScreen, this::showLoginScreen, this::showLegal,
-                        this::showLandRecordsScreen, this::showRTI, this::shownotification2, this::showarchive),
-                1920, 1080);
+            docPage.docScenBox(this::showProfileScreen, this::showLoginScreen, this::showLegal,
+                this::showLandRecordsScreen, this::showRTI, this::shownotification2, 
+                this::showarchive), 
+            1920, 1080);
         docPage.setDocStage(mainStage);
         docPage.setDocScene(docScene);
         mainStage.setScene(docScene);
+        mainStage.setTitle("Documents - e-help Desk");
     }
 
     public void showProfileScreen() {
@@ -128,6 +173,7 @@ public class ViewController {
         profile.setProfStage(mainStage);
         profile.setProfScene(profileScene);
         mainStage.setScene(profileScene);
+        mainStage.setTitle("Profile - e-help Desk");
     }
 
     public void showAccountScreen() {
@@ -137,6 +183,7 @@ public class ViewController {
         accPage.setAccStage(mainStage);
         accPage.setAccScene(accScene);
         mainStage.setScene(accScene);
+        mainStage.setTitle("Account Settings - e-help Desk");
     }
 
     public void showSecurityScreen() {
@@ -146,6 +193,7 @@ public class ViewController {
         secPage.setSecStage(mainStage);
         secPage.setSecscene(securityScene);
         mainStage.setScene(securityScene);
+        mainStage.setTitle("Security - e-help Desk");
     }
 
     public void showNotification() {
@@ -155,6 +203,7 @@ public class ViewController {
         notpage.setNotiStage(mainStage);
         notpage.setNotiScene(notiScene);
         mainStage.setScene(notiScene);
+        mainStage.setTitle("Notification Settings - e-help Desk");
     }
 
     public void showStorage() {
@@ -164,6 +213,7 @@ public class ViewController {
         stopage.setStoStage(mainStage);
         stopage.setStoScene(stoScene);
         mainStage.setScene(stoScene);
+        mainStage.setTitle("Storage - e-help Desk");
     }
 
     public void showLandRecordsScreen() {
@@ -174,6 +224,7 @@ public class ViewController {
         landRecordsPage.setLandStage(mainStage);
         landRecordsPage.setLandScene(landRecordsScene);
         mainStage.setScene(landRecordsScene);
+        mainStage.setTitle("Land Records - e-help Desk");
     }
 
     public void showRTI() {
@@ -186,6 +237,7 @@ public class ViewController {
         Page.setRtiStage(mainStage);
         Page.setRtiScene(rtiScene);
         mainStage.setScene(rtiScene);
+        mainStage.setTitle("RTI & Grievance - e-help Desk");
     }
 
     public void showarchive() {
@@ -196,18 +248,19 @@ public class ViewController {
         Page.setLegalStage(mainStage);
         Page.setLegalScene(legalScene);
         mainStage.setScene(legalScene);
+        mainStage.setTitle("Legal Archives - e-help Desk");
     }
 
-    // Fixed method name from 'shoeLegal' to 'showLegal'
     public void showLegal() {
         legalCaseManagement Page = new legalCaseManagement();
-        Page.setHostServices(hostServices); // Pass HostServices
+        Page.setHostServices(hostServices);
         legalcaseScene = new Scene(Page.legalmanabox(this::showProfileScreen, this::showDocScene,
                 this::showLandRecordsScreen, this::showRTI, this::showarchive, this::showgovOff, this::showGuidedForm),
                 1920, 1080);
         Page.setLegalCaseStage(mainStage);
         Page.setLegalCaseScene(legalcaseScene);
         mainStage.setScene(legalcaseScene);
+        mainStage.setTitle("Legal Case Management - e-help Desk");
     }
 
     public void showgovOff() {
@@ -217,9 +270,9 @@ public class ViewController {
         Page.setGuidedFormStage(mainStage);
         Page.setGuidedFormScene(governOffScene);
         mainStage.setScene(governOffScene);
+        mainStage.setTitle("Government Officials - e-help Desk");
     }
 
-    // New method for guided forms
     public void showGuidedForm() {
         guidedFormBox Page = new guidedFormBox();
         Page.setHostServices(hostServices);
@@ -228,6 +281,7 @@ public class ViewController {
         Page.setGuidedFormStage(mainStage);
         Page.setGuidedFormScene(guidedFormScene);
         mainStage.setScene(guidedFormScene);
+        mainStage.setTitle("Guided Forms - e-help Desk");
     }
 
     public void showFileRtiApp() {
@@ -237,6 +291,7 @@ public class ViewController {
         fileRtiAppPage.setFileRtiAppStage(mainStage);
         fileRtiAppPage.setFileRtiAppScene(fileRtiAppScene);
         mainStage.setScene(fileRtiAppScene);
+        mainStage.setTitle("File RTI Application - e-help Desk");
     }
 
     public void showRtiGuidelines() {
@@ -246,6 +301,7 @@ public class ViewController {
         rtiGuidelinesPage.setRtiGuidelinesStage(mainStage);
         rtiGuidelinesPage.setRtiGuidelinesScene(rtiGuidelinesScene);
         mainStage.setScene(rtiGuidelinesScene);
+        mainStage.setTitle("RTI Guidelines - e-help Desk");
     }
 
     public void showLodgeGrievance() {
@@ -255,6 +311,7 @@ public class ViewController {
         lodgeGrievancePage.setLodgeGrievanceStage(mainStage);
         lodgeGrievancePage.setLodgeGrievanceScene(lodgeGrievanceScene);
         mainStage.setScene(lodgeGrievanceScene);
+        mainStage.setTitle("Lodge Grievance - e-help Desk");
     }
 
     public void showCourtProcedures() {
@@ -264,6 +321,7 @@ public class ViewController {
         courtProceduresPage.setCourtProceduresStage(mainStage);
         courtProceduresPage.setCourtProceduresScene(courtProceduresScene);
         mainStage.setScene(courtProceduresScene);
+        mainStage.setTitle("Court Procedures - e-help Desk");
     }
 
     public void showIntroToLaw() {
@@ -273,6 +331,7 @@ public class ViewController {
         introToLawPage.setIntroToLawStage(mainStage);
         introToLawPage.setIntroToLawScene(introToLawScene);
         mainStage.setScene(introToLawScene);
+        mainStage.setTitle("Introduction to Law - e-help Desk");
     }
 
     public void showRightRespons() {
@@ -282,6 +341,7 @@ public class ViewController {
         rightResponsPage.setRightResponsStage(mainStage);
         rightResponsPage.setRightResponsScene(rightResponsScene);
         mainStage.setScene(rightResponsScene);
+        mainStage.setTitle("Rights & Responsibilities - e-help Desk");
     }
 
     public void showLRecords() {
@@ -291,6 +351,7 @@ public class ViewController {
         lRecordsPage.setLandRedordsStage(mainStage);
         lRecordsPage.setLandRecordsScene(lRecordsScene);
         mainStage.setScene(lRecordsScene);
+        mainStage.setTitle("Land Records - e-help Desk");
     }
 
     public void showPropertyReg() {
@@ -300,6 +361,6 @@ public class ViewController {
         propertyRegPage.setPropertyRegStage(mainStage);
         propertyRegPage.setPropertyRegScene(propertyRegScene);
         mainStage.setScene(propertyRegScene);
+        mainStage.setTitle("Property Registration - e-help Desk");
     }
-
 }

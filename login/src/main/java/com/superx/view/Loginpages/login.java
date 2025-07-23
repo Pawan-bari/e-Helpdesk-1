@@ -1,5 +1,7 @@
 package com.superx.view.Loginpages;
 
+import com.superx.Controller.ViewController;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -113,9 +115,22 @@ public class login {
         signupLink.setOnAction(event -> controller.getLoginController().navigateToSignup());
         HBox signinFooter = new HBox(10, questionText, signupLink);
         signinFooter.setAlignment(Pos.CENTER);
+        HBox adminAccessBox = new HBox();
+adminAccessBox.setAlignment(Pos.CENTER);
+adminAccessBox.setPadding(new Insets(20, 0, 0, 0));
+
+Hyperlink adminLoginLink = new Hyperlink("Admin Access →");
+adminLoginLink.setFont(Font.font("Inter", FontWeight.MEDIUM, 14));
+adminLoginLink.setStyle("-fx-text-fill: #6366f1;");
+adminLoginLink.setOnAction(e -> controller.showAdminLoginScreen());
+
+adminAccessBox.getChildren().add(adminLoginLink);
+
+// Add this to your right side VBox
+
 
         VBox vblock = new VBox(10, divider, signupAlt, signInButton, signinFooter);
-        VBox vbForm = new VBox(50, vbtext, vbemail, vbpass, vblock);
+        VBox vbForm = new VBox(50, vbtext, vbemail, vbpass, vblock,adminAccessBox);
         vbForm.setAlignment(Pos.CENTER_LEFT);
         vbForm.setPadding(new Insets(30));
 

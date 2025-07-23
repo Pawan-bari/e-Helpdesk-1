@@ -33,11 +33,9 @@ public class SignupController extends AuthController {
 
             if (response != null) {
                 JSONObject jsonResponse = new JSONObject(response);
-                // Check for localId to confirm successful authentication user creation
                 if (jsonResponse.has("localId")) {
                     String localId = jsonResponse.getString("localId");
 
-                    // Only create the Firestore user AFTER successful authentication
                     if (createUserInFirestore(localId, firstName, lastName, email)) {
                         showAlert(Alert.AlertType.INFORMATION, "Success", "Account created successfully!");
                         ViewController.setCurrentUserId(localId);
@@ -46,7 +44,6 @@ public class SignupController extends AuthController {
                         showAlert(Alert.AlertType.ERROR, "Error", "Signup succeeded, but failed to save user profile.");
                     }
                 } else if (jsonResponse.has("error")) {
-                    // Provide more specific error feedback to the user
                     JSONObject errorObject = jsonResponse.getJSONObject("error");
                     String errorMessage = errorObject.getString("message");
                     showAlert(Alert.AlertType.ERROR, "Signup Failed", "Error: " + errorMessage);
@@ -60,26 +57,35 @@ public class SignupController extends AuthController {
     }
 
     private boolean createUserInFirestore(String uid, String firstName, String lastName, String email) {
-        Firestore db = FirestoreClient.getFirestore();
-        Map<String, Object> user = new HashMap<>();
-        user.put("firstName", firstName);
-        user.put("lastName", lastName);
-        user.put("email", email);
-        user.put("joinedDate", com.google.cloud.Timestamp.now());
-        user.put("mobileNumber", "");
-        user.put("about", "");
-        user.put("profilePictureUrl", "");
-
-        try {
-
-            db.collection("users").document(uid).set(user).get();
-            System.out.println("User profile created in Firestore for UID: " + uid);
-            return true;
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            return false;
-        }
+    Firestore db = FirestoreClient.getFirestore();
+    Map<String, Object> user = new HashMap<>();
+    user.put("firstName", firstName);
+    user.put("lastName", lastName);
+    user.put("name", firstName + " " + lastName); 
+    user.put("email", email);
+    user.put("joinedDate", com.google.cloud.Timestamp.now());
+    user.put("createdAt", com.google.cloud.Timestamp.now()); 
+    user.put("mobileNumber", "");
+    user.put("about", "");
+    user.put("profilePictureUrl", "");
+    
+    
+    if (email.endsWith("@admin.com") || email.equals("admin@ehelpdesk.com")) {
+        user.put("role", "admin");
+    } else {
+        user.put("role", "user"); 
     }
+
+    try {
+        db.collection("users").document(uid).set(user).get();
+        System.out.println("User profile created in Firestore for UID: " + uid);
+        return true;
+    } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 
     private boolean validateSignupInput(String firstName, String lastName, String email, String password,
             String confirmPassword, CheckBox termsCheckBox) {
